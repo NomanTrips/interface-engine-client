@@ -1,5 +1,4 @@
 <template>
-
   <div style="height:100%;width:100%;">
   <v-subheader>Message details:</v-subheader>
     <v-tabs dark v-model="active">
@@ -57,7 +56,7 @@ import axios from 'axios';
           errors: '',
           items: [],
           clipped: false,
-          drawer: true,
+          drawer: false,
           fixed: false,
 
           miniVariant: false,
@@ -67,8 +66,10 @@ import axios from 'axios';
       }
     },
   created() {
+
       console.log('getting to message detail');
     var vm = this;
+    vm.$parent.drawer = false;
     axios.get('http://localhost:3000/catalog/message/' +  this.$route.params.messageid)
       .then(function(response) {
           console.log(response.data.raw_data);
