@@ -1,0 +1,88 @@
+<template>
+  <v-app light>
+    <v-navigation-drawer class="grey lighten-4 pb-0" persistent :mini-variant="miniVariant" :clipped="clipped" v-model="drawer" light >
+      <v-list dense>
+        <template v-for="(item, i) in items">
+          <v-layout row v-if="item.heading" align-center :key="i">
+            <v-flex xs6>
+              <v-subheader v-if="item.heading">
+                {{ item.heading }}
+              </v-subheader>
+            </v-flex>
+            <v-flex xs6 class="text-xs-center">
+              <a href="#!" class="body-2 black--text">EDIT</a>
+            </v-flex>
+          </v-layout>
+          <v-divider dark v-else-if="item.divider" class="my-4" :key="i"></v-divider>
+          <v-list-tile :key="i" v-else>
+            <v-list-tile-action>
+              <v-icon>{{ item.icon }}</v-icon>
+            </v-list-tile-action>
+            <v-list-tile-content>
+              <v-list-tile-title>
+                <router-link v-bind:to="item.path">{{ item.text }}</router-link>
+              </v-list-tile-title>
+            </v-list-tile-content>
+          </v-list-tile>
+        </template>
+      </v-list>
+    </v-navigation-drawer>
+    <v-toolbar fixed>
+      <v-toolbar-side-icon @click.native.stop="drawer = !drawer"></v-toolbar-side-icon>
+      <v-btn icon @click.native.stop="miniVariant = !miniVariant">
+        <v-icon v-html="miniVariant ? 'chevron_right' : 'chevron_left'"></v-icon>
+      </v-btn>
+      <v-btn icon @click.native.stop="clipped = !clipped">
+        <v-icon>web</v-icon>
+      </v-btn>
+      <v-btn icon @click.native.stop="fixed = !fixed">
+        <v-icon>remove</v-icon>
+      </v-btn>
+      <v-toolbar-title v-text="title"></v-toolbar-title>
+      <v-spacer></v-spacer>
+      <v-btn icon @click.native.stop="rightDrawer = !rightDrawer">
+        <v-icon>menu</v-icon>
+      </v-btn>
+    </v-toolbar>
+    <main>
+      <v-container fluid>
+        <v-slide-y-transition mode="out-in">
+          <v-layout column align-center>
+            <router-view></router-view>
+          </v-layout>
+        </v-slide-y-transition>
+      </v-container>
+    </main>
+  </v-app>
+</template>
+
+<script>
+export default {
+  name: 'channel',
+  data() {
+    return {
+      items: [
+        { icon: 'lightbulb_outline', text: 'Messages', path: '/channel/' + this.$route.params.id +'/messages' },
+        { icon: 'touch_app', text: 'Config', path: '/channel/' + this.$route.params.id + '/config' },
+      ],
+      clipped: true,
+      drawer: true,
+      fixed: false,
+
+      miniVariant: false,
+      right: true,
+      rightDrawer: false,
+      title: 'Vuetify.js'
+    }
+  },
+  created() {
+console.log(this.$route);
+  }
+}
+</script>
+
+<style>
+#navigation-1 a {
+  text-decoration: none;
+}
+</style>
