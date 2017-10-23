@@ -1,6 +1,7 @@
 <template>
 
   <div style="height:100%;width:100%;">
+  <v-subheader>Message details:</v-subheader>
     <v-tabs dark v-model="active">
       <v-toolbar >
       <v-text-field
