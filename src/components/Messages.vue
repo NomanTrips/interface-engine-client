@@ -8,7 +8,7 @@
       >
       <template slot="items" scope="props">
         <tr v-on:click="showMessageDetail(props.item._id)">
-          <td>{{ props.item._id }}</td>
+          <td>{{ props.item.received_date }}</td>
           <td class="text-xs-right">{{ String(props.item.raw_data).substring(1, 30) }}</td>
         </tr>
       </template>
@@ -26,10 +26,10 @@ import axios from 'axios';
       return {
         headers: [
           {
-            text: 'Id',
+            text: 'Received date/time',
             align: 'left',
-            sortable: false,
-            value: 'id'
+            sortable: true,
+            value: 'date'
           },
           { text: 'Raw message', value: 'raw_data' },
         ],
