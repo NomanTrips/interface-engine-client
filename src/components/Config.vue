@@ -1,5 +1,5 @@
 <template>
-  <v-app light>
+  <div style="height:100%;width:100%;">
     <v-card class="grey lighten-4 elevation-0">
       <v-card-text>
         <v-container fluid>
@@ -39,6 +39,14 @@
             </v-flex>
           </v-layout>
           <v-layout row>
+            <v-flex xs4>
+              <v-subheader>http destination</v-subheader>
+            </v-flex>
+            <v-flex xs8>
+              <v-text-field v-model="channel.http_destination" name="input-3" label="Label Text" value="Input text"></v-text-field>
+            </v-flex>
+          </v-layout>
+          <v-layout row>
             <div v-on:click="saveChannelDetail()">
             <v-btn raised primary >Save</v-btn>
             </div>
@@ -46,7 +54,7 @@
         </v-container>
       </v-card-text>
     </v-card>
-  </v-app>
+  </div>
 </template>
 
 <script>

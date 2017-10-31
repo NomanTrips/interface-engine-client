@@ -1,19 +1,19 @@
 <template>
-    <v-app light>
-  <v-data-table
-      v-bind:headers="headers"
-      :items="items"
-      hide-actions
-      class="elevation-1"
-    >
-    <template slot="items" scope="props">
-      <tr v-on:click="showMessageDetail(props.item._id)">
-        <td>{{ props.item._id }}</td>
-        <td class="text-xs-right">{{ String(props.item.raw_data).substring(1, 30) }}</td>
-      </tr>
-    </template>
-  </v-data-table>
-  </v-app>
+  <div style="height:100%;width:100%;">
+    <v-data-table
+        v-bind:headers="headers"
+        :items="items"
+        hide-actions
+        class="elevation-1"
+      >
+      <template slot="items" scope="props">
+        <tr v-on:click="showMessageDetail(props.item._id)">
+          <td>{{ props.item._id }}</td>
+          <td class="text-xs-right">{{ String(props.item.raw_data).substring(1, 30) }}</td>
+        </tr>
+      </template>
+    </v-data-table>
+  </div>
 </template>
 
 <script>
