@@ -19,6 +19,7 @@
 <script>
 
 import axios from 'axios';
+import moment from 'moment';
 
   export default {
     name: 'messages',
@@ -29,20 +30,27 @@ import axios from 'axios';
             text: 'Received date/time',
             align: 'left',
             sortable: true,
-            value: 'date'
+            value: 'received_date'
           },
           { text: 'Raw message', value: 'raw_data' },
         ],
-        items: []
+        items: [],
+        pagination: {
+          sortBy: 'received_date'
+        },
       }
     },
   created() {
+    this.pagination.descending = false;
     var vm = this
     // Make a request for a user with a given ID
     axios.get('http://localhost:3000/catalog/messages' + '?channel=' + this.$route.params.id)
       .then(function(response) {
         vm.items = response.data;
-        console.log(response.data);
+        for (var i = 0; i < vm.items.length; i++) { 
+            vm.items[i].received_date = moment(vm.items[i].received_date).format('MM/DD/YYYY hh:mm:ss');
+        }
+        //console.log(testdate);
       })
       .catch(function(error) {
         console.log(error);
