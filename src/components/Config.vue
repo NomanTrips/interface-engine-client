@@ -47,6 +47,22 @@
             </v-flex>
           </v-layout>
           <v-layout row>
+            <v-flex xs4>
+              <v-subheader>Post processing action</v-subheader>
+            </v-flex>
+            <v-flex xs8>
+              <v-select v-bind:items="postProcessingType" v-model="channel.post_processing_action" label="Select" single-line bottom></v-select>
+            </v-flex>
+          </v-layout>
+          <v-layout row>
+            <v-flex xs4>
+              <v-subheader>Move destination</v-subheader>
+            </v-flex>
+            <v-flex xs8>
+              <v-text-field v-model="channel.move_destination" name="input-3" label="Label Text" value="Input text"></v-text-field>
+            </v-flex>
+          </v-layout>
+          <v-layout row>
             <div v-on:click="saveChannelDetail()">
             <v-btn raised primary >Save</v-btn>
             </div>
@@ -68,7 +84,8 @@ export default {
       channel: {},
       source: null,
       dest: null,
-      transportTypes: ['SFTP', 'File directory', 'http', 'https', 'TCP/IP']
+      transportTypes: ['SFTP', 'File directory', 'http', 'https', 'TCP/IP'],
+      postProcessingType: ['move', 'delete'],
 
     }
   },
