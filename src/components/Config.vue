@@ -63,6 +63,14 @@
             </v-flex>
           </v-layout>
           <v-layout row>
+            <v-flex xs4>
+              <v-subheader>Copy destination</v-subheader>
+            </v-flex>
+            <v-flex xs8>
+              <v-text-field v-model="channel.copy_destination" name="input-3" label="Label Text" value="Input text"></v-text-field>
+            </v-flex>
+          </v-layout>
+          <v-layout row>
             <div v-on:click="saveChannelDetail()">
             <v-btn raised primary >Save</v-btn>
             </div>
@@ -85,7 +93,7 @@ export default {
       source: null,
       dest: null,
       transportTypes: ['SFTP', 'File directory', 'http', 'https', 'TCP/IP'],
-      postProcessingType: ['move', 'delete'],
+      postProcessingType: ['move', 'delete', 'copy'],
 
     }
   },
