@@ -14,7 +14,7 @@
               <v-select v-bind:items="transportTypes" v-model="channel.inbound_type" label="Select" single-line bottom></v-select>
             </v-flex>
           </v-layout>
-          <v-layout row>
+          <v-layout row v-if="channel.inbound_type == 'File directory'">
             <v-flex xs4>
               <v-subheader>Source location</v-subheader>
             </v-flex>
@@ -30,7 +30,7 @@
               <v-select v-bind:items="transportTypes" v-model="channel.outbound_type" label="Select" single-line bottom></v-select>
             </v-flex>
           </v-layout>
-          <v-layout row>
+          <v-layout row v-if="channel.outbound_type == 'File directory'">
             <v-flex xs4>
               <v-subheader>Dest location</v-subheader>
             </v-flex>
@@ -38,7 +38,7 @@
               <v-text-field v-model="channel.outbound_location" name="input-3" label="Label Text" value="Input text"></v-text-field>
             </v-flex>
           </v-layout>
-          <v-layout row>
+          <v-layout row v-if="channel.outbound_type == 'http'">
             <v-flex xs4>
               <v-subheader>http destination</v-subheader>
             </v-flex>
@@ -46,30 +46,32 @@
               <v-text-field v-model="channel.http_destination" name="input-3" label="Label Text" value="Input text"></v-text-field>
             </v-flex>
           </v-layout>
-          <v-layout row>
-            <v-flex xs4>
-              <v-subheader>Post processing action</v-subheader>
-            </v-flex>
-            <v-flex xs8>
-              <v-select v-bind:items="postProcessingType" v-model="channel.post_processing_action" label="Select" single-line bottom></v-select>
-            </v-flex>
-          </v-layout>
-          <v-layout row>
-            <v-flex xs4>
-              <v-subheader>Move destination</v-subheader>
-            </v-flex>
-            <v-flex xs8>
-              <v-text-field v-model="channel.move_destination" name="input-3" label="Label Text" value="Input text"></v-text-field>
-            </v-flex>
-          </v-layout>
-          <v-layout row>
-            <v-flex xs4>
-              <v-subheader>Copy destination</v-subheader>
-            </v-flex>
-            <v-flex xs8>
-              <v-text-field v-model="channel.copy_destination" name="input-3" label="Label Text" value="Input text"></v-text-field>
-            </v-flex>
-          </v-layout>
+          <div v-if="channel.inbound_type == 'File directory'">
+            <v-layout row>
+              <v-flex xs4>
+                <v-subheader>Post processing action</v-subheader>
+              </v-flex>
+              <v-flex xs8>
+                <v-select v-bind:items="postProcessingType" v-model="channel.post_processing_action" label="Select" single-line bottom></v-select>
+              </v-flex>
+            </v-layout>
+            <v-layout row v-if="channel.post_processing_action == 'move'">
+              <v-flex xs4>
+                <v-subheader>Move destination</v-subheader>
+              </v-flex>
+              <v-flex xs8>
+                <v-text-field v-model="channel.move_destination" name="input-3" label="Label Text" value="Input text"></v-text-field>
+              </v-flex>
+            </v-layout>
+            <v-layout row v-if="channel.post_processing_action == 'copy'">
+              <v-flex xs4>
+                <v-subheader>Copy destination</v-subheader>
+              </v-flex>
+              <v-flex xs8>
+                <v-text-field v-model="channel.copy_destination" name="input-3" label="Label Text" value="Input text"></v-text-field>
+              </v-flex>
+            </v-layout>
+          </div>
           <v-layout row>
             <div v-on:click="saveChannelDetail()">
             <v-btn raised primary >Save</v-btn>
