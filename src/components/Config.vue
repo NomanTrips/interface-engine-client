@@ -1,85 +1,61 @@
 <template>
-  <div style="height:100%;width:100%;">
-    <v-card class="grey lighten-4 elevation-0">
-      <v-card-text>
-        <v-container fluid>
-        <div v-on:click="startStopChannel()">
-          <v-switch v-bind:label="`Channel running: ${channelTurnedOn.toString()}`" v-model="channelTurnedOn" ></v-switch>
-        </div>
-          <v-layout row>
-            <v-flex xs4>
-              <v-subheader>Source type</v-subheader>
-            </v-flex>
-            <v-flex xs8>
-              <v-select v-bind:items="transportTypes" v-model="channel.inbound_type" label="Select" single-line bottom></v-select>
-            </v-flex>
-          </v-layout>
-          <v-layout row v-if="channel.inbound_type == 'File directory'">
-            <v-flex xs4>
-              <v-subheader>Source location</v-subheader>
-            </v-flex>
-            <v-flex xs8>
-              <v-text-field v-model="channel.inbound_location" name="input-2" label="Label Text" value="Input text" class="input-group--focused"></v-text-field>
-            </v-flex>
-          </v-layout>
-          <v-layout row>
-            <v-flex xs4>
-              <v-subheader>Dest type</v-subheader>
-            </v-flex>
-            <v-flex xs8>
-              <v-select v-bind:items="transportTypes" v-model="channel.outbound_type" label="Select" single-line bottom></v-select>
-            </v-flex>
-          </v-layout>
-          <v-layout row v-if="channel.outbound_type == 'File directory'">
-            <v-flex xs4>
-              <v-subheader>Dest location</v-subheader>
-            </v-flex>
-            <v-flex xs8>
-              <v-text-field v-model="channel.outbound_location" name="input-3" label="Label Text" value="Input text"></v-text-field>
-            </v-flex>
-          </v-layout>
-          <v-layout row v-if="channel.outbound_type == 'http'">
-            <v-flex xs4>
-              <v-subheader>http destination</v-subheader>
-            </v-flex>
-            <v-flex xs8>
-              <v-text-field v-model="channel.http_destination" name="input-3" label="Label Text" value="Input text"></v-text-field>
-            </v-flex>
-          </v-layout>
-          <div v-if="channel.inbound_type == 'File directory'">
-            <v-layout row>
-              <v-flex xs4>
-                <v-subheader>Post processing action</v-subheader>
-              </v-flex>
-              <v-flex xs8>
-                <v-select v-bind:items="postProcessingType" v-model="channel.post_processing_action" label="Select" single-line bottom></v-select>
-              </v-flex>
-            </v-layout>
-            <v-layout row v-if="channel.post_processing_action == 'move'">
-              <v-flex xs4>
-                <v-subheader>Move destination</v-subheader>
-              </v-flex>
-              <v-flex xs8>
-                <v-text-field v-model="channel.move_destination" name="input-3" label="Label Text" value="Input text"></v-text-field>
-              </v-flex>
-            </v-layout>
-            <v-layout row v-if="channel.post_processing_action == 'copy'">
-              <v-flex xs4>
-                <v-subheader>Copy destination</v-subheader>
-              </v-flex>
-              <v-flex xs8>
-                <v-text-field v-model="channel.copy_destination" name="input-3" label="Label Text" value="Input text"></v-text-field>
-              </v-flex>
-            </v-layout>
+  <div id="example-3" style="height:100%;width:100%;">
+    <v-container fluid>
+      
+      <v-layout row>
+        <v-flex xs12 >
+          <div v-on:click="startStopChannel()">
+            <v-switch v-bind:label="`Channel running: ${channelTurnedOn.toString()}`" v-model="channelTurnedOn" ></v-switch>
           </div>
-          <v-layout row>
-            <div v-on:click="saveChannelDetail()">
+        </v-flex>
+      </v-layout>
+
+      <v-layout row>
+        <v-flex xs6 >
+          <v-select v-bind:items="transportTypes" v-model="channel.inbound_type" label="Source type" ></v-select>
+        </v-flex>
+        <v-flex xs6 >
+          <div v-if="channel.inbound_type == 'File directory'">
+            <v-text-field v-model="channel.inbound_location" name="input-2" label="Source location" value="Input text" class="input-group--focused"></v-text-field>
+          </div>
+          <div v-if="channel.inbound_type == 'http'">
+          </div>
+        </v-flex>
+      </v-layout>
+      
+      <v-layout row>
+        <v-flex xs6 >
+          <v-select v-bind:items="transportTypes" v-model="channel.outbound_type" label="Dest type" ></v-select>
+        </v-flex>
+        <v-flex xs6 >
+          <div v-if="channel.outbound_type == 'File directory'">
+            <v-text-field v-model="channel.outbound_location" name="input-3" label="Dest location" value="Input text"></v-text-field>
+          </div>
+          <div v-if="channel.outbound_type == 'http'">
+            <v-text-field v-model="channel.http_destination" name="input-3" label="http destination" value="Input text"></v-text-field>
+          </div>
+        </v-flex>
+      </v-layout>
+      
+      <v-layout row>
+        <v-flex xs12 >
+          <div v-if="channel.inbound_type == 'File directory'">
+            <v-select label="Post-processing action" v-bind:items="postProcessingType" v-model="channel.post_processing_action" ></v-select>
+            <v-text-field v-if="channel.post_processing_action == 'move'" v-model="channel.move_destination" name="input-3" label="move destination" value="Input text"></v-text-field>
+            <v-text-field v-if="channel.post_processing_action == 'copy'" v-model="channel.copy_destination" name="input-3" label="copy destination" value="Input text"></v-text-field>
+          </div>
+        </v-flex>
+      </v-layout>
+
+      <v-layout row>
+        <v-flex xs12 >
+          <div v-on:click="saveChannelDetail()">
             <v-btn raised primary >Save</v-btn>
-            </div>
-          </v-layout>
-        </v-container>
-      </v-card-text>
-    </v-card>
+          </div>
+        </v-flex>
+      </v-layout>
+
+    </v-container>
   </div>
 </template>
 
