@@ -6,6 +6,7 @@ import Channel from '../components/Channel.vue'
 import Messages from '../components/Messages.vue'
 import Config from '../components/Config.vue'
 import Messagedetail from '../components/MessageDetail.vue'
+import Transformers from '../components/Transformers.vue'
 
 Vue.use(Router)
 
@@ -29,6 +30,10 @@ export default new Router({
         {
           path: 'messages/:messageid',
           component: Messagedetail,
+        },
+        {
+          path: 'transformers',
+          component: Transformers,
         },
         {
           // UserPosts will be rendered inside User's <router-view>
