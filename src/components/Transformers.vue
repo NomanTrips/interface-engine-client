@@ -5,28 +5,9 @@
       <v-layout row>
         <v-flex xs2 >
            
-           <!--
-            <v-list two-line>
-            <div v-for="transformer in transformers">
-                <div v-on:click="setSelectedTransformer(transformer)">
-                    <v-subheader v-if="item.header" v-text="item.header"></v-subheader>
-                    <v-divider v-else-if="item.divider" v-bind:inset="item.inset"></v-divider>
-                    <v-list-tile avatar v-else v-bind:key="transformer.title">
-                    <v-list-tile-avatar>
-                        <img v-bind:src=""></v-list-tile-avatar>
-                    </v-list-tile-avatar>
-                    <v-list-tile-content>
-                        <v-list-tile-title v-html="transformer.title"></v-list-tile-title>
-                        <v-list-tile-sub-title v-html="transformer.subtitle"></v-list-tile-sub-title>
-                    </v-list-tile-content>
-                    </v-list-tile>
-                </div>
-            </div>
-            </v-list>
--->
         <v-list two-line>
           <v-list-tile avatar ripple v-for="(item, index) in transformers" v-bind:key="item.title">
-            <div v-on:click="setSelectedTransformer(item)">
+            <div v-on:click="setSelectedTransformer(item)" style="height:100%;width:100%;">
                 <v-list-tile-content>
                 <v-list-tile-title>{{ item.title }}</v-list-tile-title>
                 </v-list-tile-content>
@@ -96,8 +77,9 @@ export default {
     axios.get('http://localhost:3000/catalog/channel/' + this.$route.params.id + '/transformers')
       .then(function(response) {
         vm.transformers = response.data;
-        vm.selectedTransformer = vm.transformers[0];
-        console.log(response.data);
+        if (response.data.length > 0) {
+            vm.selectedTransformer = vm.transformers[0];
+        }
       })
       .catch(function(error) {
         console.log(error);
@@ -112,7 +94,7 @@ export default {
     },
     saveTransformer: function() {
       if (this.selectedTransformer._id != undefined) { // update existing
-        axios.post('http://localhost:3000/catalog/channel/' + this.$route.params.id +'/transformers/update', this.selectedTransformer)
+        axios.post('http://localhost:3000/catalog/transformer/' + this.selectedTransformer._id +'/update', this.selectedTransformer)
         .then(function(response) {
         console.log(response);
         })
@@ -120,7 +102,7 @@ export default {
         console.log(error);
         });
       } else { // create new
-        axios.post('http://localhost:3000/catalog/channel/' + this.$route.params.id +'/transformers/create', this.selectedTransformer)
+        axios.post('http://localhost:3000/catalog/channel/' + this.$route.params.id +'/transformer/create', this.selectedTransformer)
         .then(function(response) {
         console.log(response);
         })
