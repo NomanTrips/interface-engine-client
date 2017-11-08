@@ -3,35 +3,40 @@
     <v-container fluid>
 
       <v-layout row>
-        <v-flex xs2 >
-           
+        <v-flex xs3 >
+        <v-card>
+        <v-subheader>Transformers:</v-subheader>          
         <v-list two-line>
-          <v-list-tile avatar ripple v-for="(item, index) in transformers" v-bind:key="item.title">
-            <div v-on:click="setSelectedTransformer(item)" style="height:100%;width:100%;">
+          <v-list-tile avatar ripple v-for="(item, index) in transformers" v-bind:key="item.title" v-bind:class="{ 'grey lighten-2': index == selectedIndex  }">
+            <div v-on:click="setSelectedTransformer(item, index)" style="height:100%;width:100%;" >
                 <v-list-tile-content>
                 <v-list-tile-title>{{ item.title }}</v-list-tile-title>
                 </v-list-tile-content>
+                <v-divider></v-divider>
             </div>
-            <v-divider v-if="index + 1 < transformers.length"></v-divider>
+            
           </v-list-tile>
         </v-list>
 
             <div v-on:click="addTransformer()">
                 <v-btn raised primary >Create</v-btn>
             </div>
+        </v-card>
         </v-flex>
-        <v-flex xs10 >
+        <v-flex xs9 >
+   
             <v-card>
+                <v-subheader>Edit Transformer:</v-subheader> 
                 <v-card-title primary-title>
                     <div>
-                        <v-text-field v-model="selectedTransformer.title" name="input-3" label="Edit title" value="Input text"></v-text-field>
+                        <v-text-field v-model="selectedTransformer.title" name="input-3" label="Title" value="Input text"></v-text-field>
                     </div>
                 </v-card-title>
 
                 <v-card-text>
                     <v-text-field
                     name="input-7-1"
-                    label="Label Text"
+                    label="Script"
                     v-model="selectedTransformer.script"
                     multi-line
                     ></v-text-field>
@@ -57,6 +62,9 @@ export default {
   name: 'transformers',
   data() {
     return {
+        selectedIndex: 0,
+        activeClass: 'active',
+        inactiveClass: 'inactive',
       transformers: [],
       selectedScript: '',
       newTransformer: {
@@ -86,7 +94,8 @@ export default {
       });
   },
   methods: {
-    setSelectedTransformer: function(transformer) {
+    setSelectedTransformer: function(transformer, index) {
+        this.selectedIndex = index;
         this.selectedTransformer = transformer;
     },
     addTransformer: function() {
