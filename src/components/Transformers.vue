@@ -33,6 +33,7 @@
                     </div>
                 </v-card-title>
 
+              <!--
                 <v-card-text>
                     <v-text-field
                     name="input-7-1"
@@ -41,12 +42,17 @@
                     multi-line
                     ></v-text-field>
                 </v-card-text>
-
+--> 
+                <v-card-text>
+                  <label>Script editor:</label>
+                  <editor v-model="selectedTransformer.script" @init="editorInit();" lang="javascript" theme="chrome" width="100%" height="400"></editor>
+                 </v-card-text>
                 <v-card-actions>
                     <div v-on:click="saveTransformer()">
                         <v-btn raised primary >Save</v-btn>
                     </div>
                 </v-card-actions>
+
             </v-card>
         </v-flex>
       </v-layout>
@@ -79,7 +85,11 @@ export default {
       },
     }
   },
+  components:{
+        editor:require('vue2-ace-editor')
+    },
   created() {
+
     var vm = this;
     // Make a request for a user with a given ID
     axios.get('http://localhost:3000/catalog/channel/' + this.$route.params.id + '/transformers')
@@ -94,6 +104,14 @@ export default {
       });
   },
   methods: {
+        editorInit:function () {
+          require('brace/mode/html');
+            require('brace/theme/chrome');
+            //require('vue-ace-editor/node_modules/brace/mode/html');
+            //require('vue-ace-editor/node_modules/brace/mode/javascript');
+            //require('vue-ace-editor/node_modules/brace/mode/less');
+            //require('vue-ace-editor/node_modules/brace/theme/chrome');
+    },
     setSelectedTransformer: function(transformer, index) {
         this.selectedIndex = index;
         this.selectedTransformer = transformer;
@@ -128,6 +146,16 @@ export default {
 </script>
 
 
-<style>
-
-</style>
+  <style type="text/css" media="screen">
+    body {
+        overflow: hidden;
+    }
+    #editor {
+        margin: 0;
+        position: absolute;
+        top: 0;
+        bottom: 0;
+        left: 0;
+        right: 0;
+    }
+  </style>
