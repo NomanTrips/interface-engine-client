@@ -32,17 +32,28 @@
                         <v-text-field v-model="selectedTransformer.title" name="input-3" label="Title" value="Input text"></v-text-field>
                     </div>
                 </v-card-title>
+              <v-toolbar class="white" dense>
+              <div v-on:click="searchPackages()">
+           <v-btn icon >
+          <v-icon>search</v-icon>
+        </v-btn>
+              </div>
 
-              <!--
-                <v-card-text>
-                    <v-text-field
-                    name="input-7-1"
-                    label="Script"
-                    v-model="selectedTransformer.script"
-                    multi-line
-                    ></v-text-field>
-                </v-card-text>
---> 
+                <v-text-field
+                  name="package-search"
+                  label="Search packages..."
+                  hint="Search for a js libary to manipulate the message"
+                  v-model="packageSearch"
+                  min="1"
+
+                ></v-text-field>
+
+              </v-toolbar>
+
+              <div>
+                <v-chip close v-for="chip in chips">{{chip}}</v-chip>
+              </div>
+
                 <v-card-text>
                   <label>Script editor:</label>
                   <editor v-model="selectedTransformer.script" @init="editorInit();" lang="javascript" theme="chrome" width="100%" height="400"></editor>
@@ -68,6 +79,8 @@ export default {
   name: 'transformers',
   data() {
     return {
+      chips: ['xmlToJson','hl7-to-json'],
+      packageSearch: '',
         selectedIndex: 0,
         activeClass: 'active',
         inactiveClass: 'inactive',
@@ -104,13 +117,12 @@ export default {
       });
   },
   methods: {
-        editorInit:function () {
-          require('brace/mode/html');
-            require('brace/theme/chrome');
-            //require('vue-ace-editor/node_modules/brace/mode/html');
-            //require('vue-ace-editor/node_modules/brace/mode/javascript');
-            //require('vue-ace-editor/node_modules/brace/mode/less');
-            //require('vue-ace-editor/node_modules/brace/theme/chrome');
+    searchPackages: function () {
+      console.log(this.packageSearch);
+    },
+    editorInit:function () {
+      require('brace/mode/html');
+      require('brace/theme/chrome');
     },
     setSelectedTransformer: function(transformer, index) {
         this.selectedIndex = index;
