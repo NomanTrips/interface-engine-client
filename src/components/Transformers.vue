@@ -26,44 +26,55 @@
         <v-flex xs9 >
    
             <v-card>
-                <v-subheader>Edit Transformer:</v-subheader> 
-                <v-card-title primary-title>
-                    <div>
-                        <v-text-field v-model="selectedTransformer.title" name="input-3" label="Title" value="Input text"></v-text-field>
-                    </div>
-                </v-card-title>
-              <v-toolbar class="white" dense>
-              <div v-on:click="searchPackages()">
-           <v-btn icon >
-          <v-icon>search</v-icon>
-        </v-btn>
-              </div>
-
-                <v-text-field
-                  name="package-search"
-                  label="Search packages..."
-                  hint="Search for a js libary to manipulate the message"
-                  v-model="packageSearch"
-                  min="1"
-
-                ></v-text-field>
-
-              </v-toolbar>
-
-              <div>
-                <v-chip close v-for="chip in chips">{{chip}}</v-chip>
-              </div>
-
-                <v-card-text>
-                  <label>Script editor:</label>
-                  <editor v-model="selectedTransformer.script" @init="editorInit();" lang="javascript" theme="chrome" width="100%" height="400"></editor>
-                 </v-card-text>
-                <v-card-actions>
-                    <div v-on:click="saveTransformer()">
-                        <v-btn raised primary >Save</v-btn>
-                    </div>
-                </v-card-actions>
-
+              <v-subheader>Edit Transformer:</v-subheader> 
+              <v-card-text>
+                <v-layout row>
+                  <div>
+                    <v-text-field v-model="selectedTransformer.title" name="input-3" label="Title" value="Input text"></v-text-field>
+                  </div>
+                  <div>
+                    <v-menu bottom right :close-on-content-click="false" offset-x>
+                      <div slot="activator">
+                        <v-btn>
+                          <v-icon>extension</v-icon>
+                        </v-btn>
+                      </div>
+                      <v-card>
+                        <v-card-text>
+                          <v-toolbar class="white" dense>
+                            <v-text-field
+                              name="package-search"
+                              label="Search packages..."
+                              hint="Search for a js libary to manipulate the message"
+                              v-model="packageSearch"
+                              min="1"
+                            ></v-text-field>
+                          </v-toolbar>
+                          <v-list>
+                            <v-list-tile v-for="chip in chips" :key="chip">
+                              <v-list-tile-title>{{ chip }}</v-list-tile-title>
+                              <div v-on:click="importLibrary(chip)">
+                                <v-btn icon>
+                                  <v-icon>colorize</v-icon>
+                                </v-btn>
+                              </div>
+                            </v-list-tile>
+                          </v-list>
+                        </v-card-text>
+                      </v-card>
+                    </v-menu>
+                  </div>
+                </v-layout>
+              </v-card-text>
+              <v-card-text>
+                <label>Script editor:</label>
+                <editor v-model="selectedTransformer.script" @init="editorInit();" lang="javascript" theme="chrome" width="100%" height="400"></editor>
+              </v-card-text>
+              <v-card-actions>
+                <div v-on:click="saveTransformer()">
+                  <v-btn raised primary >Save</v-btn>
+                </div>
+              </v-card-actions>
             </v-card>
         </v-flex>
       </v-layout>
@@ -117,6 +128,9 @@ export default {
       });
   },
   methods: {
+    importLibrary: function (library){
+      this.selectedTransformer.script = library + '\n' + this.selectedTransformer.script;
+    },
     searchPackages: function () {
       console.log(this.packageSearch);
     },
