@@ -51,9 +51,9 @@
                             ></v-text-field>
                           </v-toolbar>
                           <v-list>
-                            <v-list-tile v-for="chip in chips" :key="chip">
-                              <v-list-tile-title>{{ chip }}</v-list-tile-title>
-                              <div v-on:click="importLibrary(chip)">
+                            <v-list-tile v-for="library in libraries" :key="library.name">
+                              <v-list-tile-title>{{ library.name }}</v-list-tile-title>
+                              <div v-on:click="importLibrary(library.name)">
                                 <v-btn icon>
                                   <v-icon>colorize</v-icon>
                                 </v-btn>
@@ -91,6 +91,7 @@ export default {
   data() {
     return {
       chips: ['xmlToJson','hl7-to-json'],
+      libraries: [],
       packageSearch: '',
         selectedIndex: 0,
         activeClass: 'active',
@@ -109,6 +110,16 @@ export default {
       },
     }
   },
+  /*
+  computed: {
+    filteredLibraries: function () {
+      return this.libraries.filter(function (library) {
+        library.name.search(packageSearch);
+        return library.name % 2 === 0
+      })
+    }
+  },
+  */
   components:{
         editor:require('vue2-ace-editor')
     },
@@ -126,10 +137,20 @@ export default {
       .catch(function(error) {
         console.log(error);
       });
+    
+    axios.get('http://localhost:3000/catalog/libraries')
+      .then(function(response) {
+        vm.libraries = response.data;
+      })
+      .catch(function(error) {
+        console.log(error);
+      });
+
   },
   methods: {
     importLibrary: function (library){
-      this.selectedTransformer.script = library + '\n' + this.selectedTransformer.script;
+      var importStatement = 'var ' + library + ' = require(\' ' + library + ' \');'
+      this.selectedTransformer.script = importStatement + '\n' + this.selectedTransformer.script;
     },
     searchPackages: function () {
       console.log(this.packageSearch);
