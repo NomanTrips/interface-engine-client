@@ -32,16 +32,14 @@
                   <div>
                     <v-text-field v-model="selectedTransformer.title" name="input-3" label="Title" value="Input text"></v-text-field>
                   </div>
-                  <div>
-                    <v-menu bottom right :close-on-content-click="false" offset-x>
-                      <div slot="activator">
-                        <v-btn>
-                          <v-icon>extension</v-icon>
-                        </v-btn>
-                      </div>
-                      <v-card>
-                        <v-card-text>
-                          <v-toolbar class="white" dense>
+                </v-layout>
+              </v-card-text>
+         
+                  <div >
+                    <v-menu bottom :close-on-content-click="false" offset-y>
+                      <div slot="activator" >
+                        
+                          <v-toolbar class="white" flat>     
                             <v-text-field
                               name="package-search"
                               label="Search packages..."
@@ -50,22 +48,30 @@
                               min="1"
                             ></v-text-field>
                           </v-toolbar>
-                          <v-list>
-                            <v-list-tile v-for="library in libraries" :key="library.name">
+
+                      </div>
+                      <v-card>
+                        <v-card-text>
+                          <v-list two-line>
+                            <v-list-tile v-for="library in filteredLibraries" :key="library.name">
+                            <v-list-tile-content>
                               <v-list-tile-title>{{ library.name }}</v-list-tile-title>
-                              <div v-on:click="importLibrary(library.name)">
+                              <v-list-tile-sub-title>{{ library.description }}</v-list-tile-sub-title>
+                              </v-list-tile-content>
+                                         <v-list-tile-action>
+ <div v-on:click="importLibrary(library.name)">
                                 <v-btn icon>
                                   <v-icon>colorize</v-icon>
                                 </v-btn>
                               </div>
+            </v-list-tile-action>
                             </v-list-tile>
                           </v-list>
                         </v-card-text>
                       </v-card>
                     </v-menu>
                   </div>
-                </v-layout>
-              </v-card-text>
+            
               <v-card-text>
                 <label>Script editor:</label>
                 <editor v-model="selectedTransformer.script" @init="editorInit();" lang="javascript" theme="chrome" width="100%" height="400"></editor>
@@ -110,16 +116,17 @@ export default {
       },
     }
   },
-  /*
+  
   computed: {
     filteredLibraries: function () {
-      return this.libraries.filter(function (library) {
-        library.name.search(packageSearch);
-        return library.name % 2 === 0
+      var vm = this;
+      return vm.libraries.filter(lib => {
+        return lib.name.toLowerCase().includes(vm.packageSearch.toLowerCase())
       })
+
     }
   },
-  */
+  
   components:{
         editor:require('vue2-ace-editor')
     },
