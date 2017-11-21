@@ -58,13 +58,13 @@
                               <v-list-tile-title>{{ library.name }}</v-list-tile-title>
                               <v-list-tile-sub-title>{{ library.description }}</v-list-tile-sub-title>
                               </v-list-tile-content>
-                                         <v-list-tile-action>
- <div v-on:click="importLibrary(library.name)">
-                                <v-btn icon>
-                                  <v-icon>colorize</v-icon>
-                                </v-btn>
-                              </div>
-            </v-list-tile-action>
+                              <v-list-tile-action>
+                                <div v-on:click="importLibrary(library.name)">
+                                  <v-btn icon>
+                                    <v-icon>colorize</v-icon>
+                                  </v-btn>
+                                </div>
+                              </v-list-tile-action>
                             </v-list-tile>
                           </v-list>
                         </v-card-text>
