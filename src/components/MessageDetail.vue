@@ -27,7 +27,9 @@
         :id="tab"
       >
         <v-card flat>
-          <v-card-text>{{  tab_content[tabs.indexOf(active) ] }}</v-card-text>
+          <pre>
+            <v-card-text>{{  tab_content[tabs.indexOf(active) ] }}</v-card-text>
+          </pre>
         </v-card>
       </v-tabs-content>
     </v-tabs>
