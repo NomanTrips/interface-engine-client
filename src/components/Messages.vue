@@ -8,7 +8,7 @@
         prepend-icon="search"
       ></v-text-field>
     </v-toolbar>
-    <v-data-table
+    <v-data-table 
         v-bind:headers="headers"
         :items="filteredMessages"
         hide-actions
@@ -18,6 +18,7 @@
         <tr v-on:click="showMessageDetail(props.item._id)">
           <td>{{ props.item.received_date }}</td>
           <td class="text-xs-right">{{ String(props.item.raw_data).substring(0, 30) }}</td>
+          <td class="text-xs-right">{{ String(props.item.transformed_data).substring(0, 30) }}</td>
         </tr>
       </template>
     </v-data-table>
@@ -42,6 +43,7 @@ import moment from 'moment';
             value: 'received_date'
           },
           { text: 'Raw message', value: 'raw_data' },
+          { text: 'Transformed message', value: 'transformed_data' },
         ],
         messages: [],
         pagination: {

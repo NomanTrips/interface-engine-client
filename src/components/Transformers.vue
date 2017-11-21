@@ -99,15 +99,15 @@ export default {
       chips: ['xmlToJson','hl7-to-json'],
       libraries: [],
       packageSearch: '',
-        selectedIndex: 0,
-        activeClass: 'active',
-        inactiveClass: 'inactive',
+      selectedIndex: 0,
+      activeClass: 'active',
+      inactiveClass: 'inactive',
       transformers: [],
       selectedScript: '',
       newTransformer: {
           channel: '',
           title: 'Enter title here...',
-          script: 'Enter script here...'
+          script: 'Enter script here...',
       },
       selectedTransformer: {
           channel: '',
