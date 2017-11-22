@@ -2,14 +2,17 @@
   <v-app light>
     <v-navigation-drawer persistent :mini-variant="miniVariant" :clipped="clipped" v-model="drawer">
       <v-list>
-        <v-list-tile v-for="(item, i) in items" :key="i" value="true">
-          <v-list-tile-action>
-            <v-icon light v-html="item.icon"></v-icon>
-          </v-list-tile-action>
-          <v-list-tile-content>
-            <v-list-tile-title v-text="item.title"></v-list-tile-title>
-          </v-list-tile-content>
-        </v-list-tile>
+
+          <v-list-tile v-for="(navItem, i) in navItems" :key="i" value="true">
+            <div v-on:click="createChannel()">
+              <v-list-tile-action>
+                <v-icon  v-html="navItem.icon"></v-icon>
+              </v-list-tile-action>
+            </div>
+            <v-list-tile-content>
+              <v-list-tile-title v-text="navItem.text"></v-list-tile-title>
+            </v-list-tile-content>
+          </v-list-tile>
       </v-list>
     </v-navigation-drawer>
     <v-toolbar fixed>
@@ -93,50 +96,12 @@ export default {
         { text: 'Sent', value: 'sent' },
         { text: 'Errors', value: 'errors' },
       ],
-      /** 
-     items: [
-        {
-          value: 'pt portal inbound',
-          type: 'SFTP',
-          source: 'https://mirlee.com:22/out',
-          destination: '192.168.33.50:22',
-          received: 24,
-          sent: 4,
-          errors: 87,
-        },
-        {
-          value: false,
-          type: 'TCP/IP',
-          source: 'https://mirlee.com:443/out/client-b',
-          destination: '192.168.33.59:22',
-          received: 37,
-          sent: 4,
-          errors: 129
-        },
-        {
-          value: false,
-          type: 'File drop',
-          source: 'C:/harddrive-1',
-          destination: '192.168.123.5:22',
-          received: 23,
-          sent: 60,
-          errors: 337
-        },
-        {
-          value: false,
-          type: 'https',
-          source: 'https://mirlee.......',
-          destination: 'E:/files-out',
-          received: 67,
-          sent: 43,
-          errors: 413
-        }
-        
+      navItems: [
+        { icon: 'add', text: 'Add channel', path: '/channel/' + this.$route.params.id +'/messages' },
       ],
-      */
       items: [],
-      clipped: false,
-      drawer: true,
+      clipped: true,
+      drawer: false,
       fixed: false,
 
       miniVariant: false,
@@ -179,6 +144,15 @@ export default {
       console.log(vm.items);
   },
   methods: {
+    createChannel: function () {
+    axios.post('http://localhost:3000/catalog/channel/create')
+      .then(function(response) {
+        var id = response.data._id;
+        console.log(id);
+        this.$router.push('channel/' + id);
+      })
+
+    },
     showChannelDetail: function(id) {
       console.log(id);
       this.$router.push('channel/' + id);
