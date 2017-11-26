@@ -1,4 +1,5 @@
 <template>
+<v-layout >
   <div style="height:100%;width:100%;">
     <v-toolbar class="white" flat>
       <v-text-field
@@ -23,6 +24,7 @@
       </template>
     </v-data-table>
   </div>
+  </v-layout>
 </template>
 
 <script>
