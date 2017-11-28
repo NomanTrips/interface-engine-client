@@ -1,21 +1,6 @@
 <template>
-  <v-app light>
-    <v-navigation-drawer persistent :mini-variant="miniVariant" :clipped="clipped" v-model="drawer">
-      <v-list>
-
-          <v-list-tile v-for="(navItem, i) in navItems" :key="i" value="true">
-            <div v-on:click="createChannel()">
-              <v-list-tile-action>
-                <v-icon  v-html="navItem.icon"></v-icon>
-              </v-list-tile-action>
-            </div>
-            <v-list-tile-content>
-              <v-list-tile-title v-text="navItem.text"></v-list-tile-title>
-            </v-list-tile-content>
-          </v-list-tile>
-      </v-list>
-    </v-navigation-drawer>
-    <v-toolbar fixed>
+  <div>
+    <v-toolbar app>
       <v-toolbar-side-icon @click.native.stop="drawer = !drawer"></v-toolbar-side-icon>
       <v-btn icon @click.native.stop="miniVariant = !miniVariant">
         <v-icon v-html="miniVariant ? 'chevron_right' : 'chevron_left'"></v-icon>
@@ -32,12 +17,22 @@
         <v-icon>menu</v-icon>
       </v-btn>
     </v-toolbar>
-    <main>
-      <v-container fluid>
-        <v-slide-y-transition mode="out-in">
-          <v-layout column align-center>
+    <v-navigation-drawer  app fixed :mini-variant="miniVariant" :clipped="true" v-model="drawer">
+      <v-list>
+        <v-list-tile v-for="(navItem, i) in navItems" :key="i" value="true">
+          <div v-on:click="createChannel()">
+            <v-list-tile-action>
+              <v-icon  v-html="navItem.icon"></v-icon>
+            </v-list-tile-action>
+          </div>
+        <v-list-tile-content>
+          <v-list-tile-title v-text="navItem.text"></v-list-tile-title>
+        </v-list-tile-content>
+      </v-list-tile>
+      </v-list>
+    </v-navigation-drawer>
             <v-data-table v-bind:headers="headers" :items="items" hide-actions class="elevation-1">
-              <template slot="items" scope="props">
+              <template slot="items" slot-scope="props">
                 <tr v-on:click="showChannelDetail(props.item._id)">
                   <td>{{ props.item.name }}</td>
                   <!--
@@ -54,24 +49,8 @@
                 </tr>
               </template>
             </v-data-table>
-          </v-layout>
-        </v-slide-y-transition>
-      </v-container>
-    </main>
-    <v-navigation-drawer temporary :right="right" v-model="rightDrawer">
-      <v-list>
-        <v-list-tile @click.native="right = !right">
-          <v-list-tile-action>
-            <v-icon light>compare_arrows</v-icon>
-          </v-list-tile-action>
-          <v-list-tile-title>Switch drawer (click me)</v-list-tile-title>
-        </v-list-tile>
-      </v-list>
-    </v-navigation-drawer>
-    <v-footer :fixed="fixed">
-      <span>&copy; 2017</span>
-    </v-footer>
-  </v-app>
+
+  </div>
 </template>
 
 <script>

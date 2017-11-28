@@ -15,7 +15,7 @@
         hide-actions
         class="elevation-1"
       >
-      <template slot="items" scope="props">
+      <template slot="items" slot-scope="props">
         <tr v-on:click="showMessageDetail(props.item._id)">
           <td>{{ props.item.received_date }}</td>
           <td class="text-xs-right">{{ String(props.item.raw_data).substring(0, 30) }}</td>

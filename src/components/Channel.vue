@@ -1,6 +1,23 @@
 <template>
-  <v-app light>
-    <v-navigation-drawer class="grey lighten-4 pb-0" persistent :mini-variant="miniVariant" :clipped="clipped" v-model="drawer" light >
+<div>
+    <v-toolbar app>
+      <v-toolbar-side-icon @click.native.stop="drawer = !drawer"></v-toolbar-side-icon>
+      <v-btn icon @click.native.stop="miniVariant = !miniVariant">
+        <v-icon v-html="miniVariant ? 'chevron_right' : 'chevron_left'"></v-icon>
+      </v-btn>
+      <v-btn icon @click.native.stop="clipped = !clipped">
+        <v-icon>web</v-icon>
+      </v-btn>
+      <v-btn icon @click.native.stop="fixed = !fixed">
+        <v-icon>remove</v-icon>
+      </v-btn>
+      <v-toolbar-title v-text="title"></v-toolbar-title>
+      <v-spacer></v-spacer>
+      <v-btn icon @click.native.stop="rightDrawer = !rightDrawer">
+        <v-icon>menu</v-icon>
+      </v-btn>
+    </v-toolbar>
+    <v-navigation-drawer class="grey lighten-4 pb-0"  app fixed :mini-variant="miniVariant" :clipped="true" v-model="drawer" >
       <v-list dense>
         <template v-for="(item, i) in items">
           <v-layout row v-if="item.heading" align-center :key="i">
@@ -27,33 +44,14 @@
         </template>
       </v-list>
     </v-navigation-drawer>
-    <v-toolbar fixed>
-      <v-toolbar-side-icon @click.native.stop="drawer = !drawer"></v-toolbar-side-icon>
-      <v-btn icon @click.native.stop="miniVariant = !miniVariant">
-        <v-icon v-html="miniVariant ? 'chevron_right' : 'chevron_left'"></v-icon>
-      </v-btn>
-      <v-btn icon @click.native.stop="clipped = !clipped">
-        <v-icon>web</v-icon>
-      </v-btn>
-      <v-btn icon @click.native.stop="fixed = !fixed">
-        <v-icon>remove</v-icon>
-      </v-btn>
-      <v-toolbar-title v-text="title"></v-toolbar-title>
-      <v-spacer></v-spacer>
-      <v-btn icon @click.native.stop="rightDrawer = !rightDrawer">
-        <v-icon>menu</v-icon>
-      </v-btn>
-    </v-toolbar>
     <main>
       <v-container fluid>
-        <v-slide-y-transition mode="out-in">
           <v-layout column align-center>
             <router-view></router-view>
           </v-layout>
-        </v-slide-y-transition>
       </v-container>
     </main>
-  </v-app>
+    </div>
 </template>
 
 <script>
