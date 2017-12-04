@@ -1,5 +1,6 @@
 <template>
   <div style="height:100%;width:100%;">
+      <v-container fluid>
   <v-subheader>Message details:</v-subheader>
     <v-tabs dark v-model="active">
       <v-toolbar >
@@ -10,7 +11,7 @@
         prepend-icon="search"
       ></v-text-field>
     </v-toolbar>
-      <v-tabs-bar slot="activators" >
+      <v-tabs-bar class="cyan" dark>
         <v-tabs-item
           v-for="tab in tabs"
           :key="tab"
@@ -34,8 +35,9 @@
       </v-tabs-content>
     </v-tabs>
 
-
+  </v-container>
   </div>
+
 
 
 </template>
@@ -51,7 +53,7 @@ import axios from 'axios';
           //tabs: ['Raw', 'Transformed', 'Errors'],
           tab_content: ['-','-','-'],
       tabs: ['Raw', 'Transformed', 'Errors'],
-        active: null,
+        active: 'Raw',
         text: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.',
           raw_data : '',
           transformed_data: '',

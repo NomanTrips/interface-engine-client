@@ -1,7 +1,31 @@
 <template>
   <div id="example-3" style="height:100%;width:100%;">
     <v-container fluid>
-      
+
+      <v-card>
+
+          <div class="pa-3">
+        <label>
+         Schedule settings:
+        </label>
+          </div>
+
+
+        <v-card-text>
+          <v-layout row>
+            <v-flex xs4>
+              <v-select v-bind:items="scheduleTypes" v-model="channel.schedule_type" label="Schedule type" ></v-select>
+            </v-flex>
+            <v-flex xs2>
+              <v-text-field v-model="channel.interval" name="input-2" label="Scheduled interval" value="Input text" class="input-group--focused"></v-text-field>
+            </v-flex>
+            <v-flex xs2>
+              <v-select v-bind:items="intervalUnit" v-model="channel.interval_unit" label="Interval unit" ></v-select>
+            </v-flex>
+          </v-layout>
+        </v-card-text>
+      </v-card>
+
       <v-layout row>
         <v-flex xs12 >
           <div v-on:click="startStopChannel()">
@@ -72,6 +96,8 @@ export default {
       dest: null,
       transportTypes: ['SFTP', 'File directory', 'http', 'https', 'TCP/IP'],
       postProcessingType: ['move', 'delete', 'copy'],
+      intervalUnit: ['millisecond','second', 'minute', 'hour', 'day'],
+      scheduleTypes: ['Periodic', 'Time'],
 
     }
   },
