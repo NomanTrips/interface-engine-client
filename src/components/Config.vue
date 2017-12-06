@@ -2,30 +2,34 @@
   <div id="example-3" style="height:100%;width:100%;">
     <v-container fluid>
 
-      <v-card>
-
+      <v-card class="mb-3">
           <div class="pa-3">
         <label>
          Schedule settings:
         </label>
           </div>
-
-
         <v-card-text>
           <v-layout row>
             <v-flex xs4>
-              <v-select v-bind:items="scheduleTypes" v-model="channel.schedule_type" label="Schedule type" ></v-select>
+              <v-select v-bind:items="scheduleTypes" v-model="channel.schedule_type" label="Schedule type" class="pr-3" ></v-select>
             </v-flex>
             <v-flex xs2>
-              <v-text-field v-model="channel.schedule_interval" name="input-2" label="Scheduled interval" value="Input text" class="input-group--focused"></v-text-field>
+              <v-text-field v-model="channel.schedule_interval" name="input-2" label="Scheduled interval" value="Input text" class="pr-3"></v-text-field>
             </v-flex>
             <v-flex xs2>
-              <v-select v-bind:items="intervalUnit" v-model="channel.schedule_unit" label="Interval unit" ></v-select>
+              <v-select v-bind:items="intervalUnit" v-model="channel.schedule_unit" label="Interval unit" class="pr-3"></v-select>
             </v-flex>
           </v-layout>
         </v-card-text>
       </v-card>
 
+      <v-card>
+        <div class="pa-3">
+          <label>
+            Transport settings:
+          </label>
+        </div>
+        <v-card-text>
       <v-layout row>
         <v-flex xs12 >
           <div v-on:click="startStopChannel()">
@@ -36,11 +40,11 @@
 
       <v-layout row>
         <v-flex xs6 >
-          <v-select v-bind:items="transportTypes" v-model="channel.inbound_type" label="Source type" ></v-select>
+          <v-select v-bind:items="transportTypes" v-model="channel.inbound_type" label="Source type" class="pr-3"></v-select>
         </v-flex>
         <v-flex xs6 >
           <div v-if="channel.inbound_type == 'File directory'">
-            <v-text-field v-model="channel.inbound_location" name="input-2" label="Source location" value="Input text" class="input-group--focused"></v-text-field>
+            <v-text-field v-model="channel.inbound_location" name="input-2" label="Source location" value="Input text" class="pr-3"></v-text-field>
           </div>
           <div v-if="channel.inbound_type == 'http'">
           </div>
@@ -49,24 +53,24 @@
       
       <v-layout row>
         <v-flex xs6 >
-          <v-select v-bind:items="transportTypes" v-model="channel.outbound_type" label="Dest type" ></v-select>
+          <v-select v-bind:items="transportTypes" v-model="channel.outbound_type" label="Dest type" class="pr-3"></v-select>
         </v-flex>
         <v-flex xs6 >
           <div v-if="channel.outbound_type == 'File directory'">
-            <v-text-field v-model="channel.outbound_location" name="input-3" label="Dest location" value="Input text"></v-text-field>
+            <v-text-field v-model="channel.outbound_location" name="input-3" label="Dest location" value="Input text" class="pr-3"></v-text-field>
           </div>
           <div v-if="channel.outbound_type == 'http'">
-            <v-text-field v-model="channel.http_destination" name="input-3" label="http destination" value="Input text"></v-text-field>
+            <v-text-field v-model="channel.http_destination" name="input-3" label="http destination" value="Input text" class="pr-3"></v-text-field>
           </div>
         </v-flex>
       </v-layout>
       
       <v-layout row>
-        <v-flex xs12 >
+        <v-flex xs4 >
           <div v-if="channel.inbound_type == 'File directory'">
-            <v-select label="Post-processing action" v-bind:items="postProcessingType" v-model="channel.post_processing_action" ></v-select>
-            <v-text-field v-if="channel.post_processing_action == 'move'" v-model="channel.move_destination" name="input-3" label="move destination" value="Input text"></v-text-field>
-            <v-text-field v-if="channel.post_processing_action == 'copy'" v-model="channel.copy_destination" name="input-3" label="copy destination" value="Input text"></v-text-field>
+            <v-select label="Post-processing action" v-bind:items="postProcessingType" v-model="channel.post_processing_action" class="pr-3"></v-select>
+            <v-text-field v-if="channel.post_processing_action == 'move'" v-model="channel.move_destination" name="input-3" label="move destination" value="Input text" class="pr-3"></v-text-field>
+            <v-text-field v-if="channel.post_processing_action == 'copy'" v-model="channel.copy_destination" name="input-3" label="copy destination" value="Input text" class="pr-3"></v-text-field>
           </div>
         </v-flex>
       </v-layout>
@@ -78,6 +82,8 @@
           </div>
         </v-flex>
       </v-layout>
+      </v-card-text>
+    </v-card>
 
     </v-container>
   </div>
