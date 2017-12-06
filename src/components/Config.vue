@@ -17,10 +17,10 @@
               <v-select v-bind:items="scheduleTypes" v-model="channel.schedule_type" label="Schedule type" ></v-select>
             </v-flex>
             <v-flex xs2>
-              <v-text-field v-model="channel.interval" name="input-2" label="Scheduled interval" value="Input text" class="input-group--focused"></v-text-field>
+              <v-text-field v-model="channel.schedule_interval" name="input-2" label="Scheduled interval" value="Input text" class="input-group--focused"></v-text-field>
             </v-flex>
             <v-flex xs2>
-              <v-select v-bind:items="intervalUnit" v-model="channel.interval_unit" label="Interval unit" ></v-select>
+              <v-select v-bind:items="intervalUnit" v-model="channel.schedule_unit" label="Interval unit" ></v-select>
             </v-flex>
           </v-layout>
         </v-card-text>
@@ -96,7 +96,7 @@ export default {
       dest: null,
       transportTypes: ['SFTP', 'File directory', 'http', 'https', 'TCP/IP'],
       postProcessingType: ['move', 'delete', 'copy'],
-      intervalUnit: ['millisecond','second', 'minute', 'hour', 'day'],
+      intervalUnit: ['milliseconds','seconds', 'minutes', 'hours', 'days'],
       scheduleTypes: ['Periodic', 'Time'],
 
     }
