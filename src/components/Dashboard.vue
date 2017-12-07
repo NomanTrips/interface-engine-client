@@ -34,6 +34,10 @@
             <v-data-table v-bind:headers="headers" :items="items" hide-actions class="elevation-1">
               <template slot="items" slot-scope="props">
                 <tr v-on:click="showChannelDetail(props.item._id)">
+                  <td>
+                    <v-icon v-if="props.item.status == 'Running'" color="green">fiber_manual_record</v-icon>
+                    <v-icon v-if="props.item.status == 'Stopped'" color="red">fiber_manual_record</v-icon>
+                  </td>
                   <td>{{ props.item.name }}</td>
                   <!--
                   <td class="text-xs-right">{{ props.item._id }}</td>
@@ -62,6 +66,7 @@ export default {
   data() {
     return {
       headers: [
+        { text: 'Status', value: 'status', align: 'left'},
         {
           text: 'Channel',
           align: 'left',
@@ -69,7 +74,6 @@ export default {
           value: 'name'
         },
         //{ text: 'Id', value: 'id' },
-        //{ text: 'Name', value: 'name' },
         { text: 'Description', value: 'Description' },
         { text: 'Received', value: 'received' },
         { text: 'Sent', value: 'sent' },

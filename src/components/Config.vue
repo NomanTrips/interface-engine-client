@@ -96,7 +96,7 @@ export default {
   name: 'config',
   data() {
     return {
-      channelTurnedOn: false,
+      //channelTurnedOn: false,
       channel: {},
       source: null,
       dest: null,
@@ -105,6 +105,24 @@ export default {
       intervalUnit: ['milliseconds','seconds', 'minutes', 'hours', 'days'],
       scheduleTypes: ['Periodic', 'Time'],
 
+    }
+  },
+  computed: {
+    channelTurnedOn: {
+      get: function() {
+        if (this.channel.status == 'Running') {
+          return true;
+        } else {
+          return false;
+        }
+      },
+      set: function(isTurnedOn) {
+        if (isTurnedOn) {
+          this.channel.status = 'Running';
+        } else {
+          this.channel.status = 'Stopped';
+        }
+      }
     }
   },
   created() {
