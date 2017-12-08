@@ -61,7 +61,7 @@
                           <v-icon>more_horiz</v-icon>
                         </v-btn>
                         <v-list>
-                          <v-list-tile v-for="actionItem in actionItems" :key="actionItem.title" v-on:click="actionItem.event">
+                          <v-list-tile v-for="actionItem in actionItems" :key="actionItem.title" v-on:click="actionItem.event(props.item._id)">
                             <v-list-tile-title>{{ actionItem.title }}</v-list-tile-title>
                           </v-list-tile>
                         </v-list>
@@ -107,8 +107,8 @@ export default {
         { icon: 'add', text: 'Add channel', path: '/channel/' + this.$route.params.id +'/messages' },
       ],
       actionItems: [
-        { title: 'View channel', event:'showChannelDetail(props.item._id)' },
-        { title: 'Delete', event: 'deleteChannel()' },
+        { title: 'View channel', event: this.showChannelDetail },
+        { title: 'Delete', event: this.deleteChannel },
       ],
       items: [],
       clipped: true,
@@ -166,8 +166,15 @@ export default {
         })
 
     },
-    deleteChannel: function () {
-      console.log('running delete');
+    deleteChannel: function (id) {
+      console.log(id);
+      axios.post('http://localhost:3000/catalog/channel/' + id +'/delete', {})
+      .then(function(response) {
+        console.log(response);
+      })
+      .catch(function(error) {
+        console.log(error);
+      });
     },
     showChannelDetail: function(id) {
       console.log(id);
