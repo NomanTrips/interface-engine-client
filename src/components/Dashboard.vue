@@ -19,6 +19,10 @@
     </v-toolbar>
     <v-navigation-drawer  app fixed :mini-variant="miniVariant" :clipped="true" v-model="drawer">
       <v-list>
+        <v-btn v-on:click="createChannel()">
+        Add Channel
+        </v-btn>
+        <!--
         <v-list-tile v-for="(navItem, i) in navItems" :key="i" value="true">
           <div v-on:click="createChannel()">
             <v-list-tile-action>
@@ -29,6 +33,7 @@
           <v-list-tile-title v-text="navItem.text"></v-list-tile-title>
         </v-list-tile-content>
       </v-list-tile>
+      -->
       </v-list>
     </v-navigation-drawer>
             <v-data-table v-bind:headers="headers" :items="items" hide-actions class="elevation-1">
@@ -128,12 +133,14 @@ export default {
   },
   methods: {
     createChannel: function () {
-    axios.post('http://localhost:3000/catalog/channel/create')
-      .then(function(response) {
-        var id = response.data._id;
-        console.log(id);
-        this.$router.push('channel/' + id);
-      })
+      var vm = this;
+      axios.post('http://localhost:3000/catalog/channel/create')
+        .then(function(response) {
+          console.log(response.data);
+          var id = response.data._id;
+          console.log(id);
+          vm.$router.push('channel/' + id);
+        })
 
     },
     showChannelDetail: function(id) {
