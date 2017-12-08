@@ -38,7 +38,7 @@
     </v-navigation-drawer>
             <v-data-table v-bind:headers="headers" :items="items" hide-actions class="elevation-1">
               <template slot="items" slot-scope="props">
-                <tr v-on:click="showChannelDetail(props.item._id)">
+                <tr >
                   <td>
                     <v-icon v-if="props.item.status == 'Running'" color="green">fiber_manual_record</v-icon>
                     <v-icon v-if="props.item.status == 'Stopped'" color="red">fiber_manual_record</v-icon>
@@ -54,6 +54,25 @@
                   <td class="text-xs-right">{{ props.item.received }}</td>
                   <td class="text-xs-right">{{ props.item.sent }}</td>
                   <td class="text-xs-right">{{ props.item.error_count }}</td>
+                  <td >
+                   <div class="text-xs-center">
+                      <v-menu offset-y>
+                        <v-btn slot="activator" flat icon>
+                          <v-icon>more_horiz</v-icon>
+                        </v-btn>
+                        <v-list>
+                          <v-list-tile v-for="actionItem in actionItems" :key="actionItem.title" v-on:click="actionItem.event">
+                            <v-list-tile-title>{{ actionItem.title }}</v-list-tile-title>
+                          </v-list-tile>
+                        </v-list>
+                      </v-menu>
+                    </div>
+                    <!--
+                    <v-btn v-on:click="deleteChannel(props.item._id)" flat icon color="red">
+                      <v-icon>more_horiz</v-icon>
+                    </v-btn>
+                    -->
+                  </td>
              
                 </tr>
               </template>
@@ -86,6 +105,10 @@ export default {
       ],
       navItems: [
         { icon: 'add', text: 'Add channel', path: '/channel/' + this.$route.params.id +'/messages' },
+      ],
+      actionItems: [
+        { title: 'View channel', event:'showChannelDetail(props.item._id)' },
+        { title: 'Delete', event: 'deleteChannel()' },
       ],
       items: [],
       clipped: true,
@@ -142,6 +165,9 @@ export default {
           vm.$router.push('channel/' + id);
         })
 
+    },
+    deleteChannel: function () {
+      console.log('running delete');
     },
     showChannelDetail: function(id) {
       console.log(id);
