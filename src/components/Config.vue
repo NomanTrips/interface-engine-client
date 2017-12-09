@@ -5,6 +5,24 @@
       <v-card class="mb-3">
           <div class="pa-3">
         <label>
+         General:
+        </label>
+          </div>
+        <v-card-text>
+          <v-layout row>
+            <v-flex xs4>
+              <v-text-field v-model="channel.name" name="input-2" label="Channel name" value="Input text" class="pr-3"></v-text-field>
+            </v-flex>
+            <v-flex xs4>
+              <v-text-field v-model="channel.description" name="input-2" label="Channel description" value="Input text" class="pr-3"></v-text-field>
+            </v-flex>
+          </v-layout>
+        </v-card-text>
+      </v-card>
+
+      <v-card class="mb-3">
+          <div class="pa-3">
+        <label>
          Schedule settings:
         </label>
           </div>
