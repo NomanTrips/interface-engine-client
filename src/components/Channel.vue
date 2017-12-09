@@ -11,7 +11,10 @@
       <v-btn icon @click.native.stop="fixed = !fixed">
         <v-icon>remove</v-icon>
       </v-btn>
-      <v-toolbar-title v-text="title"></v-toolbar-title>
+      <router-link v-bind:to="homePath" style="text-decoration:none;color:inherit;">
+        <v-toolbar-title v-text="title" >
+      </v-toolbar-title>
+      </router-link>
       <v-spacer></v-spacer>
       <v-btn icon @click.native.stop="rightDrawer = !rightDrawer">
         <v-icon>menu</v-icon>
@@ -59,6 +62,7 @@ export default {
   name: 'channel',
   data() {
     return {
+      homePath: '/',
       items: [
         { icon: 'lightbulb_outline', text: 'Messages', path: '/channel/' + this.$route.params.id +'/messages' },
         { icon: 'touch_app', text: 'Config', path: '/channel/' + this.$route.params.id + '/config' },

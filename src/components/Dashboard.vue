@@ -5,17 +5,11 @@
       <v-btn icon @click.native.stop="miniVariant = !miniVariant">
         <v-icon v-html="miniVariant ? 'chevron_right' : 'chevron_left'"></v-icon>
       </v-btn>
-      <v-btn icon @click.native.stop="clipped = !clipped">
-        <v-icon>web</v-icon>
-      </v-btn>
-      <v-btn icon @click.native.stop="fixed = !fixed">
-        <v-icon>remove</v-icon>
-      </v-btn>
-      <v-toolbar-title v-text="title"></v-toolbar-title>
+      <router-link v-bind:to="homePath" style="text-decoration:none;color:inherit;">
+        <v-toolbar-title v-text="title" >
+      </v-toolbar-title>
+      </router-link>
       <v-spacer></v-spacer>
-      <v-btn icon @click.native.stop="rightDrawer = !rightDrawer">
-        <v-icon>menu</v-icon>
-      </v-btn>
     </v-toolbar>
     <v-navigation-drawer  app fixed :mini-variant="miniVariant" :clipped="true" v-model="drawer">
       <v-list>
@@ -89,6 +83,7 @@ export default {
   name: 'dashboard',
   data() {
     return {
+      homePath: '/',
       headers: [
         { text: 'Status', value: 'status', align: 'left'},
         {
