@@ -8,6 +8,9 @@
         v-model="search"
         prepend-icon="search"
       ></v-text-field>
+      <v-btn flat icon v-on:click="deleteMessages()">
+        <v-icon>delete</v-icon>
+      </v-btn>
     </v-toolbar>
     <v-data-table 
         v-bind:headers="headers"
@@ -80,9 +83,17 @@ import moment from 'moment';
   },
   methods: {
     showMessageDetail: function(id) {
-      console.log(id);
       this.$router.push(this.$route.path + '/' + id);
     },
+    deleteMessages: function(){
+      axios.post('http://localhost:3000/catalog/message/' + this.$route.params.id +'/delete', {})
+      .then(function(response) {
+        console.log(response);
+      })
+      .catch(function(error) {
+        console.log(error);
+      });
+    }
   }
   }
 </script>
