@@ -68,7 +68,30 @@
           </div>
         </v-flex>
       </v-layout>
-      
+  
+      <div v-if="channel.inbound_type == 'SFTP'">
+        <v-layout row>
+          <v-flex xs4>
+            <v-text-field v-model="channel.sftp_host" name="input-2" label="Host" value="Input text" class="pr-3"></v-text-field>
+          </v-flex>
+          <v-flex xs2>        
+            <v-text-field v-model="channel.sftp_port" name="input-2" label="Port" value="Input text" class="pr-3"></v-text-field>
+          </v-flex>
+        </v-layout>
+        <v-layout row>
+          <v-flex xs4>
+            <v-text-field v-model="channel.sftp_username" name="input-2" label="Username" value="Input text" class="pr-3"></v-text-field>
+          </v-flex>
+          <v-flex xs4>        
+            <v-text-field v-model="channel.sftp_password" name="input-2" label="Password" value="Input text" class="pr-3"
+              :append-icon="e1 ? 'visibility' : 'visibility_off'"
+              :append-icon-cb="() => (e1 = !e1)"
+              :type="e1 ? 'password' : 'text'"
+            ></v-text-field>
+          </v-flex>
+        </v-layout>
+      </div>
+
       <v-layout row>
         <v-flex xs6 >
           <v-select v-bind:items="transportTypes" v-model="channel.outbound_type" label="Dest type" class="pr-3"></v-select>
@@ -114,6 +137,7 @@ export default {
   name: 'config',
   data() {
     return {
+      e1: true,
       //channelTurnedOn: false,
       channel: {},
       source: null,
