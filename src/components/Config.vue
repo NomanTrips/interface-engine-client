@@ -69,7 +69,7 @@
         </v-flex>
       </v-layout>
   
-      <div v-if="channel.inbound_type == 'SFTP'">
+      <div v-if="channel.inbound_type == 'SFTP' || channel.inbound_type == 'FTP'">
         <v-layout row>
           <v-flex xs4>
             <v-text-field v-model="channel.sftp_host" name="input-2" label="Host" value="Input text" class="pr-3"></v-text-field>
@@ -108,10 +108,10 @@
       
       <v-layout row>
         <v-flex xs4 >
-          <div v-if="channel.inbound_type == 'File directory'">
+          <div v-if="channel.inbound_type == 'File directory' || channel.inbound_type == 'FTP' || channel.inbound_type == 'SFTP'">
             <v-select label="Post-processing action" v-bind:items="postProcessingType" v-model="channel.post_processing_action" class="pr-3"></v-select>
-            <v-text-field v-if="channel.post_processing_action == 'move'" v-model="channel.move_destination" name="input-3" label="move destination" value="Input text" class="pr-3"></v-text-field>
-            <v-text-field v-if="channel.post_processing_action == 'copy'" v-model="channel.copy_destination" name="input-3" label="copy destination" value="Input text" class="pr-3"></v-text-field>
+            <v-text-field v-if="channel.post_processing_action == 'Move'" v-model="channel.move_destination" name="input-3" label="move destination" value="Input text" class="pr-3"></v-text-field>
+            <v-text-field v-if="channel.post_processing_action == 'Copy'" v-model="channel.copy_destination" name="input-3" label="copy destination" value="Input text" class="pr-3"></v-text-field>
           </div>
         </v-flex>
       </v-layout>
@@ -142,8 +142,8 @@ export default {
       channel: {},
       source: null,
       dest: null,
-      transportTypes: ['SFTP', 'File directory', 'http', 'https', 'TCP/IP'],
-      postProcessingType: ['move', 'delete', 'copy'],
+      transportTypes: ['FTP','SFTP', 'File directory', 'http', 'https', 'TCP/IP'],
+      postProcessingType: ['Move', 'Delete', 'Copy'],
       intervalUnit: ['milliseconds','seconds', 'minutes', 'hours', 'days'],
       scheduleTypes: ['Periodic', 'Time'],
 
