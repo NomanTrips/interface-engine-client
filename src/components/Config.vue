@@ -66,6 +66,11 @@
           </div>
           <div v-if="channel.inbound_type == 'http'">
           </div>
+          <div v-if="channel.inbound_type == 'https'">
+            <v-text-field v-model="channel.https_privateKey" name="input-3" label="Private key location:" value="Input text" class="pr-3"></v-text-field>
+            <v-text-field v-model="channel.https_certificate" name="input-3" label="Certificate location:" value="Input text" class="pr-3"></v-text-field>
+            <v-text-field v-model="channel.https_port" name="input-3" label="Port:" value="Input text" class="pr-3"></v-text-field>
+          </div>
         </v-flex>
       </v-layout>
   
