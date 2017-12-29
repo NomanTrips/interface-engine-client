@@ -108,9 +108,16 @@
           <div v-if="channel.outbound_type == 'http'">
             <v-text-field v-model="channel.http_destination" name="input-3" label="http destination" value="Input text" class="pr-3"></v-text-field>
           </div>
+          <div v-if="channel.outbound_type == 'https'">
+            <v-text-field v-model="channel.https_dest_host" name="input-3" label="Host name:" value="Input text" class="pr-3"></v-text-field>
+            <v-text-field v-model="channel.https_dest_port" name="input-3" label="Port:" value="Input text" class="pr-3"></v-text-field>
+            <v-select v-bind:items="httpMethod" v-model="channel.https_dest_method" label="Method:" class="pr-3"></v-select>
+            <v-text-field v-model="channel.https_dest_cert" name="input-3" label="Cert:" value="Input text" class="pr-3"></v-text-field>
+            <v-text-field v-model="channel.https_dest_ca" name="input-3" label="Certificate Authority: (optional)" value="Input text" class="pr-3"></v-text-field>
+          </div>
         </v-flex>
       </v-layout>
-      
+
       <v-layout row>
         <v-flex xs4 >
           <div v-if="channel.inbound_type == 'File directory' || channel.inbound_type == 'FTP' || channel.inbound_type == 'SFTP'">
@@ -147,6 +154,7 @@ export default {
       channel: {},
       source: null,
       dest: null,
+      httpMethod: ['GET','PUT', 'POST'],
       transportTypes: ['FTP','SFTP', 'File directory', 'http', 'https', 'TCP/IP'],
       postProcessingType: ['Move', 'Delete', 'Copy'],
       intervalUnit: ['milliseconds','seconds', 'minutes', 'hours', 'days'],
