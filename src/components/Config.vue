@@ -71,6 +71,14 @@
             <v-text-field v-model="channel.https_certificate" name="input-3" label="Certificate location:" value="Input text" class="pr-3"></v-text-field>
             <v-text-field v-model="channel.https_port" name="input-3" label="Port:" value="Input text" class="pr-3"></v-text-field>
           </div>
+          <div v-if="channel.inbound_type == 'FTP'">
+            <v-text-field v-model="channel.ftp_host" name="input-2" label="Host" value="Input text" class="pr-3"></v-text-field>
+            <v-text-field v-model="channel.ftp_port" name="input-2" label="Port" value="Input text" class="pr-3"></v-text-field>
+            <v-text-field v-model="channel.ftp_path" name="input-2" label="ftp path" value="Input text" class="pr-3"></v-text-field>
+            <v-text-field v-model="channel.ftp_username" name="input-2" label="Username" value="Input text" class="pr-3"></v-text-field>
+            <v-text-field v-model="channel.ftp_password" name="input-2" label="Password" value="Input text" class="pr-3"></v-text-field>
+            <v-switch v-bind:label="`Use excplicit TLS (FTPS): ${channel.ftp_use_tls.toString()}`" v-model="channel.ftp_use_tls" ></v-switch>
+          </div>
           <div v-if="channel.inbound_type == 'SFTP'">
             <v-text-field v-model="channel.sftp_host" name="input-2" label="Host" value="Input text" class="pr-3"></v-text-field>
             <v-text-field v-model="channel.sftp_port" name="input-2" label="Port" value="Input text" class="pr-3"></v-text-field>
@@ -133,6 +141,23 @@
             <v-select v-bind:items="httpMethod" v-model="channel.https_dest_method" label="Method:" class="pr-3"></v-select>
             <v-text-field v-model="channel.https_dest_cert" name="input-3" label="Cert:" value="Input text" class="pr-3"></v-text-field>
             <v-text-field v-model="channel.https_dest_ca" name="input-3" label="Certificate Authority: (optional)" value="Input text" class="pr-3"></v-text-field>
+          </div>
+          <div v-if="channel.outbound_type == 'SFTP'">
+            <v-text-field v-model="channel.sftp_dest_host" name="input-2" label="Host" value="Input text" class="pr-3"></v-text-field>
+            <v-text-field v-model="channel.sftp_dest_port" name="input-2" label="Port" value="Input text" class="pr-3"></v-text-field>
+            <v-text-field v-model="channel.sftp_dest_path" name="input-2" label="sftp path" value="Input text" class="pr-3"></v-text-field>
+            <v-switch v-bind:label="`Private key authentication: ${channel.sftp_dest_auth_type.toString()}`" v-model="channel.sftp_dest_auth_type" ></v-switch>
+            <v-text-field v-model="channel.sftp_dest_username" name="input-2" label="Username" value="Input text" class="pr-3"></v-text-field>
+            <div v-if="channel.sftp_dest_auth_type == false">
+              <v-text-field v-model="channel.sftp_dest_password" name="input-2" label="Password" value="Input text" class="pr-3"
+                :append-icon="e1 ? 'visibility' : 'visibility_off'"
+                :append-icon-cb="() => (e1 = !e1)"
+                :type="e1 ? 'password' : 'text'"
+              ></v-text-field>
+            </div>
+            <div v-if="channel.sftp_dest_auth_type == true">
+              <v-text-field v-model="channel.sftp_dest_private_key" name="input-2" label="Private key path: " value="Input text" class="pr-3"></v-text-field>
+            </div>
           </div>
         </v-flex>
       </v-layout>
