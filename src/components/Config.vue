@@ -142,6 +142,14 @@
             <v-text-field v-model="channel.https_dest_cert" name="input-3" label="Cert:" value="Input text" class="pr-3"></v-text-field>
             <v-text-field v-model="channel.https_dest_ca" name="input-3" label="Certificate Authority: (optional)" value="Input text" class="pr-3"></v-text-field>
           </div>
+          <div v-if="channel.outbound_type == 'FTP'">
+            <v-text-field v-model="channel.ftp_dest_host" name="input-2" label="Host" value="Input text" class="pr-3"></v-text-field>
+            <v-text-field v-model="channel.ftp_dest_port" name="input-2" label="Port" value="Input text" class="pr-3"></v-text-field>
+            <v-text-field v-model="channel.ftp_dest_path" name="input-2" label="ftp path" value="Input text" class="pr-3"></v-text-field>
+            <v-text-field v-model="channel.ftp_dest_username" name="input-2" label="Username" value="Input text" class="pr-3"></v-text-field>
+            <v-text-field v-model="channel.ftp_dest_password" name="input-2" label="Password" value="Input text" class="pr-3"></v-text-field>
+            <v-switch v-bind:label="`Use excplicit TLS (FTPS): ${channel.ftp_dest_use_tls.toString()}`" v-model="channel.ftp_dest_use_tls" ></v-switch>
+          </div>
           <div v-if="channel.outbound_type == 'SFTP'">
             <v-text-field v-model="channel.sftp_dest_host" name="input-2" label="Host" value="Input text" class="pr-3"></v-text-field>
             <v-text-field v-model="channel.sftp_dest_port" name="input-2" label="Port" value="Input text" class="pr-3"></v-text-field>
