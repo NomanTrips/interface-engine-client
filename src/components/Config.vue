@@ -96,6 +96,10 @@
               <v-text-field v-model="channel.sftp_private_key" name="input-2" label="Private key path: " value="Input text" class="pr-3"></v-text-field>
             </div>
           </div>
+          <div v-if="channel.inbound_type == 'TCP'">
+            <v-text-field v-model="channel.tcp_host" name="input-3" label="Host:" value="Input text" class="pr-3"></v-text-field>
+            <v-text-field v-model="channel.tcp_port" name="input-3" label="Port:" value="Input text" class="pr-3"></v-text-field>
+          </div>
         </v-flex>
       </v-layout>
   
@@ -207,7 +211,7 @@ export default {
       source: null,
       dest: null,
       httpMethod: ['GET','PUT', 'POST'],
-      transportTypes: ['FTP','SFTP', 'File directory', 'http', 'https', 'TCP/IP'],
+      transportTypes: ['FTP','SFTP', 'File directory', 'http', 'https', 'TCP'],
       postProcessingType: ['Move', 'Delete', 'Copy'],
       intervalUnit: ['milliseconds','seconds', 'minutes', 'hours', 'days'],
       scheduleTypes: ['Periodic', 'Time'],
