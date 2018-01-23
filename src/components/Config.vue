@@ -146,6 +146,10 @@
             <v-text-field v-model="channel.https_dest_cert" name="input-3" label="Cert:" value="Input text" class="pr-3"></v-text-field>
             <v-text-field v-model="channel.https_dest_ca" name="input-3" label="Certificate Authority: (optional)" value="Input text" class="pr-3"></v-text-field>
           </div>
+          <div v-if="channel.outbound_type == 'TCP'">
+            <v-text-field v-model="channel.tcp_dest_host" name="input-3" label="Host name:" value="Input text" class="pr-3"></v-text-field>
+            <v-text-field v-model="channel.tcp_dest_port" name="input-3" label="Port:" value="Input text" class="pr-3"></v-text-field>
+          </div>
           <div v-if="channel.outbound_type == 'FTP'">
             <v-text-field v-model="channel.ftp_dest_host" name="input-2" label="Host" value="Input text" class="pr-3"></v-text-field>
             <v-text-field v-model="channel.ftp_dest_port" name="input-2" label="Port" value="Input text" class="pr-3"></v-text-field>
