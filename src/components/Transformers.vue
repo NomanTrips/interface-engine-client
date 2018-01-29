@@ -74,7 +74,18 @@
             
               <v-card-text>
                 <label>Script editor:</label>
+                <!--
                 <editor v-model="selectedTransformer.script" @init="editorInit();" lang="javascript" theme="chrome" width="100%" height="400"></editor>
+                -->
+                <MonacoEditor
+                  height="600"
+                  language="typescript"
+                  :code= "selectedTransformer.script"
+                  :editorOptions="options"
+                  @mounted="onMounted"
+                  @codeChange="onCodeChange"
+                  >
+              </MonacoEditor>
               </v-card-text>
               <v-card-actions>
                 <div v-on:click="saveTransformer()">
@@ -91,6 +102,7 @@
 
 <script>
 import axios from 'axios';
+import MonacoEditor from 'vue-monaco-editor'
 
 export default {
   name: 'transformers',
@@ -114,6 +126,10 @@ export default {
           title: '',
           script: ''
       },
+      code: '// Type away! \n',
+      options: {
+        selectOnLineNumbers: false
+      }
     }
   },
   
@@ -128,7 +144,8 @@ export default {
   },
   
   components:{
-        editor:require('vue2-ace-editor')
+        editor:require('vue2-ace-editor'),
+        MonacoEditor
     },
   created() {
 
@@ -155,6 +172,12 @@ export default {
 
   },
   methods: {
+    onMounted(editor) {
+      this.editor = editor;
+    },
+    onCodeChange(editor) {
+      console.log(editor.getValue());
+    },
     importLibrary: function (library){
       var importStatement = 'var ' + library + ' = require(\' ' + library + ' \');'
       this.selectedTransformer.script = importStatement + '\n' + this.selectedTransformer.script;

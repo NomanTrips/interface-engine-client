@@ -66,7 +66,7 @@ export default {
       items: [
         { icon: 'lightbulb_outline', text: 'Messages', path: '/channel/' + this.$route.params.id +'/messages' },
         { icon: 'touch_app', text: 'Config', path: '/channel/' + this.$route.params.id + '/config' },
-        { icon: 'settings', text: 'Transformers', path: '/channel/' + this.$route.params.id + '/transformers' },
+        { icon: 'settings', text: 'Modify Message', path: '/channel/' + this.$route.params.id + '/messagemodifier' },
       ],
       clipped: true,
       drawer: true,
