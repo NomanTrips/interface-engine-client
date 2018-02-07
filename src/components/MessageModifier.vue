@@ -1,31 +1,19 @@
 <template>
   <div id="example-3" style="height:100%;width:100%;">
-    <v-container fluid>
-      <v-layout row>
-        <v-flex xs12 >  
-            <v-card>
-              <v-subheader>Modification script:</v-subheader>            
-              <v-card-text>
-                <MonacoEditor
-                  height="600"
-                  language="javascript"
-                  :code= "code"
-                  :editorOptions="options"
-                  @mounted="onMounted"
-                  @codeChange="onCodeChange"
-                  >
-              </MonacoEditor>
-              </v-card-text>
-              <v-card-actions>
-                <div v-on:click="saveModifierScript()">
-                  <v-btn raised primary >Save</v-btn>
-                </div>
-              </v-card-actions>
-            </v-card>
-        </v-flex>
-      </v-layout>
-
-    </v-container>
+    <v-subheader>Modification script:</v-subheader>
+      <MonacoEditor
+        height="600"
+        language="javascript"
+        :code= "code"
+        :editorOptions="options"
+        @mounted="onMounted"
+        @codeChange="onCodeChange"
+        theme="vs"
+      >
+      </MonacoEditor>
+      <div v-on:click="saveModifierScript()">
+        <v-btn raised primary >Save</v-btn>
+      </div>
   </div>
 </template>
 
