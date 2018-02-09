@@ -11,9 +11,28 @@
         theme="vs"
       >
       </MonacoEditor>
-      <div v-on:click="saveModifierScript()">
-        <v-btn raised primary >Save</v-btn>
-      </div>
+      <v-layout row>
+        <div v-on:click="saveModifierScript()">
+          <v-btn raised primary >Save</v-btn>
+        </div>
+        <v-btn color="primary" dark @click.stop="dialog2 = true">Load Template</v-btn>
+      </v-layout>
+      <v-dialog v-model="dialog2" max-width="500px">
+        <v-card>
+          <v-card-title>
+            Choose a template:
+          </v-card-title>
+          <v-card-text>
+            <v-list>
+              <v-list-tile avatar v-for="temp in temps" v-bind:key="temp.title" @click="loadTemplate(temp)">
+                <v-list-tile-content>
+                  <v-list-tile-title v-text="temp.title"></v-list-tile-title>
+                </v-list-tile-content>
+              </v-list-tile>
+            </v-list>
+          </v-card-text>
+        </v-card>
+      </v-dialog>
   </div>
 </template>
 
@@ -29,7 +48,13 @@ export default {
       code: '// Type away! \n',
       options: {
         selectOnLineNumbers: false
-      }
+      },
+      temps: [
+          { title: 'xml to json' },
+          { title: 'hl7 v2 to xml' },
+          { title: 'hl7 v2 to json' }
+        ],
+      dialog2: false,
     }
   },
   
@@ -55,6 +80,10 @@ export default {
 
   },
   methods: {
+    loadTemplate: function(temp){
+      console.log(temp.title);
+      this.dialog2 = false;
+    },
     onMounted(editor) {
       this.editor = editor;
     },
