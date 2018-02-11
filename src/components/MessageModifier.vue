@@ -24,9 +24,9 @@
           </v-card-title>
           <v-card-text>
             <v-list>
-              <v-list-tile avatar v-for="temp in temps" v-bind:key="temp.title" @click="loadTemplate(temp)">
+              <v-list-tile avatar v-for="temp in templates" v-bind:key="temp.title" @click="loadTemplate(temp)">
                 <v-list-tile-content>
-                  <v-list-tile-title v-text="temp.title"></v-list-tile-title>
+                  <v-list-tile-title v-text="temp.name"></v-list-tile-title>
                 </v-list-tile-content>
               </v-list-tile>
             </v-list>
@@ -55,6 +55,7 @@ export default {
           { title: 'hl7 v2 to json' }
         ],
       dialog2: false,
+      templates: []
     }
   },
   
@@ -78,10 +79,20 @@ export default {
         console.log(error);
       });
 
+    axios.get('http://localhost:3000/catalog/scripttemplates')
+      .then(function(response) {
+        vm.templates = response.data;
+        console.log(response.data);
+      })
+      .catch(function(error) {
+        console.log(error);
+      });
+
   },
   methods: {
     loadTemplate: function(temp){
-      console.log(temp.title);
+      this.code = temp.script;
+      console.log(temp.script);
       this.dialog2 = false;
     },
     onMounted(editor) {
