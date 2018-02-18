@@ -1,6 +1,6 @@
 <template>
   <div id="example-3" style="height:100%;width:100%;">
-    <v-subheader>Modification script:</v-subheader>
+    <v-text-field v-model="scriptName" name="input-3" label="Script name:" value="Input text" class="pr-3"></v-text-field>
       <MonacoEditor
         height="600"
         language="javascript"
@@ -16,6 +16,9 @@
           <v-btn raised primary >Save</v-btn>
         </div>
         <v-btn color="primary" dark @click.stop="dialog2 = true">Load Template</v-btn>
+        <div v-on:click="saveTemplate()">
+          <v-btn raised primary >Save as Template</v-btn>
+        </div>
       </v-layout>
       <v-dialog v-model="dialog2" max-width="500px">
         <v-card>
@@ -24,7 +27,7 @@
           </v-card-title>
           <v-card-text>
             <v-list>
-              <v-list-tile avatar v-for="temp in templates" v-bind:key="temp.title" @click="loadTemplate(temp)">
+              <v-list-tile avatar v-for="temp in templates" v-bind:key="temp.title" @click="loadTemplate(temp, editor)">
                 <v-list-tile-content>
                   <v-list-tile-title v-text="temp.name"></v-list-tile-title>
                 </v-list-tile-content>
@@ -46,6 +49,7 @@ export default {
     return {
       str: "nada",
       code: '// Type away! \n',
+      scriptName: 'Enter script name here',
       options: {
         selectOnLineNumbers: false
       },
@@ -72,8 +76,9 @@ export default {
     // Make a request for a user with a given ID
     axios.get('http://localhost:3000/catalog/channel/' + this.$route.params.id + '/messagemodifier')
       .then(function(response) {
-        vm.code = response.data;
-        console.log(response.data);
+        vm.code = response.data.script;
+        console.log(response.data.script);
+        vm.scriptName = response.data.name;
       })
       .catch(function(error) {
         console.log(error);
@@ -82,7 +87,7 @@ export default {
     axios.get('http://localhost:3000/catalog/scripttemplates')
       .then(function(response) {
         vm.templates = response.data;
-        console.log(response.data);
+        console.log('z templates:::: '+response.data);
       })
       .catch(function(error) {
         console.log(error);
@@ -90,21 +95,32 @@ export default {
 
   },
   methods: {
-    loadTemplate: function(temp){
+    //var vm : this,
+    loadTemplate: function(temp, editor){
+
       this.code = temp.script;
-      console.log(temp.script);
+      this.scriptName = temp.name;
+      editor.setValue(this.code);
       this.dialog2 = false;
     },
     onMounted(editor) {
       this.editor = editor;
     },
     onCodeChange(editor) {
+      console.log('jer jar');
       this.code = editor.getValue();
-      console.log(editor.getValue());
     },
     saveModifierScript: function() {
-      console.log(this.code);
-        axios.post('http://localhost:3000/catalog/channel/' + this.$route.params.id +'/messagemodifier', {"message_modifier_script": this.code})
+        axios.post('http://localhost:3000/catalog/channel/' + this.$route.params.id +'/messagemodifier', {"message_modifier_script": this.code, "message_modifier_script_name": this.scriptName})
+        .then(function(response) {
+            console.log(response);
+        })
+        .catch(function(error) {
+            console.log(error);
+        });
+    },
+    saveTemplate: function() {
+        axios.post('http://localhost:3000/catalog/scripttemplates/create', {"script": this.code, "name": this.scriptName})
         .then(function(response) {
             console.log(response);
         })
