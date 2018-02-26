@@ -28,8 +28,13 @@
           <v-card-text>
             <v-list>
               <v-list-tile avatar v-for="temp in templates" v-bind:key="temp.title" @click="loadTemplate(temp, editor)">
-                <v-list-tile-content>
-                  <v-list-tile-title v-text="temp.name"></v-list-tile-title>
+                <v-list-tile-content >
+                  <v-list-tile-title v-text="temp.name"  ></v-list-tile-title>
+                  <!--
+                  <v-btn flat icon color="red" @click="deleteTemplate(temp)">
+                    <v-icon>delete</v-icon>
+                  </v-btn>
+                  -->
                 </v-list-tile-content>
               </v-list-tile>
             </v-list>
@@ -96,6 +101,16 @@ export default {
   },
   methods: {
     //var vm : this,
+    deleteTemplate: function(temp){
+      console.log(temp);
+        axios.post('http://localhost:3000/catalog/scripttemplates/' + temp._id +'/delete', {})
+        .then(function(response) {
+            console.log(response);
+        })
+        .catch(function(error) {
+            console.log(error);
+        });
+    },
     loadTemplate: function(temp, editor){
 
       this.code = temp.script;

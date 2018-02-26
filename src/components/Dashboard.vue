@@ -10,6 +10,9 @@
       </v-toolbar-title>
       </router-link>
       <v-spacer></v-spacer>
+      <v-btn icon @click="navScriptTemplates()">
+        <v-icon>settings</v-icon>
+      </v-btn>
     </v-toolbar>
     <v-navigation-drawer  app fixed :mini-variant="miniVariant" :clipped="true" v-model="drawer">
       <v-list>
@@ -177,6 +180,9 @@ export default {
     },
     getChannels: function() {
 
+    },
+    navScriptTemplates: function (){
+      this.$router.push('/scripttemplates');
     }
   }
 }

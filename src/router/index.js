@@ -8,6 +8,7 @@ import Config from '../components/Config.vue'
 import Messagedetail from '../components/MessageDetail.vue'
 import Transformers from '../components/Transformers.vue'
 import MessageModifier from '../components/MessageModifier.vue'
+import Templates from '../components/TemplateEditor.vue'
 
 Vue.use(Router)
 
@@ -17,6 +18,11 @@ export default new Router({
       path: '/',
       name: 'Dashboard',
       component: Dashboard
+    },
+    {
+      path: '/scripttemplates',
+      name: 'Templates',
+      component: Templates
     },
     {
       path: '/channel/:id',
