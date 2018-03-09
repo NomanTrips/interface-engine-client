@@ -5,22 +5,19 @@
     Script template configuration:
     </v-subheader>
     <v-layout row>
+    <v-flex xs2>
         <div>
-            <v-list>
-            
+            <v-list dense two-line subheader>
+              <v-subheader inset>Templates:</v-subheader>
                 <v-list-tile avatar v-for="temp in templates" v-bind:key="temp.title" @click="loadTemplate(temp)">
-                <v-flex xs12>
                     <v-list-tile-content >
                     <v-list-tile-title v-text="temp.name"  ></v-list-tile-title>
-                        <v-btn flat icon color="red" >
-                            <v-icon>delete</v-icon>
-                        </v-btn>
                     </v-list-tile-content>
-                    </v-flex>
-                </v-list-tile>
-            
+                </v-list-tile>   
             </v-list>
         </div>
+        </v-flex>
+        <v-flex xs10>
         <v-layout column>
         <v-text-field v-model="selectedTemplate.name" name="input-3" label="Template name:" value="Input text" class="pr-3"></v-text-field>
         <MonacoEditor
@@ -35,11 +32,15 @@
         </MonacoEditor>
               <v-layout row>
         <div v-on:click="saveTemplate()">
-          <v-btn raised primary >Save as Template</v-btn>
+          <v-btn raised primary >Save</v-btn>
         </div>
-        <v-btn color="primary" dark @click.stop="dialog2 = true">New Template</v-btn>
+        <v-btn color="primary" dark @click.stop="dialog2 = true">New</v-btn>
+        <v-btn flat icon color="red" @click="deleteTemplate()">
+            <v-icon>delete</v-icon>
+        </v-btn>
       </v-layout>
         </v-layout>
+        </v-flex>
       </v-layout>
 
         <v-dialog v-model="dialog2" max-width="500px">
@@ -99,9 +100,9 @@ export default {
   },
   methods: {
     //var vm : this,
-    deleteTemplate: function(temp){
-      console.log(temp);
-        axios.post('http://localhost:3000/catalog/scripttemplates/' + temp._id +'/delete', {})
+    deleteTemplate: function(){
+      console.log('running delete');
+        axios.post('http://localhost:3000/catalog/scripttemplates/' + this.selectedTemplate._id +'/delete', {})
         .then(function(response) {
             console.log(response);
         })
@@ -110,6 +111,7 @@ export default {
         });
     },
     loadTemplate: function(temp){
+      console.log('running load');
       this.selectedTemplate = temp;
       this.editor.setValue(this.selectedTemplate.script);
     },
