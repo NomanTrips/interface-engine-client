@@ -119,9 +119,10 @@ export default {
       this.editor = editor;
     },
     onCodeChange(editor) {
-      this.code = editor.getValue();
+      this.selectedTemplate.script = editor.getValue();
     },
     saveTemplate: function() {
+      console.log(this.selectedTemplate);
         axios.post('http://localhost:3000/catalog/scripttemplates/' + this.selectedTemplate._id +'/update', this.selectedTemplate)
         .then(function(response) {
             console.log(response);
