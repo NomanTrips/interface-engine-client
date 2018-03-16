@@ -4,8 +4,11 @@
     <v-subheader >
     Script template configuration:
     </v-subheader>
+        
     <v-layout row>
-    <v-flex xs2>
+     <v-flex xs2>
+    <v-card>
+   
         <div>
             <v-list dense two-line subheader>
               <v-subheader inset>Templates:</v-subheader>
@@ -16,8 +19,11 @@
                 </v-list-tile>   
             </v-list>
         </div>
-        </v-flex>
+
+  </v-card>
+      </v-flex>
         <v-flex xs10>
+        <v-card>
         <v-layout column>
         <v-text-field v-model="selectedTemplate.name" name="input-3" label="Template name:" value="Input text" class="pr-3"></v-text-field>
         <MonacoEditor
@@ -40,7 +46,9 @@
         </v-btn>
       </v-layout>
         </v-layout>
+        </v-card>
         </v-flex>
+      
       </v-layout>
 
         <v-dialog v-model="dialog2" max-width="500px">
