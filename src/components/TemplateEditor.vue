@@ -27,6 +27,7 @@
         
     <v-layout row>
      <v-flex xs2>
+     <div class="pl-2">
     <v-card>
    
         <div>
@@ -41,11 +42,16 @@
         </div>
 
   </v-card>
+  </div>
       </v-flex>
         <v-flex xs10>
-        <v-card>
-        <v-layout column>
-        <v-text-field v-model="selectedTemplate.name" name="input-3" label="Template name:" value="Input text" class="pr-3"></v-text-field>
+        <div class="pl-2">
+        <v-card >
+        <v-card-title primary-title>
+        Edit script:
+        </v-card-title>
+        <v-layout column >
+        <v-text-field v-model="selectedTemplate.name" name="input-3" label="Template name:" value="Input text" ></v-text-field>
         <MonacoEditor
             height="600"
             language="javascript"
@@ -67,6 +73,7 @@
       </v-layout>
         </v-layout>
         </v-card>
+        </div>
         </v-flex>
       
       </v-layout>
