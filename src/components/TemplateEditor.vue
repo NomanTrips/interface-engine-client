@@ -1,6 +1,26 @@
 <template>
 
   <div id="example-3" style="height:100%;width:100%;">
+    <v-toolbar app>
+      <v-toolbar-side-icon @click.native.stop="drawer = !drawer"></v-toolbar-side-icon>
+      <v-btn icon @click.native.stop="miniVariant = !miniVariant">
+        <v-icon v-html="miniVariant ? 'chevron_right' : 'chevron_left'"></v-icon>
+      </v-btn>
+      <v-btn icon @click.native.stop="clipped = !clipped">
+        <v-icon>web</v-icon>
+      </v-btn>
+      <v-btn icon @click.native.stop="fixed = !fixed">
+        <v-icon>remove</v-icon>
+      </v-btn>
+      <router-link v-bind:to="homePath" style="text-decoration:none;color:inherit;">
+        <v-toolbar-title v-text="title" >
+      </v-toolbar-title>
+      </router-link>
+      <v-spacer></v-spacer>
+      <v-btn icon @click.native.stop="rightDrawer = !rightDrawer">
+        <v-icon>menu</v-icon>
+      </v-btn>
+    </v-toolbar>
     <v-subheader >
     Script template configuration:
     </v-subheader>
@@ -82,7 +102,16 @@ export default {
         selectOnLineNumbers: false
       },
       dialog2: false,
-      templates: []
+      templates: [],
+      homePath: '/',
+      clipped: true,
+      drawer: true,
+      fixed: false,
+
+      miniVariant: false,
+      right: true,
+      rightDrawer: false,
+      title: 'Interface engine'
     }
   },
   
