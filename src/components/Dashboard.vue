@@ -33,9 +33,9 @@
       -->
       </v-list>
     </v-navigation-drawer>
-            <v-data-table v-bind:headers="headers" :items="items" hide-actions class="elevation-1">
+            <v-data-table v-bind:headers="headers" :items="items" hide-actions class="elevation-1" item-key="name">
               <template slot="items" slot-scope="props">
-                <tr >
+                <tr @click="props.expanded = !props.expanded">
                   <td>
                     <v-icon v-if="props.item.status == 'Running'" color="green">fiber_manual_record</v-icon>
                     <v-icon v-if="props.item.status == 'Stopped'" color="red">fiber_manual_record</v-icon>
@@ -72,6 +72,24 @@
                   </td>
              
                 </tr>
+              </template>
+              <template slot="expand" slot-scope="props">
+                <div class="pl-3">
+                <v-card flat>
+                  <v-btn icon >
+                    <v-icon color="green">play_circle_filled</v-icon>
+                  </v-btn>
+                  <v-btn raised primary @click="navMessages(props.item._id)">
+                    View messages
+                  </v-btn>
+                  <v-btn raised primary @click="navConfig(props.item._id)">
+                    Config
+                  </v-btn>
+                  <v-btn icon >
+                    <v-icon color="red">delete</v-icon>
+                  </v-btn>
+                </v-card>
+                </div>
               </template>
             </v-data-table>
 
@@ -183,6 +201,12 @@ export default {
     },
     navScriptTemplates: function (){
       this.$router.push('/scripttemplates');
+    },
+    navMessages: function (id){
+      this.$router.push('/channel/' + id + '/messages');
+    },
+    navConfig: function (id){
+      this.$router.push('/channel/' + id + '/config');
     }
   }
 }
