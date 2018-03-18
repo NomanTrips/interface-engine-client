@@ -37,8 +37,8 @@
               <template slot="items" slot-scope="props">
                 <tr @click="props.expanded = !props.expanded">
                   <td>
-                    <v-icon v-if="props.item.status == 'Running'" color="green">fiber_manual_record</v-icon>
-                    <v-icon v-if="props.item.status == 'Stopped'" color="red">fiber_manual_record</v-icon>
+                    <v-icon v-if="props.item.is_running" color="green">fiber_manual_record</v-icon>
+                    <v-icon v-if="! props.item.is_running" color="red">fiber_manual_record</v-icon>
                   </td>
                   <td>{{ props.item.name }}</td>
                   <!--
@@ -74,10 +74,13 @@
                 </tr>
               </template>
               <template slot="expand" slot-scope="props">
-                <div class="pl-3">
-                <v-card flat>
-                  <v-btn icon >
+                <div class="pl-2">
+                <v-card flat class="grey lighten-2">
+                  <v-btn icon v-if="! props.item.is_running" @click="startChannel(props.item._id)">
                     <v-icon color="green">play_circle_filled</v-icon>
+                  </v-btn>
+                  <v-btn icon v-if="props.item.is_running" @click="stopChannel(props.item._id)">
+                    <v-icon color="red">pause_circle_filled</v-icon>
                   </v-btn>
                   <v-btn raised primary @click="navMessages(props.item._id)">
                     View messages
@@ -85,8 +88,8 @@
                   <v-btn raised primary @click="navConfig(props.item._id)">
                     Config
                   </v-btn>
-                  <v-btn icon >
-                    <v-icon color="red">delete</v-icon>
+                  <v-btn icon @click="deleteChannel(props.item._id)" >
+                    <v-icon color="red" >delete</v-icon>
                   </v-btn>
                 </v-card>
                 </div>
@@ -171,6 +174,26 @@ export default {
       console.log(vm.items);
   },
   methods: {
+    startChannel: function(id) {
+        console.log('getting to start');
+        axios.post('http://localhost:3000/catalog/channel/' + id +'/start')
+        .then(function(response) {
+        console.log(response);
+        })
+        .catch(function(error) {
+        console.log(error);
+        });
+    },
+    stopChannel: function(id) {
+        console.log('stopping...');
+        axios.post('http://localhost:3000/catalog/channel/' + id +'/stop')
+        .then(function(response) {
+        console.log(response);
+        })
+        .catch(function(error) {
+        console.log(error);
+        });
+    },
     createChannel: function () {
       var vm = this;
       axios.post('http://localhost:3000/catalog/channel/create')
