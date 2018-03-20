@@ -52,6 +52,7 @@
                   <td class="text-xs-right">{{ props.item.sent }}</td>
                   <td class="text-xs-right">{{ props.item.error_count }}</td>
                   <td >
+                  <!--
                    <div class="text-xs-center">
                       <v-menu offset-y>
                         <v-btn slot="activator" flat icon>
@@ -64,7 +65,7 @@
                         </v-list>
                       </v-menu>
                     </div>
-                    <!--
+                    
                     <v-btn v-on:click="deleteChannel(props.item._id)" flat icon color="red">
                       <v-icon>more_horiz</v-icon>
                     </v-btn>
@@ -76,19 +77,19 @@
               <template slot="expand" slot-scope="props">
                 <div class="pl-2">
                 <v-card flat class="grey lighten-2">
-                  <v-btn icon v-if="! props.item.is_running" @click="startChannel(props.item._id)">
+                  <v-btn icon v-show="! props.item.is_running" @click="startChannel(props, props.item._id)">
                     <v-icon color="green">play_circle_filled</v-icon>
                   </v-btn>
-                  <v-btn icon v-if="props.item.is_running" @click="stopChannel(props.item._id)">
+                  <v-btn icon v-show="props.item.is_running" @click="stopChannel(props, props.item._id);">
                     <v-icon color="red">pause_circle_filled</v-icon>
                   </v-btn>
-                  <v-btn raised primary @click="navMessages(props.item._id)">
+                  <v-btn small raised primary @click="navMessages(props.item._id)">
                     View messages
                   </v-btn>
-                  <v-btn raised primary @click="navConfig(props.item._id)">
+                  <v-btn small raised primary @click="navConfig(props.item._id)">
                     Config
                   </v-btn>
-                  <v-btn icon @click="deleteChannel(props.item._id)" >
+                  <v-btn style="float: right;" icon @click="deleteChannel(props.item._id)" >
                     <v-icon color="red" >delete</v-icon>
                   </v-btn>
                 </v-card>
@@ -174,24 +175,24 @@ export default {
       console.log(vm.items);
   },
   methods: {
-    startChannel: function(id) {
-        console.log('getting to start');
+    startChannel: function(props, id) {
+      props.item.is_running = true;
         axios.post('http://localhost:3000/catalog/channel/' + id +'/start')
         .then(function(response) {
-        console.log(response);
+          console.log(response);
         })
         .catch(function(error) {
         console.log(error);
         });
     },
-    stopChannel: function(id) {
-        console.log('stopping...');
+    stopChannel: function(props, id) {
+      props.item.is_running = false;
         axios.post('http://localhost:3000/catalog/channel/' + id +'/stop')
         .then(function(response) {
-        console.log(response);
+          console.log(response);
         })
         .catch(function(error) {
-        console.log(error);
+          console.log(error);
         });
     },
     createChannel: function () {
