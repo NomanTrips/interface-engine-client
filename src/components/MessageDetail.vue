@@ -2,13 +2,6 @@
   <div style="height:100%;width:100%;">
       <v-container fluid>
   <v-subheader>Message details:</v-subheader>
-
-      <v-text-field
-        solo
-        label="Search"
-        prepend-icon="search"
-      ></v-text-field>
-
     <v-tabs dark v-model="active">
 
       <v-tabs-bar >
