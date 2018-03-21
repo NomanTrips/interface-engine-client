@@ -52,24 +52,10 @@
                   <td class="text-xs-right">{{ props.item.sent }}</td>
                   <td class="text-xs-right">{{ props.item.error_count }}</td>
                   <td >
-                  <!--
-                   <div class="text-xs-center">
-                      <v-menu offset-y>
-                        <v-btn slot="activator" flat icon>
-                          <v-icon>more_horiz</v-icon>
-                        </v-btn>
-                        <v-list>
-                          <v-list-tile v-for="actionItem in actionItems" :key="actionItem.title" v-on:click="actionItem.event(props.item._id)">
-                            <v-list-tile-title>{{ actionItem.title }}</v-list-tile-title>
-                          </v-list-tile>
-                        </v-list>
-                      </v-menu>
-                    </div>
-                    
-                    <v-btn v-on:click="deleteChannel(props.item._id)" flat icon color="red">
-                      <v-icon>more_horiz</v-icon>
+                    <v-btn icon>
+                      <v-icon v-show="! props.expanded">expand_more</v-icon>
+                      <v-icon v-show="props.expanded">expand_less</v-icon>
                     </v-btn>
-                    -->
                   </td>
              
                 </tr>
@@ -77,21 +63,30 @@
               <template slot="expand" slot-scope="props">
                 <div class="pl-2">
                 <v-card flat class="grey lighten-2">
-                  <v-btn icon v-show="! props.item.is_running" @click="startChannel(props, props.item._id)">
-                    <v-icon color="green">play_circle_filled</v-icon>
-                  </v-btn>
-                  <v-btn icon v-show="props.item.is_running" @click="stopChannel(props, props.item._id);">
-                    <v-icon color="red">pause_circle_filled</v-icon>
-                  </v-btn>
+                  <v-tooltip bottom>
+                    <v-btn slot="activator" icon v-show="! props.item.is_running" @click="startChannel(props, props.item._id)">
+                      <v-icon color="green">play_circle_filled</v-icon>
+                    </v-btn>
+                    <span>Start channel</span>
+                  </v-tooltip>
+                  <v-tooltip bottom>
+                    <v-btn slot="activator" icon v-show="props.item.is_running" @click="stopChannel(props, props.item._id);">
+                      <v-icon color="red">pause_circle_filled</v-icon>
+                    </v-btn>
+                    <span>Stop channel</span>
+                  </v-tooltip>
                   <v-btn small raised primary @click="navMessages(props.item._id)">
                     View messages
                   </v-btn>
                   <v-btn small raised primary @click="navConfig(props.item._id)">
                     Config
                   </v-btn>
-                  <v-btn style="float: right;" icon @click="deleteChannel(props.item._id)" >
-                    <v-icon color="red" >delete</v-icon>
-                  </v-btn>
+                  <v-tooltip bottom>
+                    <v-btn slot="activator" style="float: right;" icon @click="deleteChannel(props.item._id)" >
+                      <v-icon color="red" >delete</v-icon>
+                    </v-btn>
+                    <span>Delete channel</span>
+                  </v-tooltip>
                 </v-card>
                 </div>
               </template>
