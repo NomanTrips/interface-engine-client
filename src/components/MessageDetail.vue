@@ -2,16 +2,16 @@
   <div style="height:100%;width:100%;">
       <v-container fluid>
   <v-subheader>Message details:</v-subheader>
-    <v-tabs dark v-model="active">
-      <v-toolbar >
+
       <v-text-field
         solo
         label="Search"
-        append-icon="keyboard_voice"
         prepend-icon="search"
       ></v-text-field>
-    </v-toolbar>
-      <v-tabs-bar class="cyan" dark>
+
+    <v-tabs dark v-model="active">
+
+      <v-tabs-bar >
         <v-tabs-item
           v-for="tab in tabs"
           :key="tab"
@@ -50,36 +50,33 @@ import axios from 'axios';
     name: 'messagedetail',
     data () {
       return {
-          //tabs: ['Raw', 'Transformed', 'Errors'],
-          tab_content: ['-','-','-'],
-      tabs: ['Raw', 'Transformed', 'Errors'],
-        active: 'Raw',
+        tab_content: [],// ['-','-','-'],
+        tabs: ['Raw', 'Transformed', 'Errors'],
+        active: 'Transformed', // to handle refresh issue
         text: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.',
-          raw_data : '',
-          transformed_data: '',
-          errors: '',
-          items: [],
-          clipped: false,
-          drawer: false,
-          fixed: false,
+        raw_data : '',
+        transformed_data: '',
+        errors: '',
+        items: [],
+        clipped: false,
+        drawer: false,
+        fixed: false,
 
-          miniVariant: false,
-          right: true,
-          rightDrawer: false,
-          title: 'Message detail'
+        miniVariant: false,
+        right: true,
+        rightDrawer: false,
+        title: 'Message detail'
       }
     },
   created() {
-
-      console.log('getting to message detail');
     var vm = this;
     vm.$parent.drawer = false;
     axios.get('http://localhost:3000/catalog/message/' +  this.$route.params.messageid)
       .then(function(response) {
-          console.log(response.data.raw_data);
-        vm.tab_content[0] = response.data.raw_data;
-        vm.tab_content[1] = response.data.transformed_data;
-        vm.tab_content[2] = 'Stub error data.....';
+        vm.tab_content.push(response.data.raw_data);
+        vm.tab_content.push(response.data.transformed_data);
+        vm.tab_content.push('Stub error data.....');
+        vm.active ='Raw'; // set to raw to handle refresh issue
       })
       .catch(function(error) {
         console.log(error);

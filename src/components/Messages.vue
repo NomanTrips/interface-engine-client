@@ -17,13 +17,29 @@
         :items="filteredMessages"
         hide-actions
         class="elevation-1"
+        item-key="_id"
       >
       <template slot="items" slot-scope="props">
-        <tr v-on:click="showMessageDetail(props.item._id)">
+        <tr @click="showMessageDetail(props.item._id)" >
           <td>{{ props.item.received_date }}</td>
           <td class="text-xs-right">{{ String(props.item.raw_data).substring(0, 30) }}</td>
           <td class="text-xs-right">{{ String(props.item.transformed_data).substring(0, 30) }}</td>
         </tr>
+      </template>
+      <template slot="expand" slot-scope="props">
+        <v-container>
+    <v-layout row wrap>
+      <v-flex xs12 lg5 mb-3>
+        <v-expansion-panel popout>
+        <div class="pl-2">
+          <v-card flat class="grey lighten-2">
+           <pre>{{String(props.item.raw_data)}}</pre>
+          </v-card>
+        </div>
+        </v-expansion-panel>
+        </v-flex>
+        </v-layout>
+        </v-container>
       </template>
     </v-data-table>
   </div>
