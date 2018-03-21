@@ -81,10 +81,22 @@
                   <v-btn small raised primary @click="navConfig(props.item._id)">
                     Config
                   </v-btn>
+
                   <v-tooltip bottom>
-                    <v-btn slot="activator" style="float: right;" icon @click="deleteChannel(props.item._id)" >
-                      <v-icon color="red" >delete</v-icon>
-                    </v-btn>
+                    <v-dialog slot="activator" v-model="dialog" persistent max-width="290" style="float: right;">
+                      <v-btn slot="activator"  icon  >
+                        <v-icon color="red" >delete</v-icon>
+                      </v-btn>
+                      <v-card>
+                        <v-card-title class="headline">Are you sure you want to delete this channel?</v-card-title>
+                        <v-card-text>All data associated with this channel including messages, config and scripts will be deleted.</v-card-text>
+                        <v-card-actions>
+                        <v-spacer></v-spacer>
+                        <v-btn primary color="red"  @click="deleteChannel(props.item._id)" @click.native="dialog = false">Okay</v-btn>
+                        <v-btn  @click.native="dialog = false">Cancel</v-btn>
+                        </v-card-actions>
+                      </v-card>
+                    </v-dialog>
                     <span>Delete channel</span>
                   </v-tooltip>
                 </v-card>
@@ -133,7 +145,8 @@ export default {
       miniVariant: false,
       right: true,
       rightDrawer: false,
-      title: 'Interface engine'
+      title: 'Interface engine',
+      dialog: false
     }
   },
   created() {
