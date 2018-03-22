@@ -1,5 +1,5 @@
 <template>
-<v-layout >
+
   <div style="height:100%;width:100%;">
     <v-toolbar class="white" flat>
       <v-text-field
@@ -22,8 +22,10 @@
       <template slot="items" slot-scope="props">
         <tr @click="showMessageDetail(props.item._id)" >
           <td>{{ props.item.received_date }}</td>
-          <td class="text-xs-right">{{ String(props.item.raw_data).substring(0, 30) }}</td>
-          <td class="text-xs-right">{{ String(props.item.transformed_data).substring(0, 30) }}</td>
+          <td></td>
+          <td></td>
+          <td ><pre>{{ String(props.item.raw_data).substring(0, 60) }}....</pre></td>
+          <td ><pre>{{ String(props.item.transformed_data).substring(0, 60) }}....</pre></td>
         </tr>
       </template>
       <template slot="expand" slot-scope="props">
@@ -43,7 +45,7 @@
       </template>
     </v-data-table>
   </div>
-  </v-layout>
+ 
 </template>
 
 <script>
@@ -63,8 +65,10 @@ import moment from 'moment';
             sortable: true,
             value: 'received_date'
           },
-          { text: 'Raw message', value: 'raw_data' },
-          { text: 'Transformed message', value: 'transformed_data' },
+          { text: 'Status', value: 'status' },
+          { text: 'Error', value: 'error' },
+          { text: 'Raw message (truncated)', align: 'left', value: 'raw_data' },
+          { text: 'Transformed message (truncated)', align: 'left', value: 'transformed_data' },
         ],
         messages: [],
         pagination: {
