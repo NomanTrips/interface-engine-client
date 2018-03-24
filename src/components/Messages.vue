@@ -22,8 +22,8 @@
       <template slot="items" slot-scope="props">
         <tr @click="showMessageDetail(props.item._id)" >
           <td>{{ props.item.received_date }}</td>
-          <td></td>
-          <td></td>
+          <td>{{ props.item.status }}</td>
+          <td>{{ props.item.err }}</td>
           <td ><pre>{{ String(props.item.raw_data).substring(0, 60) }}....</pre></td>
           <td ><pre>{{ String(props.item.transformed_data).substring(0, 60) }}....</pre></td>
         </tr>
@@ -65,8 +65,8 @@ import moment from 'moment';
             sortable: true,
             value: 'received_date'
           },
-          { text: 'Status', value: 'status' },
-          { text: 'Error', value: 'error' },
+          { text: 'Status',align: 'left', value: 'status' },
+          { text: 'Error', align: 'left', value: 'err' },
           { text: 'Raw message (truncated)', align: 'left', value: 'raw_data' },
           { text: 'Transformed message (truncated)', align: 'left', value: 'transformed_data' },
         ],
