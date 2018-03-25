@@ -68,7 +68,7 @@ import axios from 'axios';
       .then(function(response) {
         vm.tab_content.push(response.data.raw_data);
         vm.tab_content.push(response.data.transformed_data);
-        vm.tab_content.push('Stub error data.....');
+        vm.tab_content.push(response.data.err);
         vm.active ='Raw'; // set to raw to handle refresh issue
       })
       .catch(function(error) {
