@@ -80,7 +80,12 @@ import moment from 'moment';
       filteredMessages: function () {
         var vm = this;
         return vm.messages.filter(message => {
-          return message.raw_data.toLowerCase().includes(vm.search.toLowerCase())
+          if (! message.raw_data == null){
+            return message.raw_data.toLowerCase().includes(vm.search.toLowerCase())
+          } else {
+            return vm.messages;
+          }
+          
         })
 
       }
