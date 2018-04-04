@@ -42,9 +42,19 @@
             <v-data-table v-bind:headers="headers" :items="items" hide-actions class="elevation-1" item-key="name">
               <template slot="items" slot-scope="props">
                 <tr @click="props.expanded = !props.expanded">
+                  <td >
+                    <v-btn icon>
+                      <v-icon v-show="! props.expanded">expand_more</v-icon>
+                      <v-icon v-show="props.expanded">expand_less</v-icon>
+                    </v-btn>
+                  </td>
                   <td>
+                    <span v-if="props.item.is_running" style="color:green;">Running</span>
+                    <span v-if="! props.item.is_running" style="color:red;">Stopped</span>
+                    <!--
                     <v-icon v-if="props.item.is_running" color="green">fiber_manual_record</v-icon>
                     <v-icon v-if="! props.item.is_running" color="red">fiber_manual_record</v-icon>
+                    -->
                   </td>
                   <td>{{ props.item.name }}</td>
                   <!--
@@ -57,17 +67,11 @@
                   <td class="text-xs-right">{{ props.item.received }}</td>
                   <td class="text-xs-right">{{ props.item.sent }}</td>
                   <td class="text-xs-right">{{ props.item.error_count }}</td>
-                  <td >
-                    <v-btn icon>
-                      <v-icon v-show="! props.expanded">expand_more</v-icon>
-                      <v-icon v-show="props.expanded">expand_less</v-icon>
-                    </v-btn>
-                  </td>
              
                 </tr>
               </template>
-              <template slot="expand" slot-scope="props">
-                <div class="pl-2">
+              <template slot="expand" slot-scope="props" >
+                <div class="pl-4" >
                 <v-card flat class="grey lighten-2">
                   <v-tooltip bottom>
                     <v-btn slot="activator" icon v-show="! props.item.is_running" @click="startChannel(props, props.item._id)">
@@ -77,7 +81,7 @@
                   </v-tooltip>
                   <v-tooltip bottom>
                     <v-btn slot="activator" icon v-show="props.item.is_running" @click="stopChannel(props, props.item._id);">
-                      <v-icon color="red">pause_circle_filled</v-icon>
+                      <v-icon color="red">stop</v-icon>
                     </v-btn>
                     <span>Stop channel</span>
                   </v-tooltip>
@@ -123,7 +127,8 @@ export default {
     return {
       homePath: '/',
       headers: [
-        { text: 'Status', value: 'status', align: 'left'},
+        { text: '', value: '', sortable: false, align: 'center'},
+        { text: 'Status', value: 'status', sortable: false, align: 'left'},
         {
           text: 'Channel',
           align: 'left',
@@ -131,10 +136,10 @@ export default {
           value: 'name'
         },
         //{ text: 'Id', value: 'id' },
-        { text: 'Description', value: 'Description' },
-        { text: 'Received', value: 'received' },
-        { text: 'Sent', value: 'sent' },
-        { text: 'Errors', value: 'errors' },
+        { text: 'Description', value: 'Description', align: 'left' },
+        { text: 'Received', value: 'received', align: 'left' },
+        { text: 'Sent', value: 'sent', align: 'left' },
+        { text: 'Errors', value: 'errors', align: 'left' },
       ],
       navItems: [
         { icon: 'add', text: 'Add channel', path: '/channel/' + this.$route.params.id +'/messages' },
