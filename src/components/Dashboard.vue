@@ -10,6 +10,12 @@
       </v-toolbar-title>
       </router-link>
       <v-spacer></v-spacer>
+      <v-alert type="success" dismissible v-model="successAlert">
+        {{successText}}
+      </v-alert>
+      <v-alert type="error" dismissible v-model="errorAlert">
+        {{errorText}}
+      </v-alert>
       <v-btn icon @click="navScriptTemplates()">
         <v-icon>settings</v-icon>
       </v-btn>
@@ -146,7 +152,11 @@ export default {
       right: true,
       rightDrawer: false,
       title: 'Interface engine',
-      dialog: false
+      dialog: false,
+      successAlert: false,
+      errorAlert: false,
+      successText: '',
+      errorText: '',
     }
   },
   created() {
@@ -184,13 +194,17 @@ export default {
   },
   methods: {
     startChannel: function(props, id) {
+      var vm = this;
       props.item.is_running = true;
         axios.post('http://localhost:3000/catalog/channel/' + id +'/start')
         .then(function(response) {
-          console.log(response);
+          vm.successAlert = true;
+          vm.successText = response.data;
         })
         .catch(function(error) {
-        console.log(error);
+          vm.errorAlert = true;
+          vm.errorText = error.response.data.code;
+          console.log(error.response);
         });
     },
     stopChannel: function(props, id) {
