@@ -2,7 +2,8 @@
 <template>
   <div id="app" >
     <v-app light>
-      <v-content> 
+      <v-content>
+      <notifications group="foo" />
         <router-view></router-view>
       </v-content>
       <v-footer app >

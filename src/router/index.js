@@ -1,4 +1,5 @@
 import Vue from 'vue'
+import Notifications from 'vue-notification'
 import Router from 'vue-router'
 //import App from './App.vue'
 import Dashboard from '../components/Dashboard.vue'
@@ -11,6 +12,7 @@ import MessageModifier from '../components/MessageModifier.vue'
 import Templates from '../components/TemplateEditor.vue'
 
 Vue.use(Router)
+Vue.use(Notifications)
 
 export default new Router({
   routes: [

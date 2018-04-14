@@ -195,9 +195,28 @@ export default {
       .catch(function(error) {
         console.log(error);
       });
-      console.log(vm.items);
+          setInterval(function () {
+      vm.loadServerErrors();
+    }.bind(this), 30000); 
+
   },
   methods: {
+    loadServerErrors: function () {
+        axios.get('http://localhost:3000/catalog/servererrors')
+        .then(function(response) {
+          if (response.data.length > 0) {
+          vm.$notify({
+          group: 'foo',
+          title: 'Error message',
+          text: response.data[response.data - 1].err
+        });
+          }
+
+        })
+        .catch(function(error) {
+
+        });
+    },
     startChannel: function(props, id) {
       var vm = this;
       props.item.is_running = true;
@@ -207,9 +226,14 @@ export default {
           vm.successText = response.data;
         })
         .catch(function(error) {
-          vm.errorAlert = true;
-          vm.errorText = error.response.data.code;
-          console.log(error.response);
+          vm.$notify({
+  group: 'foo',
+  title: 'Error message',
+  text: error.response.data.code
+});
+         // vm.errorAlert = true;
+          //vm.errorText = error.response.data.code;
+          //console.log(error.response.data);
         });
     },
     stopChannel: function(props, id) {
