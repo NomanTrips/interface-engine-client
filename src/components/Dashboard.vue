@@ -2,6 +2,9 @@
   <div>
     <v-toolbar app>
       <v-toolbar-side-icon @click.native.stop="drawer = !drawer"></v-toolbar-side-icon>
+      <v-btn icon  v-on:click="showLastNotification()">
+        <v-icon color="pink">notifications</v-icon>
+      </v-btn>
       <v-btn icon @click.native.stop="miniVariant = !miniVariant">
         <v-icon v-html="miniVariant ? 'chevron_right' : 'chevron_left'"></v-icon>
       </v-btn>
@@ -162,6 +165,7 @@ export default {
       errorAlert: false,
       successText: '',
       errorText: '',
+      lastNotification: {},
     }
   },
   created() {
@@ -202,6 +206,10 @@ export default {
 
   },
   methods: {
+    showLastNotification: function ()  {
+      var vm = this;
+      vm.$notify(vm.lastNotification);
+    },
     loadServerErrors: function () {
       var vm = this;
         axios.get('http://localhost:3000/catalog/servererrors')
@@ -214,12 +222,13 @@ export default {
 
             //console.log(Math.floor(diff / 1e3), 'seconds ago');
             if (Math.floor(diff / 1e3) < 10){
-              vm.$notify({
+              vm.lastNotification = {
               group: 'foo',
               title: 'Channel error: ' + response.data[response.data.length - 1].channel.name,
               text: response.data[response.data.length - 1].err,
-              type: 'error'
-            });
+              type: 'error',
+            };
+              vm.$notify(vm.lastNotification);
             }
         
           }
@@ -234,20 +243,22 @@ export default {
       props.item.is_running = true;
         axios.post('http://localhost:3000/catalog/channel/' + id +'/start')
         .then(function(response) {
-          vm.$notify({
+          vm.lastNotification = {
             group: 'foo',
             title: 'Success!: ',
             text: 'Channel started succesfully.',
             type: 'success'
-          });
+          };
+          vm.$notify(vm.lastNotification);
         })
         .catch(function(error) {
-          vm.$notify({
+          vm.lastNotification = {
             group: 'foo',
             title: 'Error: ',
             text: 'Failed to start channel.',
             type: 'error'
-          });
+          };
+          vm.$notify(vm.lastNotification);
         });
          // vm.errorAlert = true;
           //vm.errorText = error.response.data.code;
