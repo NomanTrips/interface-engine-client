@@ -1,9 +1,10 @@
 
 <template>
   <div id="app" >
+   <notifications group="foo"  position="top left"/>
     <v-app light>
       <v-content>
-      <notifications group="foo" />
+
         <router-view></router-view>
       </v-content>
       <v-footer app >
@@ -12,6 +13,8 @@
     </v-app>
   </div>
 </template>
+
+
 
 <script>
 export default {

@@ -195,21 +195,33 @@ export default {
       .catch(function(error) {
         console.log(error);
       });
+      
           setInterval(function () {
       vm.loadServerErrors();
-    }.bind(this), 30000); 
+    }.bind(this), 10000); 
 
   },
   methods: {
     loadServerErrors: function () {
+      var vm = this;
         axios.get('http://localhost:3000/catalog/servererrors')
         .then(function(response) {
           if (response.data.length > 0) {
-          vm.$notify({
-          group: 'foo',
-          title: 'Error message',
-          text: response.data[response.data - 1].err
-        });
+            // Date trickery to compute if last error was within the last 30 seconds
+            var d1 = new Date(response.data[response.data.length - 1].timestamp);
+            var d2 = new Date(Date.now());
+            var diff = d2 - d1;
+
+            //console.log(Math.floor(diff / 1e3), 'seconds ago');
+            if (Math.floor(diff / 1e3) < 10){
+              vm.$notify({
+              group: 'foo',
+              title: 'Channel error: ' + response.data[response.data.length - 1].channel.name,
+              text: response.data[response.data.length - 1].err,
+              type: 'error'
+            });
+            }
+        
           }
 
         })
@@ -222,19 +234,25 @@ export default {
       props.item.is_running = true;
         axios.post('http://localhost:3000/catalog/channel/' + id +'/start')
         .then(function(response) {
-          vm.successAlert = true;
-          vm.successText = response.data;
+          vm.$notify({
+            group: 'foo',
+            title: 'Success!: ',
+            text: 'Channel started succesfully.',
+            type: 'success'
+          });
         })
         .catch(function(error) {
           vm.$notify({
-  group: 'foo',
-  title: 'Error message',
-  text: error.response.data.code
-});
+            group: 'foo',
+            title: 'Error: ',
+            text: 'Failed to start channel.',
+            type: 'error'
+          });
+        });
          // vm.errorAlert = true;
           //vm.errorText = error.response.data.code;
           //console.log(error.response.data);
-        });
+        
     },
     stopChannel: function(props, id) {
       props.item.is_running = false;
