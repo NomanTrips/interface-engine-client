@@ -2,9 +2,6 @@
   <div>
     <v-toolbar app>
       <v-toolbar-side-icon @click.native.stop="drawer = !drawer"></v-toolbar-side-icon>
-      <v-btn icon  v-on:click="showLastNotification()">
-        <v-icon color="pink">notifications</v-icon>
-      </v-btn>
       <v-btn icon @click.native.stop="miniVariant = !miniVariant">
         <v-icon v-html="miniVariant ? 'chevron_right' : 'chevron_left'"></v-icon>
       </v-btn>
@@ -23,6 +20,40 @@
         <v-icon>settings</v-icon>
       </v-btn>
     </v-toolbar>
+    <v-system-bar status color="pink" lights-out dark>
+           
+      <v-layout row >
+
+        
+        <div v-on:mouseover="showNotification = true" v-on:mouseleave="showNotification = false">
+        <v-icon  color="pink">notifications</v-icon>
+        </div>
+        <transition name="fade" v-on:after-enter="isExpanded = true" v-on:after-leave="isExpanded = false">
+        <div v-if="showNotification" 
+             style="color:white;overflow: hidden;height: 24px;" 
+             v-bind:class="{ expanded: isExpanded, errorColor: lastNotification.type == 'error', successColor: lastNotification.type == 'success' }"
+             >
+        {{lastNotification.title +' ' +lastNotification.text}}
+        </div>
+        </transition>
+      
+ 
+      </v-layout>
+
+ 
+      <!--
+      <div  @mouseenter="showNotification = true" @mouseleave="showNotification = false">
+        <v-icon  color="pink">notifications</v-icon>
+        </div>
+
+        <div style="background-color:#E91E63;color:white;width:100%;">
+          <transition name="slide">
+    <div v-if="showNotification" >Generic boring stack trace here :/</div>
+
+  </transition>
+</div>
+-->
+    </v-system-bar>
     <v-navigation-drawer  app fixed :mini-variant="miniVariant" :clipped="true" v-model="drawer">
       <v-list>
         <v-btn v-on:click="createChannel()">
@@ -128,6 +159,8 @@ export default {
   name: 'dashboard',
   data() {
     return {
+      isExpanded: false,
+      showNotification: false,
       homePath: '/',
       headers: [
         { text: '', value: '', sortable: false, align: 'center'},
@@ -165,7 +198,7 @@ export default {
       errorAlert: false,
       successText: '',
       errorText: '',
-      lastNotification: {},
+      lastNotification: {text:'', title:'', type:''},
     }
   },
   created() {
@@ -206,6 +239,13 @@ export default {
 
   },
   methods: {
+    mouseLeave: function (){
+      this.showNotification = false;
+      console.log('runing leave');
+    },
+    setShowNotification: function (){
+      this.showNotification = true;
+    },
     showLastNotification: function ()  {
       var vm = this;
       vm.$notify(vm.lastNotification);
@@ -227,8 +267,15 @@ export default {
               title: 'Channel error: ' + response.data[response.data.length - 1].channel.name,
               text: response.data[response.data.length - 1].err,
               type: 'error',
+              width: '100%',
             };
-              vm.$notify(vm.lastNotification);
+              //vm.$notify(vm.lastNotification);
+              vm.showNotification = true;
+              setInterval(function () {
+                vm.showNotification = false;
+              }.bind(this), 5000);              
+              //var notification = document.getElementById("notification");
+              //notification.classList.add('expand');
             }
         
           }
@@ -249,7 +296,11 @@ export default {
             text: 'Channel started succesfully.',
             type: 'success'
           };
-          vm.$notify(vm.lastNotification);
+          //vm.$notify(vm.lastNotification);
+          vm.showNotification = true;
+          setInterval(function () {
+            vm.showNotification = false;
+          }.bind(this), 5000); 
         })
         .catch(function(error) {
           vm.lastNotification = {
@@ -258,7 +309,11 @@ export default {
             text: 'Failed to start channel.',
             type: 'error'
           };
-          vm.$notify(vm.lastNotification);
+          //vm.$notify(vm.lastNotification);
+          vm.showNotification = true;
+          setInterval(function () {
+            vm.showNotification = false;
+          }.bind(this), 5000); 
         });
          // vm.errorAlert = true;
           //vm.errorText = error.response.data.code;
@@ -315,6 +370,34 @@ export default {
   }
 }
 </script>
+<style >
+.fade-enter-active,
+.fade-leave-active { transition: width 350ms }
+
+.fade-enter { width: 0% }
+.fade-enter-to { width: 100% }
+
+.fade-leave {width: 100%}
+.fade-leave-to { width: 0% }
+
+.expanded {width: 100%}
+
+.successColor {background-color:#00E676}
+
+.errorColor {background-color:#E91E63}
+
+#notification {
+  overflow: hidden;
+  height: 24px;
+    width: 24px;
+    transition: width .3s;
+    -webkit-transition: width 2s; /* Safari 3.1 to 6.0 */
+}
+
+#notification:hover {
+    width: 100%;
+}
+</style>
 
 <style lang="stylus">
   @import '../stylus/main'

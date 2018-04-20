@@ -1,5 +1,6 @@
 import Vue from 'vue'
 import Notifications from 'vue-notification'
+import velocity      from 'velocity-animate'
 import Router from 'vue-router'
 //import App from './App.vue'
 import Dashboard from '../components/Dashboard.vue'
@@ -12,7 +13,7 @@ import MessageModifier from '../components/MessageModifier.vue'
 import Templates from '../components/TemplateEditor.vue'
 
 Vue.use(Router)
-Vue.use(Notifications)
+Vue.use(Notifications, { velocity })
 
 export default new Router({
   routes: [
