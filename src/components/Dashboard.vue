@@ -20,13 +20,14 @@
         <v-icon>settings</v-icon>
       </v-btn>
     </v-toolbar>
-    <v-system-bar status color="pink" lights-out dark>
+    <v-system-bar status >
            
       <v-layout row >
 
         
-        <div v-on:mouseover="showNotification = true" v-on:mouseleave="showNotification = false">
-        <v-icon  color="pink">notifications</v-icon>
+        <div v-on:mouseover="showNotification = true" v-on:mouseleave="showNotification = false" class="pl-2">
+        <v-icon  color="pink"
+        >notifications</v-icon>
         </div>
         <transition name="fade" v-on:after-enter="isExpanded = true" v-on:after-leave="isExpanded = false">
         <div v-if="showNotification" 
@@ -198,7 +199,7 @@ export default {
       errorAlert: false,
       successText: '',
       errorText: '',
-      lastNotification: {text:'', title:'', type:''},
+      lastNotification: {text:'', title:'No notifications....', type:''},
     }
   },
   created() {
@@ -385,6 +386,14 @@ export default {
 .successColor {background-color:#00E676}
 
 .errorColor {background-color:#E91E63}
+
+.greenColor {color:#00E676}
+
+.pinkColor {color:#E91E63}
+
+.theme--light.icon.green {
+    color:#00E676;
+}
 
 #notification {
   overflow: hidden;
