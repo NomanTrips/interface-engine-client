@@ -25,7 +25,7 @@
       </div>
     </template>
     -->
-    <v-app light>
+    <v-app  :dark="isDarkTheme ? true : false">
       <v-content>
 
         <router-view></router-view>
@@ -40,10 +40,13 @@
 
 
 <script>
+import axios from 'axios';
+
 export default {
   name: 'app',
   data() {
     return {
+      isDarkTheme: false,
       navItems: [
         { icon: 'add', text: 'Add channel', path: '/channel/' + this.$route.params.id +'/messages' },
       ],
@@ -58,6 +61,13 @@ export default {
       title: 'Interface engine'
     }
   },
+  created() {
+    var vm = this
+    axios.get('http://localhost:3000/catalog/serverconfig')
+      .then(function(response) {
+        vm.isDarkTheme = response.data.isDarkTheme;
+      });
+  }
 }
 </script>
 

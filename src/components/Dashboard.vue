@@ -10,12 +10,9 @@
       </v-toolbar-title>
       </router-link>
       <v-spacer></v-spacer>
-      <v-alert type="success" dismissible v-model="successAlert">
-        {{successText}}
-      </v-alert>
-      <v-alert type="error" dismissible v-model="errorAlert">
-        {{errorText}}
-      </v-alert>
+      <div v-on:click="toggleDarkTheme()">
+        <v-switch style="margin:auto;height:28px;width:150px;" v-bind:label="`Dark theme`" v-model="isDarkTheme" ></v-switch>
+      </div>
       <v-btn icon @click="navScriptTemplates()">
         <v-icon>settings</v-icon>
       </v-btn>
@@ -160,6 +157,7 @@ export default {
   name: 'dashboard',
   data() {
     return {
+      serverconfig: {isDarkTheme: false, globalVariables: []},
       isExpanded: false,
       showNotification: false,
       homePath: '/',
@@ -202,8 +200,22 @@ export default {
       lastNotification: {text:'', title:'No notifications....', type:''},
     }
   },
+  computed: {
+    isDarkTheme: {
+      get: function() {
+        return this.serverconfig.isDarkTheme;
+      },
+      set: function(isDarkTheme) {
+        this.serverconfig.isDarkTheme = isDarkTheme;
+      }
+    }
+  },
   created() {
     var vm = this
+    axios.get('http://localhost:3000/catalog/serverconfig')
+      .then(function(response) {
+        vm.serverconfig = response.data;
+    });
     // Make a request for a user with a given ID
     axios.get('http://localhost:3000/catalog/channels')
       .then(function(response) {
@@ -240,6 +252,16 @@ export default {
 
   },
   methods: {
+    toggleDarkTheme: function (){
+      var vm =  this;
+      axios.post('http://localhost:3000/catalog/serverconfig/' + vm.serverconfig._id +'/update', vm.serverconfig)
+      .then(function(response) {
+        console.log(response);
+      })
+      .catch(function(error) {
+        console.log(error);
+      });
+    },
     mouseLeave: function (){
       this.showNotification = false;
       console.log('runing leave');
