@@ -1,27 +1,7 @@
 <template>
   <div>
-    <v-toolbar app>
-      <v-toolbar-side-icon @click.native.stop="drawer = !drawer"></v-toolbar-side-icon>
-      <v-btn icon @click.native.stop="miniVariant = !miniVariant">
-        <v-icon v-html="miniVariant ? 'chevron_right' : 'chevron_left'"></v-icon>
-      </v-btn>
-      <router-link v-bind:to="homePath" style="text-decoration:none;color:inherit;">
-        <v-toolbar-title v-text="title" >
-      </v-toolbar-title>
-      </router-link>
-      <v-spacer></v-spacer>
-      <div v-on:click="toggleDarkTheme()">
-        <v-switch style="margin:auto;height:28px;width:150px;" v-bind:label="`Dark theme`" v-model="isDarkTheme" ></v-switch>
-      </div>
-      <v-btn icon @click="navScriptTemplates()">
-        <v-icon>settings</v-icon>
-      </v-btn>
-    </v-toolbar>
-    <v-system-bar status >
-           
-      <v-layout row >
-
-        
+    <v-system-bar status >          
+      <v-layout row >       
         <div v-on:mouseover="showNotification = true" v-on:mouseleave="showNotification = false" class="pl-2">
         <v-icon  color="pink"
         >notifications</v-icon>
@@ -37,8 +17,6 @@
       
  
       </v-layout>
-
- 
       <!--
       <div  @mouseenter="showNotification = true" @mouseleave="showNotification = false">
         <v-icon  color="pink">notifications</v-icon>
@@ -52,25 +30,6 @@
 </div>
 -->
     </v-system-bar>
-    <v-navigation-drawer  app fixed :mini-variant="miniVariant" :clipped="true" v-model="drawer">
-      <v-list>
-        <v-btn v-on:click="createChannel()">
-        Add Channel
-        </v-btn>
-        <!--
-        <v-list-tile v-for="(navItem, i) in navItems" :key="i" value="true">
-          <div v-on:click="createChannel()">
-            <v-list-tile-action>
-              <v-icon  v-html="navItem.icon"></v-icon>
-            </v-list-tile-action>
-          </div>
-        <v-list-tile-content>
-          <v-list-tile-title v-text="navItem.text"></v-list-tile-title>
-        </v-list-tile-content>
-      </v-list-tile>
-      -->
-      </v-list>
-    </v-navigation-drawer>
             <v-data-table v-bind:headers="headers" :items="items" hide-actions class="elevation-1" item-key="name">
               <template slot="items" slot-scope="props">
                 <tr @click="props.expanded = !props.expanded">
@@ -157,10 +116,8 @@ export default {
   name: 'dashboard',
   data() {
     return {
-      serverconfig: {isDarkTheme: false, globalVariables: []},
       isExpanded: false,
       showNotification: false,
-      homePath: '/',
       headers: [
         { text: '', value: '', sortable: false, align: 'center'},
         { text: 'Status', value: 'status', sortable: false, align: 'left'},
@@ -184,14 +141,6 @@ export default {
         { title: 'Delete', event: this.deleteChannel },
       ],
       items: [],
-      clipped: true,
-      drawer: false,
-      fixed: false,
-
-      miniVariant: false,
-      right: true,
-      rightDrawer: false,
-      title: 'Interface engine',
       dialog: false,
       successAlert: false,
       errorAlert: false,
@@ -200,22 +149,8 @@ export default {
       lastNotification: {text:'', title:'No notifications....', type:''},
     }
   },
-  computed: {
-    isDarkTheme: {
-      get: function() {
-        return this.serverconfig.isDarkTheme;
-      },
-      set: function(isDarkTheme) {
-        this.serverconfig.isDarkTheme = isDarkTheme;
-      }
-    }
-  },
   created() {
     var vm = this
-    axios.get('http://localhost:3000/catalog/serverconfig')
-      .then(function(response) {
-        vm.serverconfig = response.data;
-    });
     // Make a request for a user with a given ID
     axios.get('http://localhost:3000/catalog/channels')
       .then(function(response) {
@@ -252,16 +187,6 @@ export default {
 
   },
   methods: {
-    toggleDarkTheme: function (){
-      var vm =  this;
-      axios.post('http://localhost:3000/catalog/serverconfig/' + vm.serverconfig._id +'/update', vm.serverconfig)
-      .then(function(response) {
-        console.log(response);
-      })
-      .catch(function(error) {
-        console.log(error);
-      });
-    },
     mouseLeave: function (){
       this.showNotification = false;
       console.log('runing leave');
@@ -353,17 +278,6 @@ export default {
           console.log(error);
         });
     },
-    createChannel: function () {
-      var vm = this;
-      axios.post('http://localhost:3000/catalog/channel/create')
-        .then(function(response) {
-          console.log(response.data);
-          var id = response.data._id;
-          console.log(id);
-          vm.$router.push('channel/' + id);
-        })
-
-    },
     deleteChannel: function (id) {
       console.log(id);
       axios.post('http://localhost:3000/catalog/channel/' + id +'/delete', {})
@@ -380,9 +294,6 @@ export default {
     },
     getChannels: function() {
 
-    },
-    navScriptTemplates: function (){
-      this.$router.push('/scripttemplates');
     },
     navMessages: function (id){
       this.$router.push('/channel/' + id + '/messages');
