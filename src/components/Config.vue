@@ -1,8 +1,8 @@
 <template>
-  <div id="example-3" style="height:100%;width:100%;">
-    <v-container fluid>
-
-      <v-card class="mb-3">
+  <v-container grid-list-md text-xs-center>
+    <v-layout row wrap>
+      <v-flex xs12>
+      <v-card class="mb-3" style="width:100%;">
           <div class="pa-3">
         <label>
          General:
@@ -198,9 +198,11 @@
       </v-layout>
       </v-card-text>
     </v-card>
+          </v-flex >
+    </v-layout >
+  </v-container >
 
-    </v-container>
-  </div>
+
 </template>
 
 <script>
@@ -244,7 +246,7 @@ export default {
   created() {
     var vm = this
     // Make a request for a user with a given ID
-    axios.get('http://localhost:3000/catalog/channel/' + this.$route.params.id)
+    axios.get('http://localhost:3000/catalog/channel/' + this.$route.params.channelid)
       .then(function(response) {
         vm.channel = response.data;
         console.log(response.data);
@@ -258,7 +260,7 @@ export default {
       
       if (this.channelTurnedOn){
         console.log('getting to start');
-        axios.post('http://localhost:3000/catalog/channel/' + this.$route.params.id +'/start')
+        axios.post('http://localhost:3000/catalog/channel/' + this.$route.params.channelid +'/start')
         .then(function(response) {
         console.log(response);
         })
@@ -267,7 +269,7 @@ export default {
         });
       } else {
         console.log('stopping...');
-        axios.post('http://localhost:3000/catalog/channel/' + this.$route.params.id +'/stop')
+        axios.post('http://localhost:3000/catalog/channel/' + this.$route.params.channelid +'/stop')
         .then(function(response) {
         console.log(response);
         })
@@ -279,7 +281,7 @@ export default {
     },
     saveChannelDetail: function() {
       console.log(this.channel);
-      axios.post('http://localhost:3000/catalog/channel/' + this.$route.params.id +'/update', this.channel)
+      axios.post('http://localhost:3000/catalog/channel/' + this.$route.params.channelid +'/update', this.channel)
       .then(function(response) {
       console.log(response);
       })

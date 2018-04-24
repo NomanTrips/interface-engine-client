@@ -1,6 +1,6 @@
 <template>
-  <div>
-    <v-system-bar status >          
+<div>
+    <v-system-bar status  clipped-left>          
       <v-layout row >       
         <div v-on:mouseover="showNotification = true" v-on:mouseleave="showNotification = false" class="pl-2">
         <v-icon  color="pink"
@@ -30,6 +30,11 @@
 </div>
 -->
     </v-system-bar>
+  <v-container grid-list-md text-xs-center>
+  
+    <v-layout row wrap>
+      <v-flex xs12>
+  <div>
             <v-data-table v-bind:headers="headers" :items="items" hide-actions class="elevation-1" item-key="name">
               <template slot="items" slot-scope="props">
                 <tr @click="props.expanded = !props.expanded">
@@ -105,6 +110,10 @@
               </template>
             </v-data-table>
 
+  </div>
+            </v-flex >
+    </v-layout >
+  </v-container >
   </div>
 </template>
 
@@ -299,7 +308,8 @@ export default {
       this.$router.push('/channel/' + id + '/messages');
     },
     navConfig: function (id){
-      this.$router.push('/channel/' + id + '/config');
+      var channelid = id;
+      this.$router.push( '/ch/' + id + '/config');
     }
   }
 }

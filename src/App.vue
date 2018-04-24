@@ -2,7 +2,14 @@
 <template>
   <div id="app" >
     <v-app :dark="isDarkTheme ? true : false">
-    <v-toolbar app>
+    <v-navigation-drawer app clipped fixed width="150"  v-model="drawer">
+      <v-list>
+        <v-btn v-on:click="createChannel()">
+        Add Channel
+        </v-btn>
+      </v-list>
+    </v-navigation-drawer>
+    <v-toolbar app absolute clipped-left >
       <v-toolbar-side-icon @click.native.stop="drawer = !drawer"></v-toolbar-side-icon>
       <v-btn icon @click.native.stop="miniVariant = !miniVariant">
         <v-icon v-html="miniVariant ? 'chevron_right' : 'chevron_left'"></v-icon>
@@ -19,13 +26,6 @@
         <v-icon>settings</v-icon>
       </v-btn>
     </v-toolbar>
-    <v-navigation-drawer  app fixed :mini-variant="miniVariant" :clipped="true" v-model="drawer">
-      <v-list>
-        <v-btn v-on:click="createChannel()">
-        Add Channel
-        </v-btn>
-      </v-list>
-    </v-navigation-drawer>
       <v-content>
 
         <router-view></router-view>
@@ -49,7 +49,7 @@ export default {
     return {
       homePath: '/',
       clipped: true,
-      drawer: false,
+      drawer: true,
       fixed: false,
       miniVariant: false,
       right: true,

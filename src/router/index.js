@@ -28,6 +28,12 @@ export default new Router({
       component: Templates
     },
     {
+      // UserPosts will be rendered inside User's <router-view>
+      // when /user/:id/config is matched
+      path: '/ch/:channelid/config',
+      component: Config
+    },
+    {
       path: '/channel/:id',
       children: [
         {
@@ -45,12 +51,6 @@ export default new Router({
           path: 'messagemodifier',
           component: MessageModifier,
         },
-        {
-          // UserPosts will be rendered inside User's <router-view>
-          // when /user/:id/config is matched
-          path: 'config',
-          component: Config
-        }
       ],
       name: 'Channel',
       component: Channel
