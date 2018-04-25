@@ -2,13 +2,7 @@
 <template>
   <div id="app" >
     <v-app :dark="isDarkTheme ? true : false">
-    <v-navigation-drawer app clipped fixed width="150"  v-model="drawer">
-      <v-list>
-        <v-btn v-on:click="createChannel()">
-        Add Channel
-        </v-btn>
-      </v-list>
-    </v-navigation-drawer>
+
     <v-toolbar app absolute clipped-left >
       <v-toolbar-side-icon @click.native.stop="drawer = !drawer"></v-toolbar-side-icon>
       <v-btn icon @click.native.stop="miniVariant = !miniVariant">

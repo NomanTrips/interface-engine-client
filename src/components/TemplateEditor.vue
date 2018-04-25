@@ -1,6 +1,7 @@
 <template>
-
-  <div id="example-3" style="height:100%;width:100%;">
+  <v-container grid-list-md >
+    <v-layout row wrap>
+      <v-flex xs12>
     <v-subheader >
     Script template configuration:
     </v-subheader>
@@ -69,7 +70,9 @@
           <v-btn raised primary @click="createTemplate()">Done</v-btn>
         </v-card>
       </v-dialog>
-  </div>
+          </v-flex >
+    </v-layout >
+  </v-container >
 </template>
 
 <script>

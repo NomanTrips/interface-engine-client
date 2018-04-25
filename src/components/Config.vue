@@ -1,5 +1,5 @@
 <template>
-  <v-container grid-list-md text-xs-center>
+  <v-container grid-list-md >
     <v-layout row wrap>
       <v-flex xs12>
       <v-card class="mb-3" style="width:100%;">
@@ -246,7 +246,7 @@ export default {
   created() {
     var vm = this
     // Make a request for a user with a given ID
-    axios.get('http://localhost:3000/catalog/channel/' + this.$route.params.channelid)
+    axios.get('http://localhost:3000/catalog/channel/' + this.$route.params.id)
       .then(function(response) {
         vm.channel = response.data;
         console.log(response.data);
@@ -260,7 +260,7 @@ export default {
       
       if (this.channelTurnedOn){
         console.log('getting to start');
-        axios.post('http://localhost:3000/catalog/channel/' + this.$route.params.channelid +'/start')
+        axios.post('http://localhost:3000/catalog/channel/' + this.$route.params.id +'/start')
         .then(function(response) {
         console.log(response);
         })
@@ -269,7 +269,7 @@ export default {
         });
       } else {
         console.log('stopping...');
-        axios.post('http://localhost:3000/catalog/channel/' + this.$route.params.channelid +'/stop')
+        axios.post('http://localhost:3000/catalog/channel/' + this.$route.params.id +'/stop')
         .then(function(response) {
         console.log(response);
         })
@@ -281,7 +281,7 @@ export default {
     },
     saveChannelDetail: function() {
       console.log(this.channel);
-      axios.post('http://localhost:3000/catalog/channel/' + this.$route.params.channelid +'/update', this.channel)
+      axios.post('http://localhost:3000/catalog/channel/' + this.$route.params.id +'/update', this.channel)
       .then(function(response) {
       console.log(response);
       })

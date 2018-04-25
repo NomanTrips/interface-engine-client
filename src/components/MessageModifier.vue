@@ -1,5 +1,7 @@
 <template>
-  <div id="example-3" style="height:100%;width:100%;">
+  <v-container grid-list-md >
+    <v-layout row wrap>
+      <v-flex xs12>
     <v-text-field v-model="scriptName" name="input-3" label="Script name:" value="Input text" class="pr-3"></v-text-field>
       <MonacoEditor
         height="600"
@@ -41,7 +43,9 @@
           </v-card-text>
         </v-card>
       </v-dialog>
-  </div>
+      </v-flex >
+    </v-layout >
+  </v-container >
 </template>
 
 <script>

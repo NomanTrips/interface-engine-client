@@ -30,10 +30,28 @@
 </div>
 -->
     </v-system-bar>
-  <v-container grid-list-md text-xs-center>
+        <v-navigation-drawer app clipped fixed width="200"  v-model="drawer">
+      <v-list>
+        <!--
+        <v-btn v-on:click="createChannel()">
+        Add Channel
+        </v-btn>
+    -->     
+        <v-list-tile v-for="item in navitems" :key="item.title" @click="navItem(item.title)">
+          <v-list-tile-action>
+            <v-icon>{{ item.icon }}</v-icon>
+          </v-list-tile-action>
+          <v-list-tile-content>
+          <v-list-tile-title>{{ item.title }}</v-list-tile-title>
+          </v-list-tile-content>
+        </v-list-tile>
+       
+      </v-list>
+    </v-navigation-drawer>
+  <v-container grid-list-md >
   
     <v-layout row wrap>
-      <v-flex xs12>
+      <v-flex >
   <div>
             <v-data-table v-bind:headers="headers" :items="items" hide-actions class="elevation-1" item-key="name">
               <template slot="items" slot-scope="props">
@@ -125,6 +143,7 @@ export default {
   name: 'dashboard',
   data() {
     return {
+      drawer: true,
       isExpanded: false,
       showNotification: false,
       headers: [
@@ -142,8 +161,11 @@ export default {
         { text: 'Sent', value: 'sent', align: 'left' },
         { text: 'Errors', value: 'errors', align: 'left' },
       ],
-      navItems: [
-        { icon: 'add', text: 'Add channel', path: '/channel/' + this.$route.params.id +'/messages' },
+      navitems: [
+        { icon: 'playlist_add', title: 'New channel' },
+        { icon: 'unarchive', title: 'Import channel'  },
+        { icon: 'archive', title: 'Export channel'  },
+        { icon: 'language', title: 'Global variables'  },
       ],
       actionItems: [
         { title: 'View channel', event: this.showChannelDetail },
@@ -308,8 +330,12 @@ export default {
       this.$router.push('/channel/' + id + '/messages');
     },
     navConfig: function (id){
-      var channelid = id;
-      this.$router.push( '/ch/' + id + '/config');
+      this.$router.push( '/channel/' + id + '/config');
+    },
+    navItem: function (itemTitle){
+      if (itemTitle == 'Add channel'){
+        console.log('adding channel');
+      }
     }
   }
 }
