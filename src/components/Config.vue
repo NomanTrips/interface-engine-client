@@ -1,4 +1,20 @@
 <template>
+
+<div>
+        <v-navigation-drawer app clipped fixed width="200"  v-model="drawer">
+      <v-list>   
+        <v-list-tile v-for="item in navitems" :key="item.title" @click="navItem(item.title)">
+          <v-list-tile-action>
+            <v-icon>{{ item.icon }}</v-icon>
+          </v-list-tile-action>
+          <v-list-tile-content>
+          <v-list-tile-title>{{ item.title }}</v-list-tile-title>
+          </v-list-tile-content>
+        </v-list-tile>
+       
+      </v-list>
+    </v-navigation-drawer>
+
   <v-container grid-list-md >
     <v-layout row wrap>
       <v-flex xs12>
@@ -202,7 +218,7 @@
     </v-layout >
   </v-container >
 
-
+    </div>
 </template>
 
 <script>
@@ -212,6 +228,7 @@ export default {
   name: 'config',
   data() {
     return {
+      drawer: true,
       e1: true,
       //channelTurnedOn: false,
       channel: {},
@@ -222,7 +239,11 @@ export default {
       postProcessingType: ['Move', 'Delete', 'Copy'],
       intervalUnit: ['milliseconds','seconds', 'minutes', 'hours', 'days'],
       scheduleTypes: ['Periodic', 'Time'],
-
+      navitems: [
+        { icon: 'timer', title: 'Interval settings' },
+        { icon: 'input', title: 'Source settings'  },
+        { icon: 'call_made', title: 'Destination settings'  },
+      ],
     }
   },
   computed: {
@@ -288,6 +309,9 @@ export default {
       .catch(function(error) {
       console.log(error);
       });
+    },
+    navItem: function (itemTitle){
+
     }
 
   }
