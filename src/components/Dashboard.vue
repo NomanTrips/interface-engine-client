@@ -343,8 +343,9 @@ export default {
       this.$router.push( '/channel/' + id + '/config');
     },
     navItem: function (itemTitle){
-      if (itemTitle == 'Add channel'){
-        console.log('adding channel');
+      var vm = this;
+      if (itemTitle == 'New channel'){
+        vm.createChannel();
       }
     },
     exportChannel: function (channelId){
@@ -359,6 +360,17 @@ export default {
           console.log(error);
         });
             
+    },
+    createChannel: function () {
+      var vm = this;
+      axios.post('http://localhost:3000/catalog/channel/create')
+        .then(function(response) {
+          console.log(response.data);
+          var id = response.data._id;
+          console.log(id);
+          vm.$router.push('/channel/' + id + '/config');
+        })
+
     }
   }
 }

@@ -69,17 +69,6 @@ export default {
     navScriptTemplates: function (){
       this.$router.push('/scripttemplates');
     },
-    createChannel: function () {
-      var vm = this;
-      axios.post('http://localhost:3000/catalog/channel/create')
-        .then(function(response) {
-          console.log(response.data);
-          var id = response.data._id;
-          console.log(id);
-          vm.$router.push('channel/' + id);
-        })
-
-    },
     updateTheme: function (){
       var vm = this;
       vm.serverconfig.isDarkTheme = vm.isDarkTheme;
