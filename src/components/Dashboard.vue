@@ -63,8 +63,8 @@
                     </v-btn>
                   </td>
                   <td>
-                    <span v-if="props.item.is_running" style="color:green;">Running</span>
-                    <span v-if="! props.item.is_running" style="color:red;">Stopped</span>
+                    <span v-if="props.item.is_running" class="greenColor">Running</span>
+                    <span v-if="! props.item.is_running" class="pinkColor">Stopped</span>
                     <!--
                     <v-icon v-if="props.item.is_running" color="green">fiber_manual_record</v-icon>
                     <v-icon v-if="! props.item.is_running" color="red">fiber_manual_record</v-icon>
@@ -74,21 +74,22 @@
                   <!--
                   <td class="text-xs-right">{{ props.item._id }}</td>
 -->
-                  <td class="text-xs-right">{{ props.item.description }}</td>
+                  <td >{{ props.item.description }}</td>
                   <!--
                   <td class="text-xs-right">{{ props.item.name }}</td>
                 -->       
-                  <td class="text-xs-right">{{ props.item.received }}</td>
-                  <td class="text-xs-right">{{ props.item.sent }}</td>
-                  <td class="text-xs-right">{{ props.item.error_count }}</td>
+                  <td >{{ props.item.received }}</td>
+                  <td >{{ props.item.sent }}</td>
+                  <td >{{ props.item.error_count }}</td>
              
                 </tr>
               </template>
               <template slot="expand" slot-scope="props" >
-                <div class="pl-4" >
+                <div  >
                 <v-card flat class="grey lighten-2">
+                  <div class="pl-4">
                   <v-tooltip bottom>
-                    <v-btn slot="activator" icon v-show="! props.item.is_running" @click="startChannel(props, props.item._id)">
+                    <v-btn  slot="activator" icon v-show="! props.item.is_running" @click="startChannel(props, props.item._id)">
                       <v-icon color="green">play_circle_filled</v-icon>
                     </v-btn>
                     <span>Start channel</span>
@@ -99,10 +100,12 @@
                     </v-btn>
                     <span>Stop channel</span>
                   </v-tooltip>
-                  <v-btn small raised primary @click="navMessages(props.item._id)">
-                    View messages
+                  <v-btn small raised @click="navMessages(props.item._id)">
+                  <v-icon >message</v-icon>
+                    Messages
                   </v-btn>
-                  <v-btn small raised primary @click="navConfig(props.item._id)">
+                  <v-btn small raised @click="navConfig(props.item._id)">
+                  <v-icon >settings</v-icon>
                     Config
                   </v-btn>
 
@@ -128,6 +131,7 @@
                     </v-dialog>
                     <span>Delete channel</span>
                   </v-tooltip>
+                  </div>
                 </v-card>
                 </div>
               </template>
