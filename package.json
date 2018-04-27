@@ -10,6 +10,7 @@
   },
   "dependencies": {
     "axios": "^0.16.2",
+    "downloadjs": "^1.4.7",
     "moment": "^2.19.2",
     "velocity-animate": "^1.5.1",
     "vue": "^2.5.8",

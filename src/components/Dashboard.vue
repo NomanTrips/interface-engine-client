@@ -106,6 +106,11 @@
                     Config
                   </v-btn>
 
+                  <v-btn small raised @click="exportChannel(props.item._id)">
+                    <v-icon >archive</v-icon>
+                    Export
+                  </v-btn>
+
                   <v-tooltip bottom>
                     <v-dialog slot="activator" v-model="dialog" persistent max-width="290" style="float: right;">
                       <v-btn slot="activator"  icon  >
@@ -138,6 +143,8 @@
 <script>
 import axios from 'axios';
 import Vue from 'vue';
+//import Dload from 'downloadjs/download.js';
+//require("downloadjs")(data, strFileName, strMimeType);
 
 export default {
   name: 'dashboard',
@@ -164,7 +171,6 @@ export default {
       navitems: [
         { icon: 'playlist_add', title: 'New channel' },
         { icon: 'unarchive', title: 'Import channel'  },
-        { icon: 'archive', title: 'Export channel'  },
         { icon: 'language', title: 'Global variables'  },
       ],
       actionItems: [
@@ -336,6 +342,19 @@ export default {
       if (itemTitle == 'Add channel'){
         console.log('adding channel');
       }
+    },
+    exportChannel: function (channelId){
+      axios.get('http://localhost:3000/catalog/channel/' + channelId)
+        .then(function(response) {
+          var channelJson = response.data;
+          var filename = 'interface-engine-' + response.data.name + '-channel.json';
+          var channelJson = JSON.stringify(response.data);
+          download(channelJson, filename, "application/json");
+        })
+        .catch(function(error) {
+          console.log(error);
+        });
+            
     }
   }
 }
