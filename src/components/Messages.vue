@@ -1,5 +1,25 @@
 <template>
   <div>
+    <v-dialog v-model="dialog" width="600px">
+      <v-card>
+        <v-card-title>
+          <span class="headline">Send message to channel:</span>
+        </v-card-title>
+        <v-card-text>
+          <v-text-field
+            name="input-7-1"
+            label="Message contents:"
+            multi-line
+            v-model="message"
+          ></v-text-field>
+        </v-card-text>
+        <v-card-actions>
+          <v-spacer></v-spacer>
+          <v-btn primary @click="sendMessage()">Send</v-btn>
+          <v-btn  @click="dialog = false">Cancel</v-btn>
+        </v-card-actions>
+      </v-card>
+    </v-dialog>
     <v-navigation-drawer app clipped fixed width="200"  v-model="drawer">
       <v-list>   
         <v-list-tile v-for="item in navitems" :key="item.title" @click="navItem(item.title)">
@@ -73,9 +93,12 @@ import moment from 'moment';
     name: 'messages',
     data () {
       return {
+        message: "",
+        dialog: false,
         drawer: true,
         navitems: [
-          { icon: 'message', title: 'Messages' }
+          { icon: 'message', title: 'Messages' },
+          { icon: 'send', title: 'Send message' }
         ],
         search: '',
         headers: [
@@ -140,7 +163,25 @@ import moment from 'moment';
       });
     },
     navItem: function (itemTitle){
+      var vm = this;
+      if (itemTitle == 'Send message'){
+        vm.displaySendMessageModal();
+      }
     },
+    displaySendMessageModal: function (){
+      this.dialog = true;
+    },
+    sendMessage: function(){
+      var vm = this;
+      vm.dialog = false;
+      axios.post('http://localhost:3000/catalog/channel/' + this.$route.params.id +'/sendmessage', {message: vm.message})
+      .then(function(response) {
+        console.log(response);
+      })
+      .catch(function(error) {
+        console.log(error);
+      });
+    }
   }
   }
 </script>
