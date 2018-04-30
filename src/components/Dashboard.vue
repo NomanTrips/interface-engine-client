@@ -1,5 +1,21 @@
 <template>
 <div>
+    <v-dialog v-model="importDialog" width="600px">
+      <v-card>
+        <v-card-title>
+          <span class="headline">Pick a channel file to import:</span>
+        </v-card-title>
+        <v-card-text>
+          <v-text-field v-model="newChannelName" name="input-3" label="New channel name:" value="Input text"></v-text-field>
+          <input type="file" @change="loadTextFromFile">
+        </v-card-text>
+        <v-card-actions>
+          <v-spacer></v-spacer>
+          <v-btn primary @click="importChannel()">Import</v-btn>
+          <v-btn  @click="importDialog = false">Cancel</v-btn>
+        </v-card-actions>
+      </v-card>
+    </v-dialog>
     <v-system-bar status  clipped-left>          
       <v-layout row >       
         <div v-on:mouseover="showNotification = true" v-on:mouseleave="showNotification = false" class="pl-2">
@@ -154,6 +170,9 @@ export default {
   name: 'dashboard',
   data() {
     return {
+      newChannelName: 'Enter new channel name here....',
+      importedChannel: {},
+      importDialog: false,
       drawer: true,
       isExpanded: false,
       showNotification: false,
@@ -346,7 +365,42 @@ export default {
       var vm = this;
       if (itemTitle == 'New channel'){
         vm.createChannel();
+      } else if (itemTitle == 'Import channel'){
+        vm.displayImportModal();
       }
+    },
+    displayImportModal: function (){
+      this.importDialog = true;
+    },
+    loadTextFromFile: function(ev){
+      var vm = this;
+      const file = ev.target.files[0];
+      const reader = new FileReader();
+
+      reader.onload = e => {
+        vm.importedChannel = JSON.parse(e.target.result);
+      }
+
+      //this.$emit("load", e.target.result);
+      reader.readAsText(file);
+    },
+    importChannel: function (){
+      var vm = this;
+      console.log(vm.importedChannel);
+      vm.importedChannel.name = vm.newChannelName;
+      var vm = this;
+      axios.post('http://localhost:3000/catalog/channel/create')
+        .then(function(response) {
+          var id = response.data._id;
+          axios.post('http://localhost:3000/catalog/channel/' + id +'/update', vm.importedChannel)
+          .then(function(response) {
+          console.log(response);
+          })
+          .catch(function(error) {
+          console.log(error);
+          });
+        })
+      this.importDialog = false;
     },
     exportChannel: function (channelId){
       axios.get('http://localhost:3000/catalog/channel/' + channelId)
