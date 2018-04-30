@@ -1,6 +1,6 @@
 <template>
   <div>
-    <v-dialog v-model="dialog" width="600px">
+    <v-dialog v-model="dialog" width="800px">
       <v-card>
         <v-card-title>
           <span class="headline">Send message to channel:</span>
@@ -11,6 +11,7 @@
             label="Message contents:"
             multi-line
             v-model="message"
+            rows="20"
           ></v-text-field>
         </v-card-text>
         <v-card-actions>

@@ -7,7 +7,7 @@
         </v-card-title>
         <v-card-text>
           <v-text-field v-model="newChannelName" name="input-3" label="New channel name:" value="Input text"></v-text-field>
-          <input type="file" @change="loadTextFromFile">
+          <input type="file" @change="loadTextFromFile" >
         </v-card-text>
         <v-card-actions>
           <v-spacer></v-spacer>
@@ -376,7 +376,6 @@ export default {
       var vm = this;
       const file = ev.target.files[0];
       const reader = new FileReader();
-
       reader.onload = e => {
         vm.importedChannel = JSON.parse(e.target.result);
       }
