@@ -1,6 +1,7 @@
 <template>
 
 <div>
+<!--
         <v-navigation-drawer app clipped fixed width="200"  v-model="drawer">
       <v-list>   
         <v-list-tile v-for="item in navitems" :key="item.title" @click="navItem(item.title)">
@@ -14,8 +15,8 @@
        
       </v-list>
     </v-navigation-drawer>
-
-  <v-container grid-list-md >
+-->
+      <v-container grid-list-md >
     <v-layout row wrap>
       <v-flex xs12>
       <v-card class="mb-3" style="width:100%;">
@@ -216,8 +217,8 @@
     </v-card>
           </v-flex >
     </v-layout >
-  </v-container >
 
+      </v-container>
     </div>
 </template>
 
