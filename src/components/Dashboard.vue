@@ -367,6 +367,8 @@ export default {
         vm.createChannel();
       } else if (itemTitle == 'Import channel'){
         vm.displayImportModal();
+      } else if (itemTitle == 'Global variables'){
+        vm.$router.push('/globalvariables');
       }
     },
     displayImportModal: function (){

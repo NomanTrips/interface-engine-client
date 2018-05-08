@@ -11,6 +11,7 @@ import Messagedetail from '../components/MessageDetail.vue'
 import Transformers from '../components/Transformers.vue'
 import MessageModifier from '../components/MessageModifier.vue'
 import Templates from '../components/TemplateEditor.vue'
+import GlobalVariables from '../components/GlobalVarEditor.vue'
 
 Vue.use(Router)
 Vue.use(Notifications, { velocity })
@@ -20,7 +21,20 @@ export default new Router({
     {
       path: '/',
       name: 'Dashboard',
-      component: Dashboard
+      component: Dashboard,
+      /*
+      children: [
+        {
+          path: 'globalvariables',
+          component: GlobalVariables
+        },
+      ]
+*/
+    },
+    {
+      path: '/globalvariables',
+      name: 'Globalvariables',
+      component: GlobalVariables
     },
     {
       path: '/scripttemplates',
