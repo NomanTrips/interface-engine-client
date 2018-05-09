@@ -124,6 +124,7 @@ import Vue from 'vue';
             { title: 'Delete', event: this.deleteChannel },
         ],
         items: [],
+        dialog: false,
       }
     },
     computed: {
