@@ -170,7 +170,7 @@ export default {
       } else if (itemTitle == 'Global variables'){
         vm.$router.push('/globalvariables');
       } else if (itemTitle == 'Channels'){
-        vm.$router.push('/channellist');
+        vm.$router.push('/');
       }
     },
     displayImportModal: function (){

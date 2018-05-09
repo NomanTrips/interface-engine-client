@@ -26,12 +26,12 @@ export default new Router({
       
       children: [
         {
-          path: 'globalvariables',
-          component: GlobalVariables
+          path: '',
+          component: ChannelList
         },
         {
-          path: 'channellist',
-          component: ChannelList
+          path: 'globalvariables',
+          component: GlobalVariables
         },
       ]
 
