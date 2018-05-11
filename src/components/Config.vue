@@ -89,6 +89,21 @@
             <v-text-field v-model="channel.https_certificate" name="input-3" label="Certificate location:" value="Input text" class="pr-3"></v-text-field>
             <v-text-field v-model="channel.https_port" name="input-3" label="Port:" value="Input text" class="pr-3"></v-text-field>
           </div>
+          <div v-if="channel.inbound_type == 'Database reader'">
+            <v-select v-bind:items="dbReaderType" v-model="channel.db_reader_type" label="Database type" class="pr-3"></v-select>
+            <v-text-field v-model="channel.db_reader_user" name="input-2" label="Username" value="Input text" class="pr-3"></v-text-field>
+            <v-text-field v-model="channel.db_reader_password" name="input-2" label="Password" value="Input text" class="pr-3"></v-text-field>
+            <v-text-field v-model="channel.db_reader_host" name="input-2" label="Host" value="Input text" class="pr-3"></v-text-field>
+            <v-text-field v-model="channel.db_reader_port" name="input-2" label="Port" value="Input text" class="pr-3"></v-text-field>
+            <v-text-field v-model="channel.db_reader_database" name="input-2" label="Database" value="Input text" class="pr-3"></v-text-field>
+            <v-text-field
+              name="input-7-1"
+              label="Query:"
+              multi-line
+              v-model="channel.db_reader_query"
+              rows="10"
+            ></v-text-field>
+          </div>
           <div v-if="channel.inbound_type == 'FTP'">
             <v-text-field v-model="channel.ftp_host" name="input-2" label="Host" value="Input text" class="pr-3"></v-text-field>
             <v-text-field v-model="channel.ftp_port" name="input-2" label="Port" value="Input text" class="pr-3"></v-text-field>
@@ -236,7 +251,8 @@ export default {
       source: null,
       dest: null,
       httpMethod: ['GET','PUT', 'POST'],
-      transportTypes: ['FTP','SFTP', 'File directory', 'http', 'https', 'TCP'],
+      transportTypes: ['FTP','SFTP', 'File directory', 'http', 'https', 'TCP', 'Database reader'],
+      dbReaderType: ['Postgres'],
       postProcessingType: ['Move', 'Delete', 'Copy'],
       intervalUnit: ['milliseconds','seconds', 'minutes', 'hours', 'days'],
       scheduleTypes: ['Periodic', 'Time'],
