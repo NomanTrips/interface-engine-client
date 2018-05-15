@@ -106,7 +106,7 @@
             <v-switch v-bind:label="'Use post-process query:'" v-model="channel.db_reader_use_post_process_query" ></v-switch>
             <v-text-field
               name="input-7-1"
-              label="Post processing query:"
+              label="Post processing query (enter variables as: $$'+`${id}`+'$$):"
               multi-line
               v-model="channel.db_reader_post_process_query"
               rows="10"
