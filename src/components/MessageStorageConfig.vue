@@ -21,10 +21,11 @@
           suffix="MB"
           mask="#######"
           class="pr-3"
+          v-model="config.message_storage_limit"
         ></v-text-field>
         </v-flex>
         </div>
-        
+
             <v-layout row>
         <div v-on:click="saveConfig()">
           <v-btn raised primary >Save</v-btn>
@@ -64,7 +65,7 @@ export default {
     axios.get('http://localhost:3000/catalog/channel/' + this.$route.params.id + '/messagestorageconfig')
       .then(function(response) {
         console.log(response.data);
-        vm.config = response.data;
+        vm.config = response.data[0];
       })
       .catch(function(error) {
         console.log(error);
@@ -72,9 +73,9 @@ export default {
 
   },
   methods: {
-    saveGlobalVars: function() {
+    saveConfig: function() {
         var vm = this;
-        axios.post('http://localhost:3000/catalog/channel/' + this.$route.params.id  +'/update', vm.config)
+        axios.post('http://localhost:3000/catalog/channel/' + this.$route.params.id  +'/messagestorageconfig/update', vm.config)
         .then(function(response) {
             console.log(response);
         })
