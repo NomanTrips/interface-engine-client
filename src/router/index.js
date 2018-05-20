@@ -13,6 +13,7 @@ import MessageModifier from '../components/MessageModifier.vue'
 import Templates from '../components/TemplateEditor.vue'
 import GlobalVariables from '../components/GlobalVarEditor.vue'
 import ChannelList from '../components/ChannelList.vue'
+import MessageStorageConfig from '../components/MessageStorageConfig.vue'
 
 Vue.use(Router)
 Vue.use(Notifications, { velocity })
@@ -80,6 +81,10 @@ export default new Router({
         {
           path: 'messagemodifier',
           component: MessageModifier,
+        },
+        {
+          path: 'storage',
+          component: MessageStorageConfig,
         },
       ],
     }

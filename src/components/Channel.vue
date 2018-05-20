@@ -43,6 +43,15 @@
            <v-list-tile v-show="false">
             <v-list-tile-title class="pl-3">Send message</v-list-tile-title>
           </v-list-tile>
+        
+        <v-list-group
+          sub-group
+          no-action
+        >
+          <v-list-tile slot="activator" @click="navItem('Storage')">
+            <v-list-tile-title>Storage</v-list-tile-title>
+          </v-list-tile>
+        </v-list-group>
 
 <!--
         <v-list-group
@@ -142,7 +151,7 @@ export default {
       } else if (itemTitle == 'Scripts'){
         vm.$router.push('/channel/' + this.$route.params.id + '/messagemodifier');
       } else if (itemTitle == 'Storage'){
-        //vm.$router.push('/storage');
+        vm.$router.push('/channel/' + this.$route.params.id + '/storage');
       }
     }
   }

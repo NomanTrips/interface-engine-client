@@ -216,6 +216,21 @@
               <v-text-field v-model="channel.sftp_dest_private_key" name="input-2" label="Private key path: " value="Input text" class="pr-3"></v-text-field>
             </div>
           </div>
+          <div v-if="channel.outbound_type == 'Database writer'">
+            <v-select v-bind:items="dbReaderType" v-model="channel.db_writer_type" label="Database type" class="pr-3"></v-select>
+            <v-text-field v-model="channel.db_writer_user" name="input-2" label="Username" value="Input text" class="pr-3"></v-text-field>
+            <v-text-field v-model="channel.db_writer_password" name="input-2" label="Password" value="Input text" class="pr-3"></v-text-field>
+            <v-text-field v-model="channel.db_writer_host" name="input-2" label="Host" value="Input text" class="pr-3"></v-text-field>
+            <v-text-field v-model="channel.db_writer_port" name="input-2" label="Port" value="Input text" class="pr-3"></v-text-field>
+            <v-text-field v-model="channel.db_writer_database" name="input-2" label="Database" value="Input text" class="pr-3"></v-text-field>
+            <v-text-field
+              name="input-7-1"
+              label="Query:"
+              multi-line
+              v-model="channel.db_writer_query"
+              rows="10"
+            ></v-text-field>
+          </div>
         </v-flex>
       </v-layout>
 
@@ -259,7 +274,7 @@ export default {
       source: null,
       dest: null,
       httpMethod: ['GET','PUT', 'POST'],
-      transportTypes: ['FTP','SFTP', 'File directory', 'http', 'https', 'TCP', 'Database reader'],
+      transportTypes: ['FTP','SFTP', 'File directory', 'http', 'https', 'TCP', 'Database reader', 'Database writer'],
       dbReaderType: ['Postgres'],
       postProcessingType: ['Move', 'Delete', 'Copy'],
       intervalUnit: ['milliseconds','seconds', 'minutes', 'hours', 'days'],
