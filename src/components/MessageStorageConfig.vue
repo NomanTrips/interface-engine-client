@@ -6,11 +6,12 @@
         <div class="pl-2">
         <v-card >
         <v-card-title primary-title>
-        Edit storage settings:
+        Message cleanup:
         </v-card-title>
         <v-layout column >
         
         <div>
+        <v-switch v-bind:label="`Enabled:`" v-model="config.message_cleanup_enabled" ></v-switch>
         <v-flex xs2>
         <v-text-field
           name="input-1-3"
@@ -19,7 +20,7 @@
           hint="Messages will be removed over this limit. First in first out."
           persistent-hint
           suffix="MB"
-          mask="#######"
+          mask="######"
           class="pr-3"
           v-model="config.message_storage_limit"
         ></v-text-field>
