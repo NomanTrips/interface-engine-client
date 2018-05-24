@@ -3,8 +3,9 @@
   <v-container grid-list-md >
     <v-layout row wrap>
       <v-flex xs12>       
-        <div class="pl-2">
+        
         <v-card >
+        <div class="pa-3">
         <v-card-title primary-title>
         Message cleanup:
         </v-card-title>
@@ -17,7 +18,7 @@
           name="input-1-3"
           label="Storage limit"
           single-line
-          hint="Messages will be removed over this limit. First in first out."
+          hint="Messages metadata will be removed over this limit."
           persistent-hint
           suffix="MB"
           mask="######"
@@ -33,8 +34,9 @@
         </div>
       </v-layout>
         </v-layout>
-        </v-card>
         </div>
+        </v-card>
+        
         </v-flex>
       
       </v-layout>
