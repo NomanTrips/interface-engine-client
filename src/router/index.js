@@ -2,6 +2,7 @@ import Vue from 'vue'
 import Notifications from 'vue-notification'
 import velocity      from 'velocity-animate'
 import Router from 'vue-router'
+//import MLoader from 'vue-m-loader'
 //import App from './App.vue'
 import Dashboard from '../components/Dashboard.vue'
 import Channel from '../components/Channel.vue'
@@ -17,6 +18,7 @@ import MessageStorageConfig from '../components/MessageStorageConfig.vue'
 
 Vue.use(Router)
 Vue.use(Notifications, { velocity })
+//Vue.use(MLoader)
 
 export default new Router({
   routes: [

@@ -3,6 +3,7 @@
     <v-layout row wrap>
       <v-flex xs12>
     <v-text-field v-model="scriptName" name="input-3" label="Script name:" value="Input text" class="pr-3"></v-text-field>
+    
       <MonacoEditor
         height="600"
         language="javascript"
@@ -10,9 +11,10 @@
         :editorOptions="options"
         @mounted="onMounted"
         @codeChange="onCodeChange"
-        theme="vs"
+        :theme="theme"
       >
       </MonacoEditor>
+
       <v-layout row>
         <div v-on:click="saveModifierScript()">
           <v-btn raised primary >Save</v-btn>
@@ -56,6 +58,7 @@ export default {
   name: 'transformers',
   data() {
     return {
+      theme: 'vs',
       str: "nada",
       code: '// Type away! \n',
       scriptName: 'Enter script name here',
@@ -80,8 +83,17 @@ export default {
         MonacoEditor
     },
   created() {
-
     var vm = this;
+    axios.get('http://localhost:3000/catalog/serverconfig')
+      .then(function(response) {
+        vm.serverconfig = response.data;
+        if (vm.serverconfig.isDarkTheme){
+          vm.theme = 'vs-dark';
+        } else {
+          vm.theme = 'vs';
+        }
+
+      });
     // Make a request for a user with a given ID
     axios.get('http://localhost:3000/catalog/channel/' + this.$route.params.id + '/messagemodifier')
       .then(function(response) {

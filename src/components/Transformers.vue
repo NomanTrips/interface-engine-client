@@ -77,6 +77,7 @@
                 <!--
                 <editor v-model="selectedTransformer.script" @init="editorInit();" lang="javascript" theme="chrome" width="100%" height="400"></editor>
                 -->
+                
                 <MonacoEditor
                   height="600"
                   language="typescript"
@@ -86,6 +87,8 @@
                   @codeChange="onCodeChange"
                   >
               </MonacoEditor>
+
+              
               </v-card-text>
               <v-card-actions>
                 <div v-on:click="saveTransformer()">
@@ -100,14 +103,17 @@
   </div>
 </template>
 
+
 <script>
 import axios from 'axios';
-import MonacoEditor from 'vue-monaco-editor'
+import MonacoEditor from 'vue-monaco-editor';
 
 export default {
   name: 'transformers',
   data() {
     return {
+      mode: 'javascript',
+      theme: 'vs',
       chips: ['xmlToJson','hl7-to-json'],
       libraries: [],
       packageSearch: '',
@@ -148,7 +154,6 @@ export default {
         MonacoEditor
     },
   created() {
-
     var vm = this;
     // Make a request for a user with a given ID
     axios.get('http://localhost:3000/catalog/channel/' + this.$route.params.id + '/transformers')
@@ -156,6 +161,7 @@ export default {
         vm.transformers = response.data;
         if (response.data.length > 0) {
             vm.selectedTransformer = vm.transformers[0];
+            //editor.value = vm.selectedTransformer;
         }
       })
       .catch(function(error) {
