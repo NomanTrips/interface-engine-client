@@ -7,7 +7,7 @@
       <MonacoEditor
         height="600"
         language="javascript"
-        :code= "code"
+        :code= "transformer.script"
         :editorOptions="options"
         @mounted="onMounted"
         @codeChange="onCodeChange"
@@ -71,7 +71,12 @@ export default {
           { title: 'hl7 v2 to json' }
         ],
       dialog2: false,
-      templates: []
+      templates: [],
+      transformer: {
+          channel: '',
+          title: '',
+          script: ''
+      },
     }
   },
   
@@ -100,6 +105,8 @@ export default {
         vm.code = response.data.script;
         console.log(response.data.script);
         vm.scriptName = response.data.name;
+        vm.transformer = response.data;
+        vm.editor.setValue(vm.transformer.script); // force the editor value because editor mounts before GET returns
       })
       .catch(function(error) {
         console.log(error);
@@ -135,7 +142,10 @@ export default {
       this.dialog2 = false;
     },
     onMounted(editor) {
+      console.log('mounting dis bitch.');
+      //var vm = this;
       this.editor = editor;
+   
     },
     onCodeChange(editor) {
       console.log('jer jar');
