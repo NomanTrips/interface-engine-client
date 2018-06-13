@@ -15,6 +15,7 @@ import Templates from '../components/TemplateEditor.vue'
 import GlobalVariables from '../components/GlobalVarEditor.vue'
 import ChannelList from '../components/ChannelList.vue'
 import MessageStorageConfig from '../components/MessageStorageConfig.vue'
+import Login from '../components/Login.vue'
 
 Vue.use(Router)
 Vue.use(Notifications, { velocity })
@@ -22,6 +23,11 @@ Vue.use(Notifications, { velocity })
 
 export default new Router({
   routes: [
+    {
+      path: '/login',
+      name: 'Login',
+      component: Login
+    },
     {
       path: '/',
       name: 'Dashboard',
