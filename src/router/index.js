@@ -1,7 +1,7 @@
 import Vue from 'vue'
 import Notifications from 'vue-notification'
 import velocity      from 'velocity-animate'
-import Router from 'vue-router'
+import VueRouter from 'vue-router'
 //import MLoader from 'vue-m-loader'
 //import App from './App.vue'
 import Dashboard from '../components/Dashboard.vue'
@@ -17,11 +17,13 @@ import ChannelList from '../components/ChannelList.vue'
 import MessageStorageConfig from '../components/MessageStorageConfig.vue'
 import Login from '../components/Login.vue'
 
-Vue.use(Router)
+Vue.use(VueRouter)
 Vue.use(Notifications, { velocity })
 //Vue.use(MLoader)
 
-export default new Router({
+//export var router = new Router();
+
+export default new VueRouter({
   routes: [
     {
       path: '/login',
@@ -30,12 +32,13 @@ export default new Router({
     },
     {
       path: '/',
-      name: 'Dashboard',
+      //name: 'Dashboard',
       component: Dashboard,
       
       children: [
         {
           path: '',
+          name: 'channellist',
           component: ChannelList
         },
         {

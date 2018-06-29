@@ -72,6 +72,7 @@
 <script>
 import axios from 'axios';
 import Vue from 'vue';
+import auth from '../auth/index'
 //import Dload from 'downloadjs/download.js';
 //require("downloadjs")(data, strFileName, strMimeType);
 
@@ -229,7 +230,14 @@ export default {
         })
 
     }
-  }
+  },
+  route: {
+      // Check the users auth status before
+      // allowing navigation to the route
+      canActivate() {
+        return auth.user.authenticated
+      }
+    }
 }
 </script>
 <style >

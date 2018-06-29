@@ -50,6 +50,7 @@
 
 import axios from 'axios';
 import Vue from 'vue';
+import auth from '../auth/index'
 
   export default {
     name: 'login',
@@ -68,14 +69,31 @@ import Vue from 'vue';
   },
   methods: {
       login: function (){
+          auth.login(this, this.creds, '/');
+          /** 
           axios.post('http://localhost:3000/catalog/login', {"username": this.creds.username, "password": this.creds.password})
            .then(function(response) {
-               console.log(response.data);
+                console.log(response.data);
+                var token = response.data.token;
+                var config = {
+                    headers: {'Authorization': "bearer " + token}
+                };
+                /*
+                axios.post('http://localhost:3000/catalog/authenticatetoken', {}, config)
+                    .then(function(response) {
+                        console.log(response.data);
+                        //vm.items = response.data;
+                    })
+                    .catch(function(error) {
+                        console.log(error);
+                    });
+                   
             //vm.items = response.data;
           })
           .catch(function(error) {
             console.log(error);
           });
+          */
       },
       logout: function (){
 
