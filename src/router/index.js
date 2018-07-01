@@ -29,12 +29,12 @@ Vue.use(Notifications, { velocity })
 var approuter = new VueRouter({
   routes: [
     {
-      path: '/login',
+      path: '/',
       name: 'Login',
       component: Login
     },
     {
-      path: '/',
+      path: '/Dashboard',
       //name: 'Dashboard',
       component: Dashboard,
       /*

@@ -69,7 +69,7 @@ import auth from '../auth/index'
   },
   methods: {
       login: function (){
-          auth.login(this, this.creds, '/');
+          auth.login(this, this.creds, '/Dashboard');
           /** 
           axios.post('http://localhost:3000/catalog/login', {"username": this.creds.username, "password": this.creds.password})
            .then(function(response) {
