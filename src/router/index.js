@@ -26,7 +26,7 @@ Vue.use(Notifications, { velocity })
 
 //export var router = new Router();
 
-export default new VueRouter({
+var approuter = new VueRouter({
   routes: [
     {
       path: '/login',
@@ -37,6 +37,7 @@ export default new VueRouter({
       path: '/',
       //name: 'Dashboard',
       component: Dashboard,
+      /*
       beforeEnter: (to, from, next) => {
         // ...
         if (auth.user.authenticated) {
@@ -45,7 +46,7 @@ export default new VueRouter({
           next(false);
          }
       },
-      
+      */
       children: [
         {
           path: '',
@@ -113,3 +114,19 @@ export default new VueRouter({
   
   ]
 })
+
+approuter.beforeEach((to, from, next) => {
+  if (to.name == 'Login'){
+    next();
+  } else {
+    if (auth.user.authenticated) {
+      next();
+     } else {
+      next(false);
+     }
+  }
+
+})
+
+export default approuter;
+
