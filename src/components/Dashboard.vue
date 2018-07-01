@@ -235,6 +235,7 @@ export default {
       // Check the users auth status before
       // allowing navigation to the route
       canActivate() {
+        console.log('running auth check');
         return auth.user.authenticated
       }
     }

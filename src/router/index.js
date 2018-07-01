@@ -16,6 +16,9 @@ import GlobalVariables from '../components/GlobalVarEditor.vue'
 import ChannelList from '../components/ChannelList.vue'
 import MessageStorageConfig from '../components/MessageStorageConfig.vue'
 import Login from '../components/Login.vue'
+import auth from '../auth/index'
+
+auth.checkAuth();
 
 Vue.use(VueRouter)
 Vue.use(Notifications, { velocity })
@@ -34,6 +37,14 @@ export default new VueRouter({
       path: '/',
       //name: 'Dashboard',
       component: Dashboard,
+      beforeEnter: (to, from, next) => {
+        // ...
+        if (auth.user.authenticated) {
+          next();
+         } else {
+          next(false);
+         }
+      },
       
       children: [
         {
