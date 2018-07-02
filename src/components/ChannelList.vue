@@ -99,6 +99,7 @@
 
 import axios from 'axios';
 import Vue from 'vue';
+import auth from '../auth/index'
 
   export default {
     name: 'channellist',
@@ -144,7 +145,14 @@ import Vue from 'vue';
   created() {
     var vm = this;
     // Make a request for a user with a given ID
-    axios.get('http://localhost:3000/catalog/channels')
+    //axios.get('http://localhost:3000/catalog/channels')
+    var config = {
+      params: {
+        secret_token: auth.getToken()
+        }
+    };
+    console.dir(config);
+    axios.get('http://localhost:3000/catalog/channels', config)
       .then(function(response) {
         vm.items = response.data;
         //console.log(vm.items);
