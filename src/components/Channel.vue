@@ -107,6 +107,8 @@
 </template>
 
 <script>
+import auth from '../auth/index';
+
 export default {
   name: 'channel',
   data() {
@@ -140,6 +142,15 @@ export default {
     }
   },
   created() {
+  },
+  computed: {
+    axiosConfig: function(){ // axios request config obj: headers, query params etc.
+      return {
+        params: {
+          secret_token: auth.getToken()
+        }
+      }
+    }
   },
   methods: {
     navItem: function (itemTitle){

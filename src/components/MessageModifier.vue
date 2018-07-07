@@ -52,7 +52,8 @@
 
 <script>
 import axios from 'axios';
-import MonacoEditor from 'vue-monaco-editor'
+import MonacoEditor from 'vue-monaco-editor';
+import auth from '../auth/index';
 
 export default {
   name: 'transformers',
@@ -79,17 +80,21 @@ export default {
       },
     }
   },
-  
   computed: {
-
+    axiosConfig: function(){ // axios request config obj: headers, query params etc.
+      return {
+        params: {
+          secret_token: auth.getToken()
+        }
+      }
+    }
   },
-  
   components:{
         MonacoEditor
     },
   created() {
     var vm = this;
-    axios.get('http://localhost:3000/catalog/serverconfig')
+    axios.get('http://localhost:3000/catalog/serverconfig', vm.axiosConfig)
       .then(function(response) {
         vm.serverconfig = response.data;
         if (vm.serverconfig.isDarkTheme){
@@ -100,7 +105,7 @@ export default {
 
       });
     // Make a request for a user with a given ID
-    axios.get('http://localhost:3000/catalog/channel/' + this.$route.params.id + '/messagemodifier')
+    axios.get('http://localhost:3000/catalog/channel/' + this.$route.params.id + '/messagemodifier', vm.axiosConfig)
       .then(function(response) {
         vm.code = response.data.script;
         console.log(response.data.script);
@@ -112,7 +117,7 @@ export default {
         console.log(error);
       });
 
-    axios.get('http://localhost:3000/catalog/scripttemplates')
+    axios.get('http://localhost:3000/catalog/scripttemplates', vm.axiosConfig)
       .then(function(response) {
         vm.templates = response.data;
         console.log('z templates:::: '+response.data);
@@ -123,10 +128,10 @@ export default {
 
   },
   methods: {
-    //var vm : this,
     deleteTemplate: function(temp){
+      var vm = this;
       console.log(temp);
-        axios.post('http://localhost:3000/catalog/scripttemplates/' + temp._id +'/delete', {})
+        axios.post('http://localhost:3000/catalog/scripttemplates/' + temp._id +'/delete', {}, vm.axiosConfig)
         .then(function(response) {
             console.log(response);
         })
@@ -152,7 +157,8 @@ export default {
       this.code = editor.getValue();
     },
     saveModifierScript: function() {
-        axios.post('http://localhost:3000/catalog/channel/' + this.$route.params.id +'/messagemodifier', {"message_modifier_script": this.code, "message_modifier_script_name": this.scriptName})
+      var vm = this;
+        axios.post('http://localhost:3000/catalog/channel/' + this.$route.params.id +'/messagemodifier', {"message_modifier_script": this.code, "message_modifier_script_name": this.scriptName}, vm.axiosConfig)
         .then(function(response) {
             console.log(response);
         })
@@ -161,7 +167,8 @@ export default {
         });
     },
     saveTemplate: function() {
-        axios.post('http://localhost:3000/catalog/scripttemplates/create', {"script": this.code, "name": this.scriptName})
+      var vm = this;
+        axios.post('http://localhost:3000/catalog/scripttemplates/create', {"script": this.code, "name": this.scriptName}, vm.axiosConfig)
         .then(function(response) {
             console.log(response);
         })

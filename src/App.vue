@@ -35,13 +35,14 @@
 
 <script>
 import axios from 'axios';
+import auth from './auth/index'
 
 export default {
   
   name: 'app',
   data() {
     return {
-      homePath: '/',
+      homePath: '/Dashboard',
       clipped: true,
       drawer: true,
       fixed: false,
@@ -57,9 +58,18 @@ export default {
       items: [],
     }
   },
+  computed: {
+    axiosConfig: function(){ // axios request config obj: headers, query params etc.
+      return {
+        params: {
+          secret_token: auth.getToken()
+        }
+      }
+    }
+  },
   created() {
     var vm = this
-    axios.get('http://localhost:3000/catalog/serverconfig')
+    axios.get('http://localhost:3000/catalog/serverconfig', vm.axiosConfig)
       .then(function(response) {
         vm.serverconfig = response.data;
         vm.isDarkTheme = vm.serverconfig.isDarkTheme;
@@ -72,7 +82,7 @@ export default {
     updateTheme: function (){
       var vm = this;
       vm.serverconfig.isDarkTheme = vm.isDarkTheme;
-      axios.post('http://localhost:3000/catalog/serverconfig/' + vm.serverconfig._id +'/update', vm.serverconfig)
+      axios.post('http://localhost:3000/catalog/serverconfig/' + vm.serverconfig._id +'/update', vm.serverconfig, vm.axiosConfig)
         .then(function(response) {
           console.log(response);
       })

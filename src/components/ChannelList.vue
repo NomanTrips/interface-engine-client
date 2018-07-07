@@ -129,6 +129,13 @@ import auth from '../auth/index'
       }
     },
     computed: {
+      axiosConfig: function(){ // axios request config obj: headers, query params etc.
+        return {
+          params: {
+            secret_token: auth.getToken()
+          }
+        }
+      },
       filteredMessages: function () {
         var vm = this;
         return vm.messages.filter(message => {
@@ -152,12 +159,12 @@ import auth from '../auth/index'
         }
     };
     console.dir(config);
-    axios.get('http://localhost:3000/catalog/channels', config)
+    axios.get('http://localhost:3000/catalog/channels', vm.axiosConfig)
       .then(function(response) {
         vm.items = response.data;
         //console.log(vm.items);
         vm.items.forEach(function(element) {
-          axios.get('http://localhost:3000/catalog/channel/' + element._id +'/stats')
+          axios.get('http://localhost:3000/catalog/channel/' + element._id +'/stats', vm.axiosConfig)
             .then(function(response) {
               console.log(response.data);
               if (response.data.length == 0){ // no stats for channel yet
@@ -185,7 +192,7 @@ import auth from '../auth/index'
     startChannel: function(props, id) {
       var vm = this;
       props.item.is_running = true;
-        axios.post('http://localhost:3000/catalog/channel/' + id +'/start')
+        axios.post('http://localhost:3000/catalog/channel/' + id +'/start', {}, vm.axiosConfig)
         .then(function(response) {
           vm.lastNotification = {
             group: 'foo',
@@ -218,8 +225,9 @@ import auth from '../auth/index'
         
     },
     stopChannel: function(props, id) {
+      var vm = this;
       props.item.is_running = false;
-        axios.post('http://localhost:3000/catalog/channel/' + id +'/stop')
+        axios.post('http://localhost:3000/catalog/channel/' + id +'/stop', {}, vm.axiosConfig)
         .then(function(response) {
           console.log(response);
         })
@@ -228,8 +236,8 @@ import auth from '../auth/index'
         });
     },
     deleteChannel: function (id) {
-      console.log(id);
-      axios.post('http://localhost:3000/catalog/channel/' + id +'/delete', {})
+      var vm = this;
+      axios.post('http://localhost:3000/catalog/channel/' + id +'/delete', {}, vm.axiosConfig)
       .then(function(response) {
         console.log(response);
       })
@@ -238,7 +246,6 @@ import auth from '../auth/index'
       });
     },
     showChannelDetail: function(id) {
-      console.log(id);
       this.$router.push('channel/' + id);
     },
     navMessages: function (id){
@@ -247,6 +254,21 @@ import auth from '../auth/index'
     navConfig: function (id){
       this.$router.push( '/channel/' + id + '/config');
     },
+    exportChannel: function (channelId){
+      var vm = this;
+      axios.get('http://localhost:3000/catalog/channel/' + channelId, vm.axiosConfig)
+        .then(function(response) {
+          var channelJson = response.data;
+          var filename = 'interface-engine-' + response.data.name + '-channel.json';
+          var channelJson = JSON.stringify(response.data);
+          download(channelJson, filename, "application/json");
+        })
+        .catch(function(error) {
+          console.log(error);
+        });
+            
+    },
+    
   }
   }
 </script>

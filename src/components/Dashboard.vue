@@ -112,6 +112,15 @@ export default {
     }.bind(this), 10000); 
 
   },
+  computed: {
+    axiosConfig: function(){ // axios request config obj: headers, query params etc.
+      return {
+        params: {
+          secret_token: auth.getToken()
+        }
+      }
+    }
+    },
   methods: {
     mouseLeave: function (){
       this.showNotification = false;
@@ -126,7 +135,7 @@ export default {
     },
     loadServerErrors: function () {
       var vm = this;
-        axios.get('http://localhost:3000/catalog/servererrors')
+        axios.get('http://localhost:3000/catalog/servererrors', vm.axiosConfig)
         .then(function(response) {
           if (response.data.length > 0) {
             // Date trickery to compute if last error was within the last 30 seconds
@@ -193,10 +202,10 @@ export default {
       console.log(vm.importedChannel);
       vm.importedChannel.name = vm.newChannelName;
       var vm = this;
-      axios.post('http://localhost:3000/catalog/channel/create')
+      axios.post('http://localhost:3000/catalog/channel/create', {}, vm.axiosConfig)
         .then(function(response) {
           var id = response.data._id;
-          axios.post('http://localhost:3000/catalog/channel/' + id +'/update', vm.importedChannel)
+          axios.post('http://localhost:3000/catalog/channel/' + id +'/update', vm.importedChannel, vm.axiosConfig)
           .then(function(response) {
           console.log(response);
           })
@@ -206,22 +215,9 @@ export default {
         })
       this.importDialog = false;
     },
-    exportChannel: function (channelId){
-      axios.get('http://localhost:3000/catalog/channel/' + channelId)
-        .then(function(response) {
-          var channelJson = response.data;
-          var filename = 'interface-engine-' + response.data.name + '-channel.json';
-          var channelJson = JSON.stringify(response.data);
-          download(channelJson, filename, "application/json");
-        })
-        .catch(function(error) {
-          console.log(error);
-        });
-            
-    },
     createChannel: function () {
       var vm = this;
-      axios.post('http://localhost:3000/catalog/channel/create')
+      axios.post('http://localhost:3000/catalog/channel/create', {}, vm.axiosConfig)
         .then(function(response) {
           console.log(response.data);
           var id = response.data._id;

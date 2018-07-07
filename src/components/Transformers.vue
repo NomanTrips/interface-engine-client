@@ -107,6 +107,7 @@
 <script>
 import axios from 'axios';
 import MonacoEditor from 'vue-monaco-editor';
+import auth from '../auth/index';
 
 export default {
   name: 'transformers',
@@ -146,6 +147,13 @@ export default {
         return lib.name.toLowerCase().includes(vm.packageSearch.toLowerCase())
       })
 
+    },
+    axiosConfig: function(){ // axios request config obj: headers, query params etc.
+      return {
+        params: {
+          secret_token: auth.getToken()
+        }
+      }
     }
   },
   
@@ -156,7 +164,7 @@ export default {
   created() {
     var vm = this;
     // Make a request for a user with a given ID
-    axios.get('http://localhost:3000/catalog/channel/' + this.$route.params.id + '/transformers')
+    axios.get('http://localhost:3000/catalog/channel/' + this.$route.params.id + '/transformers', vm.axiosConfig)
       .then(function(response) {
         vm.transformers = response.data;
         if (response.data.length > 0) {
@@ -168,7 +176,7 @@ export default {
         console.log(error);
       });
     
-    axios.get('http://localhost:3000/catalog/libraries')
+    axios.get('http://localhost:3000/catalog/libraries', vm.axiosConfig)
       .then(function(response) {
         vm.libraries = response.data;
       })
@@ -203,8 +211,9 @@ export default {
       this.transformers.push(this.newTransformer);
     },
     saveTransformer: function() {
+      var vm = this;
       if (this.selectedTransformer._id != undefined) { // update existing
-        axios.post('http://localhost:3000/catalog/transformer/' + this.selectedTransformer._id +'/update', this.selectedTransformer)
+        axios.post('http://localhost:3000/catalog/transformer/' + this.selectedTransformer._id +'/update', this.selectedTransformer, vm.axiosConfig)
         .then(function(response) {
         console.log(response);
         })
@@ -212,7 +221,7 @@ export default {
         console.log(error);
         });
       } else { // create new
-        axios.post('http://localhost:3000/catalog/channel/' + this.$route.params.id +'/transformer/create', this.selectedTransformer)
+        axios.post('http://localhost:3000/catalog/channel/' + this.$route.params.id +'/transformer/create', this.selectedTransformer, vm.axiosConfig)
         .then(function(response) {
         console.log(response);
         })

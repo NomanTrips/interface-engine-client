@@ -91,6 +91,7 @@
 
 import axios from 'axios';
 import moment from 'moment';
+import auth from '../auth/index';
 
   export default {
     name: 'messages',
@@ -134,13 +135,20 @@ import moment from 'moment';
           
         })
 
+      },
+      axiosConfig: function(){ // axios request config obj: headers, query params etc.
+        return {
+          params: {
+            secret_token: auth.getToken()
+          }
+        }
       }
     },
   created() {
     this.pagination.descending = false;
     var vm = this
     // Make a request for a user with a given ID
-    axios.get('http://localhost:3000/catalog/messages' + '?channel=' + this.$route.params.id)
+    axios.get('http://localhost:3000/catalog/messages' + '?channel=' + this.$route.params.id, vm.axiosConfig)
       .then(function(response) {
         vm.messages = response.data;
         for (var i = 0; i < vm.messages.length; i++) { 
@@ -157,7 +165,8 @@ import moment from 'moment';
       this.$router.push(this.$route.path + '/' + id);
     },
     deleteMessages: function(){
-      axios.post('http://localhost:3000/catalog/message/' + this.$route.params.id +'/delete', {})
+      var vm = this;
+      axios.post('http://localhost:3000/catalog/message/' + this.$route.params.id +'/delete', {}, vm.axiosConfig)
       .then(function(response) {
         console.log(response);
       })
@@ -177,7 +186,7 @@ import moment from 'moment';
     sendMessage: function(){
       var vm = this;
       vm.dialog = false;
-      axios.post('http://localhost:3000/catalog/channel/' + this.$route.params.id +'/sendmessage', {message: vm.message})
+      axios.post('http://localhost:3000/catalog/channel/' + this.$route.params.id +'/sendmessage', {message: vm.message}, vm.axiosConfig)
       .then(function(response) {
         console.log(response);
       })

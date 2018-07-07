@@ -262,6 +262,7 @@
 
 <script>
 import axios from 'axios';
+import auth from '../auth/index'
 
 export default {
   name: 'config',
@@ -287,6 +288,13 @@ export default {
     }
   },
   computed: {
+    axiosConfig: function(){ // axios request config obj: headers, query params etc.
+      return {
+        params: {
+          secret_token: auth.getToken()
+        }
+      }
+    },
     channelTurnedOn: {
       get: function() {
         if (this.channel.status == 'Running') {
@@ -307,7 +315,7 @@ export default {
   created() {
     var vm = this
     // Make a request for a user with a given ID
-    axios.get('http://localhost:3000/catalog/channel/' + this.$route.params.id)
+    axios.get('http://localhost:3000/catalog/channel/' + this.$route.params.id, vm.axiosConfig)
       .then(function(response) {
         vm.channel = response.data;
         console.log(response.data);
@@ -318,10 +326,10 @@ export default {
   },
   methods: {
     startStopChannel: function(){
-      
+      var vm = this;
       if (this.channelTurnedOn){
         console.log('getting to start');
-        axios.post('http://localhost:3000/catalog/channel/' + this.$route.params.id +'/start')
+        axios.post('http://localhost:3000/catalog/channel/' + this.$route.params.id +'/start', vm.axiosConfig)
         .then(function(response) {
         console.log(response);
         })
@@ -330,7 +338,7 @@ export default {
         });
       } else {
         console.log('stopping...');
-        axios.post('http://localhost:3000/catalog/channel/' + this.$route.params.id +'/stop')
+        axios.post('http://localhost:3000/catalog/channel/' + this.$route.params.id +'/stop', vm.axiosConfig)
         .then(function(response) {
         console.log(response);
         })
@@ -341,8 +349,9 @@ export default {
 
     },
     saveChannelDetail: function() {
+      var vm = this;
       console.log(this.channel);
-      axios.post('http://localhost:3000/catalog/channel/' + this.$route.params.id +'/update', this.channel)
+      axios.post('http://localhost:3000/catalog/channel/' + this.$route.params.id +'/update', this.channel, vm.axiosConfig)
       .then(function(response) {
       console.log(response);
       })

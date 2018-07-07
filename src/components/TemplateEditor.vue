@@ -91,7 +91,8 @@
 
 <script>
 import axios from 'axios';
-import MonacoEditor from 'vue-monaco-editor'
+import MonacoEditor from 'vue-monaco-editor';
+import auth from '../auth/index';
 
 export default {
   name: 'transformers',
@@ -114,19 +115,21 @@ export default {
       templates: [],
     }
   },
-  
   computed: {
-
+    axiosConfig: function(){ // axios request config obj: headers, query params etc.
+      return {
+        params: {
+          secret_token: auth.getToken()
+        }
+      }
+    }
   },
-  
   components:{
         MonacoEditor
     },
   created() {
-
     var vm = this;
-
-    axios.get('http://localhost:3000/catalog/scripttemplates')
+    axios.get('http://localhost:3000/catalog/scripttemplates', vm.axiosConfig)
       .then(function(response) {
         vm.templates = response.data;
       })
@@ -138,8 +141,8 @@ export default {
   methods: {
     //var vm : this,
     deleteTemplate: function(){
-      console.log('running delete');
-        axios.post('http://localhost:3000/catalog/scripttemplates/' + this.selectedTemplate._id +'/delete', {})
+      var vm = this;
+        axios.post('http://localhost:3000/catalog/scripttemplates/' + this.selectedTemplate._id +'/delete', {}, vm.axiosConfig)
         .then(function(response) {
             console.log(response);
         })
@@ -148,7 +151,6 @@ export default {
         });
     },
     loadTemplate: function(temp){
-      console.log('running load');
       this.selectedTemplate = temp;
       this.editor.setValue(this.selectedTemplate.script);
     },
@@ -159,8 +161,8 @@ export default {
       this.selectedTemplate.script = editor.getValue();
     },
     saveTemplate: function() {
-      console.log(this.selectedTemplate);
-        axios.post('http://localhost:3000/catalog/scripttemplates/' + this.selectedTemplate._id +'/update', this.selectedTemplate)
+      var vm = this;
+        axios.post('http://localhost:3000/catalog/scripttemplates/' + this.selectedTemplate._id +'/update', this.selectedTemplate, vm.axiosConfig)
         .then(function(response) {
             console.log(response);
         })
@@ -169,10 +171,10 @@ export default {
         });
     },
     createTemplate: function(){
-        axios.post('http://localhost:3000/catalog/scripttemplates/create', {"script": '', "name": this.newTemplateName})
+      var vm = this;
+        axios.post('http://localhost:3000/catalog/scripttemplates/create', {"script": '', "name": this.newTemplateName}, vm.axiosConfig)
         .then(function(response) {
-            console.log(response);
-            axios.get('http://localhost:3000/catalog/scripttemplates')
+            axios.get('http://localhost:3000/catalog/scripttemplates', vm.axiosConfig)
                 .then(function(response) {
                 this.templates = response.data;
                 //this.selectedTemplate = this.templates[this.templates.length -1];

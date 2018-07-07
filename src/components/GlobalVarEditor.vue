@@ -43,7 +43,8 @@
 
 <script>
 import axios from 'axios';
-import MonacoEditor from 'vue-monaco-editor'
+import MonacoEditor from 'vue-monaco-editor';
+import auth from '../auth/index';
 
 export default {
   name: 'globalvareditor',
@@ -58,17 +59,21 @@ export default {
 
     }
   },
-  
   computed: {
-
+    axiosConfig: function(){ // axios request config obj: headers, query params etc.
+      return {
+        params: {
+          secret_token: auth.getToken()
+        }
+      }
+    },
   },
-  
   components:{
         MonacoEditor
     },
   created() {
     var vm = this;
-    axios.get('http://localhost:3000/catalog/globalvariables')
+    axios.get('http://localhost:3000/catalog/globalvariables', vm.axiosConfig)
       .then(function(response) {
           console.log(response.data);
         vm.globalVariables = response.data;
@@ -88,7 +93,7 @@ export default {
     },
     saveGlobalVars: function() {
         var vm = this;
-        axios.post('http://localhost:3000/catalog/globalvariables/' + vm.globalVariables._id  +'/update', this.globalVariables)
+        axios.post('http://localhost:3000/catalog/globalvariables/' + vm.globalVariables._id  +'/update', this.globalVariables, vm.axiosConfig)
         .then(function(response) {
             console.log(response);
         })

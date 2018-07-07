@@ -47,6 +47,7 @@
 
 <script>
 import axios from 'axios';
+import auth from '../auth/index';
 
 export default {
   name: 'messagestorageconfig',
@@ -55,17 +56,21 @@ export default {
         config: {}
     }
   },
-  
   computed: {
-
+    axiosConfig: function(){ // axios request config obj: headers, query params etc.
+      return {
+        params: {
+          secret_token: auth.getToken()
+        }
+      }
+    }
   },
-  
   components:{
 
     },
   created() {
     var vm = this;
-    axios.get('http://localhost:3000/catalog/channel/' + this.$route.params.id + '/messagestorageconfig')
+    axios.get('http://localhost:3000/catalog/channel/' + this.$route.params.id + '/messagestorageconfig', vm.axiosConfig)
       .then(function(response) {
         console.log(response.data);
         vm.config = response.data[0];
@@ -78,7 +83,7 @@ export default {
   methods: {
     saveConfig: function() {
         var vm = this;
-        axios.post('http://localhost:3000/catalog/channel/' + this.$route.params.id  +'/messagestorageconfig/update', vm.config)
+        axios.post('http://localhost:3000/catalog/channel/' + this.$route.params.id  +'/messagestorageconfig/update', vm.config, vm.axiosConfig)
         .then(function(response) {
             console.log(response);
         })

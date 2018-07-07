@@ -38,6 +38,7 @@
 <script>
 
 import axios from 'axios';
+import auth from '../auth/index';
 
   export default {
     name: 'messagedetail',
@@ -61,10 +62,19 @@ import axios from 'axios';
         title: 'Message detail'
       }
     },
+  computed: {
+    axiosConfig: function(){ // axios request config obj: headers, query params etc.
+      return {
+        params: {
+          secret_token: auth.getToken()
+        }
+      }
+    }
+  },
   created() {
     var vm = this;
     vm.$parent.drawer = false;
-    axios.get('http://localhost:3000/catalog/message/' +  this.$route.params.messageid)
+    axios.get('http://localhost:3000/catalog/message/' +  this.$route.params.messageid, vm.axiosConfig)
       .then(function(response) {
         vm.tab_content.push(response.data.raw_data);
         vm.tab_content.push(response.data.transformed_data);
