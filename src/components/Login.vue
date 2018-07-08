@@ -1,49 +1,56 @@
 <template>
-  <div>
-    <v-container grid-list-md >
-        <v-layout row>
-            <v-flex xs4>
-                <v-text-field
-                    v-model="creds.name"
-                    name="name"
-                    label="Enter your name"
-                ></v-text-field>
-            </v-flex>
-        </v-layout>
-        <v-layout row>
-            <v-flex xs4>
-                <v-text-field
-                    v-model="creds.username"
-                    name="username"
-                    label="Enter your username"
-                ></v-text-field>
-            </v-flex>
-        </v-layout>
-        <v-layout row>
-            <v-flex xs4>
-                <v-text-field
-                    v-model="creds.password"
-                    :append-icon="e1 ? 'visibility' : 'visibility_off'"
-                    :append-icon-cb="() => (e1 = !e1)"
-                    :type="e1 ? 'password' : 'text'"
-                    name="password"
-                    label="Enter your password"
-                    hint="At least 8 characters"
-                    min="8"
-                    counter
-                ></v-text-field>
-            </v-flex>
-        </v-layout>
-        <v-layout>
-            <v-flex xs2>
-                <v-btn primary v-on:click="login()">Login</v-btn>
-            </v-flex>
-            <v-flex xs2>
-                <v-btn primary v-on:click="createUser()">New User</v-btn>
-            </v-flex>
-        </v-layout>
-    </v-container >
-  </div>
+    <v-container fluid fill-height>
+      <v-layout flex align-center justify-center>
+        <v-flex xs3>
+            <v-card >
+                <div class="pa-3">
+                    <v-card-title>
+                        <div style="padding-right:15px;">
+                            <img style="height=36px;width:36px;" src="../../public/artificial-intelligence.svg" alt="Interface engine logo">
+                        </div>
+                        <div>
+                            <span class="headline">Interface Engine</span>
+                        </div>
+                    </v-card-title>
+                    <v-card-text>
+                        <v-layout row >
+                            <v-flex >
+                                <v-text-field
+                                v-model="creds.username"
+                                name="username"
+                                label="Enter your username"
+                                ></v-text-field>
+                            </v-flex>
+                        </v-layout>
+                        <v-layout row>
+                            <v-flex >
+                                <v-text-field
+                                    v-model="creds.password"
+                                    :append-icon="e1 ? 'visibility' : 'visibility_off'"
+                                    :append-icon-cb="() => (e1 = !e1)"
+                                    :type="e1 ? 'password' : 'text'"
+                                    name="password"
+                                    label="Enter your password"
+                                    hint="At least 8 characters"
+                                    min="8"
+                                    counter
+                                ></v-text-field>
+                            </v-flex>
+                        </v-layout>
+                        <v-layout >
+                            <v-flex >
+                                <v-btn primary v-on:click="login()">Login</v-btn>
+                            </v-flex>
+                            <v-flex >
+                                <v-btn primary v-on:click="createUser()">New User</v-btn>
+                            </v-flex>
+                        </v-layout>
+                    </v-card-text>
+                </div>
+            </v-card>
+        </v-flex>
+      </v-layout>
+    </v-container>
 </template>
 
 <script>
