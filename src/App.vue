@@ -16,7 +16,7 @@
       <div >
         <v-switch style="margin:auto;height:28px;width:150px;" v-bind:label="`Dark theme`" v-model="isDarkTheme" v-on:change="updateTheme()"></v-switch>
       </div>
-      <v-btn icon @click="navScriptTemplates()">
+      <v-btn icon @click="navSettings()">
         <v-icon>settings</v-icon>
       </v-btn>
     </v-toolbar>
@@ -76,8 +76,8 @@ export default {
       });
   },
   methods: {
-    navScriptTemplates: function (){
-      this.$router.push('/scripttemplates');
+    navSettings: function (){
+      this.$router.push('/settings');
     },
     updateTheme: function (){
       var vm = this;

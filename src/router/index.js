@@ -16,6 +16,8 @@ import GlobalVariables from '../components/GlobalVarEditor.vue'
 import ChannelList from '../components/ChannelList.vue'
 import MessageStorageConfig from '../components/MessageStorageConfig.vue'
 import Login from '../components/Login.vue'
+import Settings from '../components/Settings.vue'
+import UserConfig from '../components/UserConfig.vue'
 import auth from '../auth/index'
 
 auth.checkAuth();
@@ -61,10 +63,28 @@ var approuter = new VueRouter({
 
     },
     {
+      path: '/settings',
+      component: Settings,
+      children: [
+        {
+          path: '',
+          name: 'Templates',
+          component: Templates
+        },
+        {
+          path: 'useraccounts',
+          component: UserConfig
+        },
+      ]
+
+    },
+    /*
+    {
       path: '/scripttemplates',
       name: 'Templates',
       component: Templates
     },
+    */
 /*
     {
       // UserPosts will be rendered inside User's <router-view>
