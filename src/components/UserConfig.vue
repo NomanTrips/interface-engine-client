@@ -54,8 +54,27 @@
           {{ header.text }}
         </th>
       </tr>
+      <tr>
+        <td></td>
+        <td class="text-xs-right">          
+        <v-checkbox
+            :input-value="viewAll"
+            primary
+            hide-details
+            @click.native="toggleViewAll"
+          ></v-checkbox></td>
+        <td class="text-xs-right">          
+        <v-checkbox
+            @click.native="toggleEditAll"
+            :input-value="editAll"
+            primary
+            hide-details
+          ></v-checkbox></td>
+      </tr>
     </template>
+
     <template slot="items" slot-scope="props">
+
       <tr :active="props.selected" @click="props.selected = !props.selected">
         <td>{{ props.item.name }}</td>
         <td class="text-xs-right">          
@@ -116,6 +135,8 @@ export default {
   name: 'userconfig',
   data() {
     return {
+      viewAll: true,
+      editAll: true,
       dialog2: false,
       users: [{username: 'user1'},{username: 'user2'}],
       pagination: {
@@ -124,11 +145,12 @@ export default {
       selected: [],
       headers: [
         {
+          align: 'left',
           text: 'Channel',
           value: 'name'
         },
-        { text: 'View', value: 'view' },
-        { text: 'Edit', value: 'edit' },
+        { text: 'View', value: 'view', align: 'left' },
+        { text: 'Edit', value: 'edit', align: 'left' },
       ],
       channels: [
         {
@@ -177,6 +199,22 @@ export default {
 
   },
   methods: {
+    toggleViewAll: function(){
+      var vm = this;
+      vm.viewAll = !vm.viewAll;
+      var i;
+      for (i = 0; i < vm.channels.length; i++) { 
+        vm.channels[i].view = vm.viewAll;
+      }
+    },
+    toggleEditAll: function (){
+      var vm = this;
+      vm.editAll = !vm.editAll;
+      var i;
+      for (i = 0; i < vm.channels.length; i++) { 
+        vm.channels[i].edit = vm.editAll;
+      }
+    },
     createUser: function(){
     },
     saveUserDetails: function(temp){
