@@ -32,6 +32,7 @@
         <v-card-title primary-title>
         Edit user:
         </v-card-title>
+        <v-card-text>
         <v-layout column >
   <v-data-table
     v-model="selected"
@@ -39,19 +40,10 @@
     :items="channels"
     select-all
     item-key="name"
-    class="elevation-1"
+    hide-actions
   >
     <template slot="headers" slot-scope="props">
       <tr>
-        <th>
-          <v-checkbox
-            :input-value="props.all"
-            :indeterminate="props.indeterminate"
-            primary
-            hide-details
-            @click.native="toggleAll"
-          ></v-checkbox>
-        </th>
         <th
           v-for="header in props.headers"
           :key="header.text"
@@ -65,18 +57,16 @@
     </template>
     <template slot="items" slot-scope="props">
       <tr :active="props.selected" @click="props.selected = !props.selected">
-        <td>
-        </td>
         <td>{{ props.item.name }}</td>
         <td class="text-xs-right">          
         <v-checkbox
-            :input-value="props.view"
+            :input-value="props.item.view"
             primary
             hide-details
           ></v-checkbox></td>
         <td class="text-xs-right">          
         <v-checkbox
-            :input-value="props.edit"
+            :input-value="props.item.edit"
             primary
             hide-details
           ></v-checkbox></td>
@@ -93,6 +83,7 @@
         </v-btn>
       </v-layout>
         </v-layout>
+        </v-card-text>
         </v-card>
         </div>
         </v-flex>
@@ -108,6 +99,7 @@
             <v-text-field name="input-3" label="Template name:" value="Input text" class="pr-3"></v-text-field>
           </v-card-text>
           <v-btn raised primary @click="createUser()">Done</v-btn>
+          
         </v-card>
       </v-dialog>
           </v-flex >
@@ -133,7 +125,6 @@ export default {
       headers: [
         {
           text: 'Channel',
-          align: 'left',
           value: 'name'
         },
         { text: 'View', value: 'view' },
