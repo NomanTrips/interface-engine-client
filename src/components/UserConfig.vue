@@ -179,7 +179,7 @@ export default {
       viewAll: true,
       editAll: true,
       dialog2: false,
-      users: [{username: 'user1'},{username: 'user2'}],
+      users: [],
       pagination: {
         sortBy: 'name'
       },
@@ -233,6 +233,7 @@ export default {
     axios.get('http://localhost:3000/catalog/users', vm.axiosConfig)
       .then(function(response) {
         vm.users = response.data;
+        console.log(vm.users);
       })
       .catch(function(error) {
         console.log(error);
