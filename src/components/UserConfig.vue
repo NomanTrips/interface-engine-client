@@ -13,13 +13,19 @@
     <v-card>
    
         <div>
-            <v-list dense two-line subheader>
-              <v-subheader inset>Users:</v-subheader>
-                <v-list-tile avatar v-for="user in users" v-bind:key="user.username" @click="editUser(user)">
-                    <v-list-tile-content >
-                    <v-text-field v-model="user.username" name="input-2" label="Username" value="Input text" class="pr-3"></v-text-field>
+            <v-list dense two-line subheader >
+             <v-subheader>Pick a user to edit:</v-subheader>
+            <template v-for="(user, index) in users">            
+                <v-list-tile  :key="user.username" @click="editUser(user)">
+                    <v-list-tile-content>
+                      {{user.username}}
                     </v-list-tile-content>
-                </v-list-tile>   
+                </v-list-tile>
+                <v-divider
+                  v-if="index + 1 < users.length"
+                  :key="index"
+                ></v-divider>
+                </template>
             </v-list>
         </div>
 
@@ -28,11 +34,33 @@
       </v-flex>
         <v-flex xs10>
         <div class="pl-2">
-        <v-card >
+        <v-card v-if="selectedUser">
         <v-card-title primary-title>
-        Edit user:
+        Edit user permissions:
         </v-card-title>
         <v-card-text>
+        <span class="headline">{{selectedUser.username}}</span>
+          <div>
+              <v-switch
+      :label="`Active`"
+      v-model="isActive"
+    ></v-switch>
+          <v-tooltip right>
+            <v-checkbox
+            :label="`Administrator`"
+            :input-value="isAdmin"
+            primary
+            hide-details
+            @click.native="toggleIsAdmin"
+            slot="activator"
+            ></v-checkbox>
+            <span>This user account can set server settings, create user accounts and modify script templates.</span>
+            </v-tooltip>
+
+          </div>
+                          <v-btn>
+      Reset password
+    </v-btn>
         <v-layout column >
   <v-data-table
     v-model="selected"
@@ -56,20 +84,30 @@
       </tr>
       <tr>
         <td></td>
-        <td class="text-xs-right">          
+        <td class="text-xs-right">
+        <v-tooltip top>        
         <v-checkbox
             :input-value="viewAll"
             primary
             hide-details
             @click.native="toggleViewAll"
-          ></v-checkbox></td>
-        <td class="text-xs-right">          
+            slot="activator"
+          ></v-checkbox>
+            <span>View all</span>
+          </v-tooltip>
+          </td>
+        <td class="text-xs-right">
+        <v-tooltip top>       
         <v-checkbox
             @click.native="toggleEditAll"
             :input-value="editAll"
             primary
             hide-details
-          ></v-checkbox></td>
+            slot="activator"
+          ></v-checkbox>
+          <span>Edit all</span>
+          </v-tooltip>
+          </td>
       </tr>
     </template>
 
@@ -135,6 +173,9 @@ export default {
   name: 'userconfig',
   data() {
     return {
+      selectedUser: null,
+      isAdmin: true,
+      isActive: true,
       viewAll: true,
       editAll: true,
       dialog2: false,
@@ -223,6 +264,10 @@ export default {
     },
     deleteUser: function(){
       this.editor = editor;
+    },
+    editUser: function(user){
+      var vm = this;
+      vm.selectedUser = user;
     }
   }
 
