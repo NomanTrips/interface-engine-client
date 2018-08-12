@@ -238,7 +238,15 @@ export default {
       .catch(function(error) {
         console.log(error);
       });
-
+    axios.get('http://localhost:3000/catalog/channels', vm.axiosConfig)
+      .then(function(response) {
+        vm.channels = response.data;
+        var i;
+        for (i = 0; i < vm.channels.length; i++) { 
+          vm.channels[i]['view'] = true;
+          vm.channels[i]['edit'] = true;
+        }
+      })
   },
   methods: {
     toggleViewAll: function(){
