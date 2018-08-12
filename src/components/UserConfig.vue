@@ -120,18 +120,20 @@
             :input-value="props.item.view"
             primary
             hide-details
+            @click="setViewPermission(props.item)"
           ></v-checkbox></td>
         <td class="text-xs-right">          
         <v-checkbox
             :input-value="props.item.edit"
             primary
             hide-details
+            @click="setEditPermission(props.item)"
           ></v-checkbox></td>
       </tr>
     </template>
   </v-data-table>
               <v-layout row>
-        <div v-on:click="saveUser()">
+        <div v-on:click="saveUserDetails()">
           <v-btn raised primary >Save</v-btn>
         </div>
         <v-btn color="primary" dark @click.stop="dialog2 = true">New</v-btn>
@@ -243,12 +245,18 @@ export default {
         vm.channels = response.data;
         var i;
         for (i = 0; i < vm.channels.length; i++) { 
-          vm.channels[i]['view'] = true;
-          vm.channels[i]['edit'] = true;
+          vm.channels[i]['view'] = false;
+          vm.channels[i]['edit'] = false;
         }
       })
   },
   methods: {
+    setViewPermission: function(item){
+      item.view = ! item.view;
+    },
+    setEditPermission: function(item){
+      item.edit = ! item.edit;
+    },
     toggleViewAll: function(){
       var vm = this;
       vm.viewAll = !vm.viewAll;
@@ -267,9 +275,21 @@ export default {
     },
     createUser: function(){
     },
-    saveUserDetails: function(temp){
-      this.selectedTemplate = temp;
-      this.editor.setValue(this.selectedTemplate.script);
+    saveUserDetails: function(){
+      var vm = this;
+      vm.selectedUser.channel_permissions = {};
+      var i;
+      for (i = 0; i < vm.channels.length; i++) {
+        vm.selectedUser.channel_permissions[vm.channels[i]._id] = {view: vm.channels[i].view, edit: vm.channels[i].edit,};
+      }
+      console.log(vm.selectedUser._id);
+      axios.post('http://localhost:3000/catalog/updateuser/' + vm.selectedUser._id, vm.selectedUser, vm.axiosConfig)
+        .then(function(response) {
+          console.log(response);
+        })
+        .catch(function(error) {
+          console.log(error);
+        });
     },
     deleteUser: function(){
       this.editor = editor;
@@ -277,6 +297,18 @@ export default {
     editUser: function(user){
       var vm = this;
       vm.selectedUser = user;
+      var i;
+      for (i = 0; i < vm.channels.length; i++) {
+        try{
+          vm.channels[i].view = vm.selectedUser.channel_permissions[vm.channels[i]._id].view;
+          vm.channels[i].edit = vm.selectedUser.channel_permissions[vm.channels[i]._id].edit;
+        } 
+        catch(err) {
+          vm.channels[i].view = false;
+          vm.channels[i].edit = false;
+        }
+        
+      }     
     }
   }
 
