@@ -58,7 +58,7 @@
             </v-tooltip>
 
           </div>
-                          <v-btn>
+    <v-btn @click.stop="dialog = true">
       Reset password
     </v-btn>
         <v-layout column >
@@ -149,15 +149,15 @@
       
       </v-layout>
 
-        <v-dialog v-model="dialog2" max-width="500px">
+        <v-dialog v-model="dialog" max-width="500px">
         <v-card>
           <v-card-title>
-            Enter user details name:
+            Set new password:
           </v-card-title>
           <v-card-text>
-            <v-text-field name="input-3" label="Template name:" value="Input text" class="pr-3"></v-text-field>
+            <v-text-field name="input-3" label="New password:" v-model="newPass" value="Input text" class="pr-3"></v-text-field>
           </v-card-text>
-          <v-btn raised primary @click="createUser()">Done</v-btn>
+          <v-btn raised primary @click="setUserPassword()">Reset</v-btn>
           
         </v-card>
       </v-dialog>
@@ -175,12 +175,13 @@ export default {
   name: 'userconfig',
   data() {
     return {
+      newPass: null,
       selectedUser: null,
       isAdmin: true,
       isActive: true,
       viewAll: true,
       editAll: true,
-      dialog2: false,
+      dialog: false,
       users: [],
       pagination: {
         sortBy: 'name'
@@ -290,6 +291,17 @@ export default {
         .catch(function(error) {
           console.log(error);
         });
+    },
+    setUserPassword: function(){
+      var vm = this;
+      axios.post('http://localhost:3000/catalog/user/' + vm.selectedUser._id +'/setpassword', {user: vm.selectedUser, newPass: vm.newPass}, vm.axiosConfig)
+        .then(function(response) {
+          console.log(response);
+        })
+        .catch(function(error) {
+          console.log(error);
+        });
+      vm.dialog = false;
     },
     deleteUser: function(){
       this.editor = editor;
