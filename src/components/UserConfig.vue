@@ -45,17 +45,10 @@
       :label="`Active`"
       v-model="selectedUser.is_active"
     ></v-switch>
-          <v-tooltip right>
-            <v-checkbox
-            :label="`Administrator`"
-            :input-value="isAdmin"
-            primary
-            hide-details
-            @click.native="toggleIsAdmin"
-            slot="activator"
-            ></v-checkbox>
-            <span>This user account can set server settings, create user accounts and modify script templates.</span>
-            </v-tooltip>
+          <v-switch
+          :label="`Admin`"
+          v-model="selectedUser.is_admin"
+          ></v-switch>
 
           </div>
     <v-btn @click.stop="dialog = true">
