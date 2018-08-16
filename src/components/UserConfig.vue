@@ -43,7 +43,7 @@
           <div>
               <v-switch
       :label="`Active`"
-      v-model="isActive"
+      v-model="selectedUser.is_active"
     ></v-switch>
           <v-tooltip right>
             <v-checkbox
