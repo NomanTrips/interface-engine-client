@@ -9,7 +9,7 @@ export default {
   },
 
   // Send a request to the login URL and save the returned JWT
-  login(context, creds, redirect) {
+  login(context, creds, redirect, errFunction) {
       var vm = this;
     axios.post('http://localhost:3000/catalog/login', {"username": creds.username, "password": creds.password})
     .then(function(response) {
@@ -28,7 +28,7 @@ export default {
         }
     })
    .catch(function(error) {
-     console.log(error);
+     errFunction(error);
    });
   },
 

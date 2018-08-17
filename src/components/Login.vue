@@ -45,6 +45,11 @@
                                 <v-btn primary v-on:click="createUser()">New User</v-btn>
                             </v-flex>
                         </v-layout>
+                        <div>
+                            <span style="color:red;">
+                                {{loginErrorText}}
+                            </span>
+                        </div>
                     </v-card-text>
                 </div>
             </v-card>
@@ -63,6 +68,7 @@ import auth from '../auth/index'
     name: 'login',
     data () {
       return {
+          loginErrorText: '',
           creds: {username: '', password: '', name: ''},
           e1: false,
           e2: false,
@@ -76,7 +82,10 @@ import auth from '../auth/index'
   },
   methods: {
       login: function (){
-          auth.login(this, this.creds, '/Dashboard');
+          var vm = this;
+          auth.login(this, this.creds, '/Dashboard', function(err){
+              vm.loginErrorText = err.response.data;
+          });
           /** 
           axios.post('http://localhost:3000/catalog/login', {"username": this.creds.username, "password": this.creds.password})
            .then(function(response) {
