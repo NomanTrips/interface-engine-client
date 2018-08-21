@@ -1,34 +1,64 @@
 <template>
   <div style="height:100%;width:100%;">
       <v-container fluid>
-  <v-subheader>Message details:</v-subheader>
-    <v-tabs dark v-model="active">
+      <div v-show="showRaw">
+        <v-card>
+          <v-card-title primary-title>
+            <div>
+              <h3 class="headline mb-0">Raw message</h3>
+              <div>Message data recieved from the source.</div>
+            </div>
+          </v-card-title>
 
-      <v-tabs-bar >
-        <v-tabs-item
-          v-for="tab in tabs"
-          :key="tab"
-          :href="'#' + tab"
-          ripple
-        >
-          {{ tab }}
-        </v-tabs-item>
-        <v-tabs-slider class="yellow"></v-tabs-slider>
-      </v-tabs-bar>
-      <v-tabs-content
-        v-for="tab in tabs"
-        :key="tab"
-        :id="tab"
-      >
-        <v-card flat>
           <pre>
-            <v-card-text>{{  tab_content[tabs.indexOf(active) ] }}</v-card-text>
+            {{raw_data}}
           </pre>
         </v-card>
-      </v-tabs-content>
-    </v-tabs>
+      </div>
+      
+      <div v-show="showTransformed">
+        <v-card>
+          <v-card-title primary-title>
+            <div>
+              <h3 class="headline mb-0">Transformed message</h3>
+              <div>Message transformed by any channels script.</div>
+            </div>
+          </v-card-title>
 
+          <pre>
+            {{transformed_data}}
+          </pre>
+        </v-card>
+      </div>
+
+      <div v-show="showErrors">
+        <v-card>
+          <v-card-title primary-title>
+            <div>
+              <h3 class="headline mb-0">Errors</h3>
+              <div>Any errors in processing the message.</div>
+            </div>
+          </v-card-title>
+
+          <pre>
+            {{errors}}
+          </pre>
+        </v-card>
+      </div>
   </v-container>
+        <v-navigation-drawer app clipped fixed width="200"  v-model="drawer">
+      <v-list>
+        <v-list-tile v-for="item in navitems" :key="item.title" @click="navItem(item.title)">
+          <v-list-tile-action>
+            <v-icon>{{ item.icon }}</v-icon>
+          </v-list-tile-action>
+          <v-list-tile-content>
+          <v-list-tile-title>{{ item.title }}</v-list-tile-title>
+          </v-list-tile-content>
+        </v-list-tile>
+       
+      </v-list>
+    </v-navigation-drawer>
   </div>
 
 
@@ -44,16 +74,21 @@ import auth from '../auth/index';
     name: 'messagedetail',
     data () {
       return {
-        tab_content: [],// ['-','-','-'],
-        tabs: ['Raw', 'Transformed', 'Errors'],
-        active: 'Transformed', // to handle refresh issue
-        text: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.',
+        showErrors: false,
+        showRaw: true,
+        showTransformed: false,
+        drawer: true,
+        isExpanded: false,
+        navitems: [
+          { icon: 'input', title: 'Raw message' },
+          { icon: 'mail', title: 'Transformed message' },
+          { icon: 'error', title: 'Errors'  },
+        ],
         raw_data : '',
         transformed_data: '',
         errors: '',
         items: [],
         clipped: false,
-        drawer: false,
         fixed: false,
 
         miniVariant: false,
@@ -76,25 +111,31 @@ import auth from '../auth/index';
     vm.$parent.drawer = false;
     axios.get('http://localhost:3000/catalog/message/' +  this.$route.params.messageid, vm.axiosConfig)
       .then(function(response) {
-        vm.tab_content.push(response.data.raw_data);
-        vm.tab_content.push(response.data.transformed_data);
-        vm.tab_content.push(response.data.err);
-        vm.active ='Raw'; // set to raw to handle refresh issue
+        vm.raw_data = response.data.raw_data;
+        vm.transformed_data = response.data.transformed_data;
+        vm.errors = response.data.err;
       })
       .catch(function(error) {
         console.log(error);
       });
   },
   methods: {
-           next () {
-               console.log(this.active);
-        this.active = this.tabs[(this.tabs.indexOf(this.active) + 1) % this.tabs.length]
-      },
-
-      onTabClick () {
-                console.log('getting here');
-        this.text = tab_content[this.active];
+    navItem: function (itemTitle){
+      var vm = this;
+      if (itemTitle == 'Raw message'){
+        vm.showErrors = false;
+        vm.showRaw = true;
+        vm.showTransformed = false;
+      } else if (itemTitle == 'Transformed message'){
+        vm.showErrors = false;
+        vm.showRaw = false;
+        vm.showTransformed = true;
+      } else if (itemTitle == 'Errors'){
+        vm.showErrors = true;
+        vm.showRaw = false;
+        vm.showTransformed = false;
       }
+    },
   }
   }
 </script>
