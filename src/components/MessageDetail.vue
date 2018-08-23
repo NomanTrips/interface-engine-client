@@ -10,9 +10,18 @@
             </div>
           </v-card-title>
 
-          <pre>
-            {{raw_data}}
-          </pre>
+     
+       <MonacoEditor
+        height="600"
+        language="json"
+        :code= "raw_data"
+        :editorOptions="options"
+        @mounted="onMounted"
+        @codeChange="onCodeChange"
+        :theme="theme"
+      >
+      </MonacoEditor>
+       
         </v-card>
       </div>
       
@@ -41,7 +50,9 @@
           </v-card-title>
 
           <pre>
-            {{errors}}
+            <span>
+            {{err}}
+            </span>
           </pre>
         </v-card>
       </div>
@@ -69,11 +80,19 @@
 
 import axios from 'axios';
 import auth from '../auth/index';
+import MonacoEditor from 'vue-monaco-editor';
 
   export default {
     name: 'messagedetail',
     data () {
       return {
+        code: '',
+        theme: 'vs',
+        options: {
+          readOnly: true,
+          selectOnLineNumbers: false,
+          cursorStyle: "block"
+        },
         showErrors: false,
         showRaw: true,
         showTransformed: false,
@@ -94,7 +113,8 @@ import auth from '../auth/index';
         miniVariant: false,
         right: true,
         rightDrawer: false,
-        title: 'Message detail'
+        title: 'Message detail',
+        err: 'jubba',
       }
     },
   computed: {
@@ -106,20 +126,34 @@ import auth from '../auth/index';
       }
     }
   },
+  components:{
+        MonacoEditor
+    },
   created() {
     var vm = this;
     vm.$parent.drawer = false;
     axios.get('http://localhost:3000/catalog/message/' +  this.$route.params.messageid, vm.axiosConfig)
       .then(function(response) {
-        vm.raw_data = response.data.raw_data;
+        console.log(response.data.err);
+        vm.raw_data = response.data.raw_data.toString();//JSON.stringify(response.data.raw_data);
         vm.transformed_data = response.data.transformed_data;
-        vm.errors = response.data.err;
+        vm.err = 'something';//response.data.err.toString();
       })
       .catch(function(error) {
         console.log(error);
       });
   },
   methods: {
+    onMounted(editor) {
+      this.editor = editor;
+      this.editor._configuration.editor.readOnly = true;
+      //this.editor.defaults.readOnly = true;
+      //console.log(editor);
+   
+    },
+    onCodeChange(editor) {
+      //this.code = editor.getValue();
+    },
     navItem: function (itemTitle){
       var vm = this;
       if (itemTitle == 'Raw message'){
