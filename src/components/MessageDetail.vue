@@ -13,7 +13,7 @@
      
        <MonacoEditor
         height="600"
-        language="json"
+        :language="editorFileFormat"
         :code= "raw_data"
         :editorOptions="options"
         @mounted="onMounted"
@@ -69,6 +69,9 @@ import MonacoEditor from 'vue-monaco-editor';
     name: 'messagedetail',
     data () {
       return {
+        inboundFileFormat: '',
+        outboundFileFormat: '',
+        editorFileFormat: '',
         editorTitle: 'Raw message',
         editorDescription: 'Message data recieved from the source.',
         code: '',
@@ -129,7 +132,11 @@ import MonacoEditor from 'vue-monaco-editor';
         }catch(err){
 
         }
-        vm.err = response.data.err;  
+        vm.err = response.data.err;
+        vm.inboundFileFormat = response.data.inbound_file_format;
+        vm.outboundFileFormat = response.data.outbound_file_format;
+        vm.editorFileFormat = vm.inboundFileFormat;
+        console.log(response.data.inbound_file_format);
       })
       .catch(function(error) {
         console.log(error);
@@ -155,12 +162,14 @@ import MonacoEditor from 'vue-monaco-editor';
         vm.editorDescription = 'Message data recieved from the source.',
         vm.showErrors = false;
         vm.showMonaco = true;
+        vm.editorFileFormat = vm.inboundFileFormat;
       } else if (itemTitle == 'Transformed message'){
         vm.editor.setValue(vm.transformed_data);
         vm.editorTitle = 'Transformed message',
         vm.editorDescription = 'Message transformed by channel scripts.',
         vm.showErrors = false;
         vm.showMonaco = true;
+        vm.editorFileFormat = vm.outboundFileFormat;
       } else if (itemTitle == 'Errors'){
         vm.showErrors = true;
         vm.showMonaco = false;

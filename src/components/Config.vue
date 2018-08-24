@@ -74,8 +74,11 @@
       </v-layout>
 
       <v-layout row>
-        <v-flex xs6 >
+        <v-flex xs3 >
           <v-select v-bind:items="transportTypes" v-model="channel.inbound_type" label="Source type" class="pr-3"></v-select>
+        </v-flex>
+        <v-flex xs3 >
+          <v-select v-bind:items="fileFormats" v-model="channel.inbound_file_format" label="Source file format" class="pr-3"></v-select>
         </v-flex>
         <v-flex xs6 >
           <div v-if="channel.inbound_type == 'File directory'">
@@ -170,8 +173,11 @@
       </div>
 -->
       <v-layout row>
-        <v-flex xs6 >
+        <v-flex xs3 >
           <v-select v-bind:items="transportTypes" v-model="channel.outbound_type" label="Dest type" class="pr-3"></v-select>
+        </v-flex>
+        <v-flex xs3 >
+          <v-select v-bind:items="fileFormats" v-model="channel.outbound_file_format" label="Dest file format" class="pr-3"></v-select>
         </v-flex>
         <v-flex xs6 >
           <div v-if="channel.outbound_type == 'File directory'">
@@ -274,6 +280,7 @@ export default {
       channel: {},
       source: null,
       dest: null,
+      fileFormats: ['xml', 'json', 'HL7'],
       httpMethod: ['GET','PUT', 'POST'],
       transportTypes: ['FTP','SFTP', 'File directory', 'http', 'https', 'TCP', 'Database reader', 'Database writer'],
       dbReaderType: ['Postgres'],
