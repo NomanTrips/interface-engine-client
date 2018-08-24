@@ -1,12 +1,12 @@
 <template>
   <div style="height:100%;width:100%;">
       <v-container fluid>
-      <div v-show="showRaw">
+      <div v-show="showMonaco">
         <v-card>
           <v-card-title primary-title>
             <div>
-              <h3 class="headline mb-0">Raw message</h3>
-              <div>Message data recieved from the source.</div>
+              <h3 class="headline mb-0">{{editorTitle}}</h3>
+              <div>{{editorDescription}}</div>
             </div>
           </v-card-title>
 
@@ -24,21 +24,6 @@
        
         </v-card>
       </div>
-      
-      <div v-show="showTransformed">
-        <v-card>
-          <v-card-title primary-title>
-            <div>
-              <h3 class="headline mb-0">Transformed message</h3>
-              <div>Message transformed by any channels script.</div>
-            </div>
-          </v-card-title>
-
-          <pre>
-            {{transformed_data}}
-          </pre>
-        </v-card>
-      </div>
 
       <div v-show="showErrors">
         <v-card>
@@ -49,11 +34,9 @@
             </div>
           </v-card-title>
 
-          <pre>
-            <span>
+          <v-card-text>
             {{err}}
-            </span>
-          </pre>
+          </v-card-text>
         </v-card>
       </div>
   </v-container>
@@ -86,6 +69,8 @@ import MonacoEditor from 'vue-monaco-editor';
     name: 'messagedetail',
     data () {
       return {
+        editorTitle: 'Raw message',
+        editorDescription: 'Message data recieved from the source.',
         code: '',
         theme: 'vs',
         options: {
@@ -93,9 +78,8 @@ import MonacoEditor from 'vue-monaco-editor';
           selectOnLineNumbers: false,
           cursorStyle: "block"
         },
+        showMonaco: true,
         showErrors: false,
-        showRaw: true,
-        showTransformed: false,
         drawer: true,
         isExpanded: false,
         navitems: [
@@ -109,12 +93,11 @@ import MonacoEditor from 'vue-monaco-editor';
         items: [],
         clipped: false,
         fixed: false,
-
         miniVariant: false,
         right: true,
         rightDrawer: false,
         title: 'Message detail',
-        err: 'jubba',
+        err: '',
       }
     },
   computed: {
@@ -134,10 +117,18 @@ import MonacoEditor from 'vue-monaco-editor';
     vm.$parent.drawer = false;
     axios.get('http://localhost:3000/catalog/message/' +  this.$route.params.messageid, vm.axiosConfig)
       .then(function(response) {
-        console.log(response.data.err);
-        vm.raw_data = response.data.raw_data.toString();//JSON.stringify(response.data.raw_data);
-        vm.transformed_data = response.data.transformed_data;
-        vm.err = 'something';//response.data.err.toString();
+        try{
+          vm.raw_data = response.data.raw_data.toString();
+          vm.editor.setValue(vm.raw_data);
+        }catch(err){
+
+        }
+        try{
+          vm.transformed_data = response.data.transformed_data.toString();
+        }catch(err){
+
+        }
+        vm.err = response.data.err;  
       })
       .catch(function(error) {
         console.log(error);
@@ -157,17 +148,20 @@ import MonacoEditor from 'vue-monaco-editor';
     navItem: function (itemTitle){
       var vm = this;
       if (itemTitle == 'Raw message'){
+        vm.editor.setValue(vm.raw_data);
+        vm.editorTitle = 'Raw message',
+        vm.editorDescription = 'Message data recieved from the source.',
         vm.showErrors = false;
-        vm.showRaw = true;
-        vm.showTransformed = false;
+        vm.showMonaco = true;
       } else if (itemTitle == 'Transformed message'){
+        vm.editor.setValue(vm.transformed_data);
+        vm.editorTitle = 'Transformed message',
+        vm.editorDescription = 'Message transformed by channel scripts.',
         vm.showErrors = false;
-        vm.showRaw = false;
-        vm.showTransformed = true;
+        vm.showMonaco = true;
       } else if (itemTitle == 'Errors'){
         vm.showErrors = true;
-        vm.showRaw = false;
-        vm.showTransformed = false;
+        vm.showMonaco = false;
       }
     },
   }
