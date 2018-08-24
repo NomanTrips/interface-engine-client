@@ -69,6 +69,7 @@ import MonacoEditor from 'vue-monaco-editor';
     name: 'messagedetail',
     data () {
       return {
+        theme: 'vs',
         inboundFileFormat: '',
         outboundFileFormat: '',
         editorFileFormat: '',
@@ -117,6 +118,16 @@ import MonacoEditor from 'vue-monaco-editor';
     },
   created() {
     var vm = this;
+    axios.get('http://localhost:3000/catalog/serverconfig', vm.axiosConfig)
+      .then(function(response) {
+        vm.serverconfig = response.data;
+        if (vm.serverconfig.isDarkTheme){
+          vm.theme = 'vs-dark';
+        } else {
+          vm.theme = 'vs';
+        }
+
+    });
     vm.$parent.drawer = false;
     axios.get('http://localhost:3000/catalog/message/' +  this.$route.params.messageid, vm.axiosConfig)
       .then(function(response) {
