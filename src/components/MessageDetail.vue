@@ -120,6 +120,7 @@ import MonacoEditor from 'vue-monaco-editor';
         try{
           vm.raw_data = response.data.raw_data.toString();
           vm.editor.setValue(vm.raw_data);
+          
         }catch(err){
 
         }
@@ -144,6 +145,7 @@ import MonacoEditor from 'vue-monaco-editor';
     },
     onCodeChange(editor) {
       //this.code = editor.getValue();
+      editor._configuration.editor.readOnly = true;
     },
     navItem: function (itemTitle){
       var vm = this;
