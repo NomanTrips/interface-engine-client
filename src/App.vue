@@ -3,7 +3,7 @@
   <div id="app" >
     <v-app :dark="isDarkTheme ? true : false">
 
-    <v-toolbar app absolute clipped-left v-if="! ($router.currentRoute.name == 'Login')">
+    <v-toolbar app clipped-left v-if="! ($router.currentRoute.name == 'Login')">
       <v-toolbar-side-icon @click.native.stop="drawer = !drawer"></v-toolbar-side-icon>
       <v-btn icon @click.native.stop="miniVariant = !miniVariant">
         <v-icon v-html="miniVariant ? 'chevron_right' : 'chevron_left'"></v-icon>
