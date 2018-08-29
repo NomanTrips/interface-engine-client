@@ -147,7 +147,6 @@ import MonacoEditor from 'vue-monaco-editor';
 
         }
         vm.err = response.data.err;
-        console.log(vm.err);
         vm.inboundFileFormat = response.data.inbound_file_format;
         vm.outboundFileFormat = response.data.outbound_file_format;
         vm.editorFileFormat = vm.inboundFileFormat;

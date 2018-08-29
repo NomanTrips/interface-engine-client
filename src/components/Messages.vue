@@ -61,7 +61,12 @@
           <td>{{ props.item.received_date }}</td>
           <td>{{ props.item.status }}</td>
           <td>{{ props.item.err }}</td>
-          <td ><pre>{{ String(props.item.raw_data).substring(0, 60) }}....</pre></td>
+          <td >
+            <v-tooltip bottom allow-overflow>
+              <pre slot="activator">{{ String(props.item.raw_data).substring(0, 60) }}....</pre>
+            <span>{{props.item.raw_data.toString()}}</span>
+            </v-tooltip>
+          </td>
           <td ><pre>{{ String(props.item.transformed_data).substring(0, 60) }}....</pre></td>
         </tr>
       </template>
@@ -167,6 +172,14 @@ import auth from '../auth/index';
     deleteMessages: function(){
       var vm = this;
       axios.post('http://localhost:3000/catalog/message/' + this.$route.params.id +'/delete', {}, vm.axiosConfig)
+      .then(function(response) {
+        console.log(response);
+      })
+      .catch(function(error) {
+        console.log(error);
+      });
+      ///channel/:id/deletestats
+      axios.post('http://localhost:3000/catalog/channel/' + this.$route.params.id +'/deletestats', {}, vm.axiosConfig)
       .then(function(response) {
         console.log(response);
       })
