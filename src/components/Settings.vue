@@ -54,7 +54,7 @@ export default {
       if (itemTitle == 'Script templates'){
         vm.$router.push('/settings');
       } else if (itemTitle == 'Data truncation'){
-        vm.$router.push('/datatruncation');
+        vm.$router.push('/settings/datatruncation');
       } else if (itemTitle == 'User accounts'){
         vm.$router.push('/settings/useraccounts');
       }

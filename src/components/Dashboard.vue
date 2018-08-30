@@ -178,9 +178,9 @@ export default {
       } else if (itemTitle == 'Import channel'){
         vm.displayImportModal();
       } else if (itemTitle == 'Global variables'){
-        vm.$router.push('/globalvariables');
+        vm.$router.push('/Dashboard/globalvariables');
       } else if (itemTitle == 'Channels'){
-        vm.$router.push('/');
+        vm.$router.push('/Dashboard');
       }
     },
     displayImportModal: function (){
