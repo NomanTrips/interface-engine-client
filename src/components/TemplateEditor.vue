@@ -14,7 +14,8 @@
       </v-list>
     </v-navigation-drawer>
     -->
-  <v-container grid-list-md >
+  <v-container style="float:left;">
+    <v-card >
     <v-layout row wrap>
       <v-flex xs12>
     <v-subheader >
@@ -27,13 +28,32 @@
     <v-card>
    
         <div>
-            <v-list dense two-line subheader>
+            <v-list dense  subheader>
               <v-subheader inset>Templates:</v-subheader>
-                <v-list-tile avatar v-for="temp in templates" v-bind:key="temp.title" @click="loadTemplate(temp)">
+              <div class="pa-2">
+                <v-text-field
+                  v-model="search"
+                  append-icon="search"
+                  label="Search"
+                  single-line
+                  hide-details
+                 @input="onSearch"
+                 
+                ></v-text-field>
+                </div>
+<template v-for="(temp, index) in templatesFiltered">
+              <v-divider
+
+              :key="index"
+            ></v-divider>
+                <v-list-tile avatar  v-bind:class="{ 'grey lighten-4': index % 2 === 0 }" v-bind:key="index" @click="loadTemplate(temp)">
+
                     <v-list-tile-content >
                     <v-list-tile-title v-text="temp.name"  ></v-list-tile-title>
                     </v-list-tile-content>
                 </v-list-tile>   
+
+            </template>
             </v-list>
         </div>
 
@@ -43,9 +63,7 @@
         <v-flex xs10>
         <div class="pl-2">
         <v-card >
-        <v-card-title primary-title>
-        Edit script:
-        </v-card-title>
+        <v-card-text>
         <v-layout column >
         <v-text-field v-model="selectedTemplate.name" name="input-3" label="Template name:" value="Input text" ></v-text-field>
         <MonacoEditor
@@ -68,6 +86,7 @@
         </v-btn>
       </v-layout>
         </v-layout>
+        </v-card-text>
         </v-card>
         </div>
         </v-flex>
@@ -87,6 +106,7 @@
       </v-dialog>
           </v-flex >
     </v-layout >
+    </v-card>
   </v-container >
   </div>
 </template>
@@ -95,11 +115,13 @@
 import axios from 'axios';
 import MonacoEditor from 'vue-monaco-editor';
 import auth from '../auth/index';
+import _ from 'lodash';
 
 export default {
   name: 'transformers',
   data() {
     return {
+      search: '',
       drawer: true,
       navitems: [
           { icon: 'code', title: 'Script templates' },
@@ -115,6 +137,7 @@ export default {
       },
       dialog2: false,
       templates: [],
+      templatesFiltered: [],
     }
   },
   computed: {
@@ -134,6 +157,7 @@ export default {
     axios.get('http://localhost:3000/catalog/scripttemplates', vm.axiosConfig)
       .then(function(response) {
         vm.templates = response.data;
+        vm.templatesFiltered = vm.templates;
       })
       .catch(function(error) {
         console.log(error);
@@ -141,6 +165,18 @@ export default {
 
   },
   methods: {
+    onSearch: function(){
+            var vm = this;
+      console.log(vm.search.length);
+
+      if (vm.search.length > 2){
+        vm.templatesFiltered = _.filter(vm.templates, function(temp) { return (temp.name.indexOf(vm.search) != -1); })
+        console.log(vm.templatesFiltered);
+      }
+      if (vm.search === ''){
+        vm.templatesFiltered = vm.templates;
+      }
+    },
     //var vm : this,
     deleteTemplate: function(){
       var vm = this;
