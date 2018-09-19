@@ -14,7 +14,7 @@
       </v-list>
     </v-navigation-drawer>
     -->
-  <v-container style="float:left;">
+  <v-container style="float:left;padding:0px;">
     <v-card >
     <v-layout row wrap>
       <v-flex xs12>
@@ -23,34 +23,52 @@
     </v-subheader>
         
     <v-layout row>
-     <v-flex xs2>
+     <v-flex xs3>
      <div class="pl-2">
     <v-card>
    
         <div>
-            <v-list dense  subheader>
+            <v-list dense   subheader>
               <v-subheader inset>Templates:</v-subheader>
+              <v-layout row>
               <div class="pa-2">
                 <v-text-field
+     
                   v-model="search"
                   append-icon="search"
                   label="Search"
                   single-line
                   hide-details
                  @input="onSearch"
+                 append-outer-icon="add_box"
+                 @click:append-outer="dialog2 = true"
+                 active="true"
                  
                 ></v-text-field>
+
                 </div>
+
+              </v-layout>
 <template v-for="(temp, index) in templatesFiltered">
               <v-divider
 
-              :key="index"
+              :key="temp._id"
             ></v-divider>
-                <v-list-tile avatar  v-bind:class="{ 'grey lighten-4': index % 2 === 0 }" v-bind:key="index" @click="loadTemplate(temp)">
-
+                <v-list-tile 
+                avatar v-bind:class="{ 'grey lighten-4': index % 2 === 0 & isDarkTheme === false,
+                'grey darken-4': index % 2 === 0 & isDarkTheme === true }" 
+                v-bind:key="index" @click="loadTemplate(temp)" >
                     <v-list-tile-content >
+
                     <v-list-tile-title v-text="temp.name"  ></v-list-tile-title>
                     </v-list-tile-content>
+                    <v-list-tile-action   >
+              
+                      <v-btn icon @click="deleteTemplate(temp)" >
+                    <v-icon    small color="pink">delete</v-icon>
+                    </v-btn>
+              
+                    </v-list-tile-action>
                 </v-list-tile>   
 
             </template>
@@ -67,23 +85,20 @@
         <v-layout column >
         <v-text-field v-model="selectedTemplate.name" name="input-3" label="Template name:" value="Input text" ></v-text-field>
         <MonacoEditor
-            height="600"
+            height="550"
             language="javascript"
             :code= "selectedTemplate.script"
             :editorOptions="options"
             @mounted="onMounted"
             @codeChange="onCodeChange"
-            theme="vs"
+            :theme="theme"
         >
         </MonacoEditor>
               <v-layout row>
         <div v-on:click="saveTemplate()">
           <v-btn raised primary >Save</v-btn>
         </div>
-        <v-btn color="primary" dark @click.stop="dialog2 = true">New</v-btn>
-        <v-btn flat icon color="red" @click="deleteTemplate()">
-            <v-icon>delete</v-icon>
-        </v-btn>
+
       </v-layout>
         </v-layout>
         </v-card-text>
@@ -121,6 +136,7 @@ export default {
   name: 'transformers',
   data() {
     return {
+      upHere : false,
       search: '',
       drawer: true,
       navitems: [
@@ -138,9 +154,18 @@ export default {
       dialog2: false,
       templates: [],
       templatesFiltered: [],
+      isDarkTheme: false,
     }
   },
   computed: {
+    theme: function (){
+      var vm = this;
+      if (vm.isDarkTheme){
+        return "vs-dark"
+      } else {
+        return "vs"
+      }
+    },
     axiosConfig: function(){ // axios request config obj: headers, query params etc.
       return {
         params: {
@@ -154,9 +179,17 @@ export default {
     },
   created() {
     var vm = this;
+    axios.get('http://localhost:3000/catalog/serverconfig', vm.axiosConfig)
+      .then(function(response) {
+        vm.isDarkTheme = response.data.isDarkTheme;
+      });
     axios.get('http://localhost:3000/catalog/scripttemplates', vm.axiosConfig)
       .then(function(response) {
         vm.templates = response.data;
+        _.forEach(vm.templates, function(value) {
+          console.log(value);
+          value["showTrashCan"] = false;
+        });
         vm.templatesFiltered = vm.templates;
       })
       .catch(function(error) {
@@ -165,9 +198,13 @@ export default {
 
   },
   methods: {
+    zfunction: function(temp){
+      console.log('running dis');
+      var vm = this;
+      temp.showTrashCan = true;
+    },
     onSearch: function(){
             var vm = this;
-      console.log(vm.search.length);
 
       if (vm.search.length > 2){
         vm.templatesFiltered = _.filter(vm.templates, function(temp) { return (temp.name.indexOf(vm.search) != -1); })
@@ -178,9 +215,9 @@ export default {
       }
     },
     //var vm : this,
-    deleteTemplate: function(){
+    deleteTemplate: function(temp){
       var vm = this;
-        axios.post('http://localhost:3000/catalog/scripttemplates/' + this.selectedTemplate._id +'/delete', {}, vm.axiosConfig)
+        axios.post('http://localhost:3000/catalog/scripttemplates/' + temp._id +'/delete', {}, vm.axiosConfig)
         .then(function(response) {
             console.log(response);
         })
