@@ -83,7 +83,7 @@
         <v-card >
         <v-card-text>
         <v-layout column >
-        <v-text-field v-model="selectedTemplate.name" name="input-3" label="Template name:" value="Input text" ></v-text-field>
+        <v-text-field v-model="selectedTemplate.name" name="input-3" label="Template name:" value="Input text" v-on:blur="autoSave()"></v-text-field>
         <MonacoEditor
             height="550"
             language="javascript"
@@ -92,6 +92,7 @@
             @mounted="onMounted"
             @codeChange="onCodeChange"
             :theme="theme"
+            :onblur="autoSave"
         >
         </MonacoEditor>
               <v-layout row>
@@ -198,6 +199,10 @@ export default {
 
   },
   methods: {
+    autoSave:function(){
+      var vm = this;
+      vm.saveTemplate();
+    },
     zfunction: function(temp){
       console.log('running dis');
       var vm = this;
@@ -230,7 +235,12 @@ export default {
       this.editor.setValue(this.selectedTemplate.script);
     },
     onMounted(editor) {
+      var vm = this;
       this.editor = editor;
+      this.editor.onDidBlurEditor(()=>{
+        vm.autoSave();
+      });
+
     },
     onCodeChange(editor) {
       this.selectedTemplate.script = editor.getValue();
