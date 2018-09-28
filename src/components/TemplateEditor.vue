@@ -1,130 +1,106 @@
 <template>
   <div>
-  <!--
-    <v-navigation-drawer app clipped fixed width="200"  v-model="drawer">
-      <v-list>   
-        <v-list-tile v-for="item in navitems" :key="item.title" @click="navItem(item.title)">
-          <v-list-tile-action>
-            <v-icon>{{ item.icon }}</v-icon>
-          </v-list-tile-action>
-          <v-list-tile-content>
-          <v-list-tile-title>{{ item.title }}</v-list-tile-title>
-          </v-list-tile-content>
-        </v-list-tile>
-      </v-list>
-    </v-navigation-drawer>
-    -->
-  <v-container style="float:left;padding:0px;">
-    <v-card >
-    <v-layout row wrap>
-      <v-flex xs12>
-    <v-subheader >
-    Script template configuration:
-    </v-subheader>
-        
-    <v-layout row>
-     <v-flex xs3>
-     <div class="pl-2">
-    <v-card>
-   
-        <div>
-            <v-list dense   subheader>
-              <v-subheader inset>Templates:</v-subheader>
-              <v-layout row>
-              <div class="pa-2">
-                <v-text-field
-     
-                  v-model="search"
-                  append-icon="search"
-                  label="Search"
-                  single-line
-                  hide-details
-                 @input="onSearch"
-                 append-outer-icon="add_box"
-                 @click:append-outer="dialog2 = true"
-                 active="true"
-                 
-                ></v-text-field>
-
+    <v-container style="float:left;padding:0px;">
+      <v-card>
+        <v-layout row wrap>
+          <v-flex xs12>
+            <v-subheader>
+              Script template configuration:
+            </v-subheader>  
+            <v-layout row>
+              <v-flex xs3>
+                <div class="pl-2">
+                  <v-card>
+                    <div>
+                      <v-list dense subheader>
+                        <v-subheader inset>Templates:</v-subheader>
+                        <v-layout row>
+                          <div class="pa-2">
+                            <v-text-field
+                              v-model="search"
+                              append-icon="search"
+                              label="Search"
+                              single-line
+                              hide-details
+                              @input="onSearch"
+                              append-outer-icon="add_box"
+                              @click:append-outer="dialog2 = true">
+                            </v-text-field>
+                          </div>
+                        </v-layout>
+                        <template v-for="(item, index) in listItemsFiltered">
+                          <v-divider :key="item._id"></v-divider>
+                          <v-list-tile 
+                            avatar 
+                            v-bind:class="{ 'grey lighten-4': index % 2 === 0 & isDarkTheme === false,
+                            'grey darken-4': index % 2 === 0 & isDarkTheme === true }" 
+                            v-bind:key="index" 
+                            @click="loadTemplate(item)">
+                            <v-list-tile-content>
+                              <v-list-tile-title v-text="item.name"  ></v-list-tile-title>
+                            </v-list-tile-content>
+                            <v-list-tile-action>
+                              <v-btn icon @click="deleteTemplate(item)">
+                                <v-icon small color="pink">delete</v-icon>
+                              </v-btn>
+                            </v-list-tile-action>
+                          </v-list-tile>   
+                        </template>
+                      </v-list>
+                    </div>
+                  </v-card>
                 </div>
-
-              </v-layout>
-<template v-for="(temp, index) in templatesFiltered">
-              <v-divider
-
-              :key="temp._id"
-            ></v-divider>
-                <v-list-tile 
-                avatar v-bind:class="{ 'grey lighten-4': index % 2 === 0 & isDarkTheme === false,
-                'grey darken-4': index % 2 === 0 & isDarkTheme === true }" 
-                v-bind:key="index" @click="loadTemplate(temp)" >
-                    <v-list-tile-content >
-
-                    <v-list-tile-title v-text="temp.name"  ></v-list-tile-title>
-                    </v-list-tile-content>
-                    <v-list-tile-action   >
-              
-                      <v-btn icon @click="deleteTemplate(temp)" >
-                    <v-icon    small color="pink">delete</v-icon>
-                    </v-btn>
-              
-                    </v-list-tile-action>
-                </v-list-tile>   
-
-            </template>
-            </v-list>
-        </div>
-
-  </v-card>
-  </div>
-      </v-flex>
-        <v-flex xs10>
-        <div class="pl-2">
-        <v-card >
-        <v-card-text>
-        <v-layout column >
-        <v-text-field v-model="selectedTemplate.name" name="input-3" label="Template name:" value="Input text" v-on:blur="autoSave()"></v-text-field>
-        <MonacoEditor
-            height="550"
-            language="javascript"
-            :code= "selectedTemplate.script"
-            :editorOptions="options"
-            @mounted="onMounted"
-            @codeChange="onCodeChange"
-            :theme="theme"
-            :onblur="autoSave"
-        >
-        </MonacoEditor>
-              <v-layout row>
-        <div v-on:click="saveTemplate()">
-          <v-btn raised primary >Save</v-btn>
-        </div>
-
-      </v-layout>
-        </v-layout>
-        </v-card-text>
-        </v-card>
-        </div>
-        </v-flex>
-      
-      </v-layout>
-
+              </v-flex>
+            <v-flex xs10>
+              <div class="pl-2">
+                <v-card >
+                  <v-card-text>
+                    <v-layout column >
+                      <v-text-field 
+                        v-model="selectedTemplate.name" 
+                        name="input-3" 
+                        label="Template name:" 
+                        value="Input text" 
+                        v-on:blur="autoSave()">
+                      </v-text-field>
+                      <MonacoEditor
+                          height="550"
+                          language="javascript"
+                          :code= "selectedTemplate.script"
+                          :editorOptions="options"
+                          @mounted="onMounted"
+                          @codeChange="onCodeChange"
+                          :theme="theme"
+                          :onblur="autoSave">
+                      </MonacoEditor>
+                    </v-layout>
+                  </v-card-text>
+                </v-card>
+              </div>
+            </v-flex>    
+          </v-layout>
         <v-dialog v-model="dialog2" max-width="500px">
-        <v-card>
-          <v-card-title>
-            Enter template name:
-          </v-card-title>
-          <v-card-text>
-            <v-text-field v-model="newTemplateName" name="input-3" label="Template name:" value="Input text" class="pr-3"></v-text-field>
-          </v-card-text>
-          <v-btn raised primary @click="createTemplate()">Done</v-btn>
-        </v-card>
-      </v-dialog>
-          </v-flex >
+          <v-card>
+            <v-card-title>
+              Enter template name:
+            </v-card-title>
+            <v-card-text>
+              <v-text-field
+                v-model="newTemplateName" 
+                name="input-3" 
+                label="Template name:" 
+                value="Input text" 
+                class="pr-3">
+                </v-text-field>
+            </v-card-text>
+            <v-btn raised primary @click="createTemplate()">Done</v-btn>
+          </v-card>
+        </v-dialog>
+      </v-flex >
     </v-layout >
-    </v-card>
-  </v-container >
-  </div>
+  </v-card>
+</v-container >
+</div>
 </template>
 
 <script>
@@ -137,7 +113,6 @@ export default {
   name: 'transformers',
   data() {
     return {
-      upHere : false,
       search: '',
       drawer: true,
       navitems: [
@@ -146,15 +121,14 @@ export default {
       ],
       selectedTemplate: {script: '', name:''},
       newTemplateName: "New Template",
-      str: "nada",
       code: '// Type away! \n',
       scriptName: 'Enter script name here',
       options: {
         selectOnLineNumbers: false
       },
       dialog2: false,
-      templates: [],
-      templatesFiltered: [],
+      listItems: [],
+      listItemsFiltered: [],
       isDarkTheme: false,
     }
   },
@@ -186,12 +160,8 @@ export default {
       });
     axios.get('http://localhost:3000/catalog/scripttemplates', vm.axiosConfig)
       .then(function(response) {
-        vm.templates = response.data;
-        _.forEach(vm.templates, function(value) {
-          console.log(value);
-          value["showTrashCan"] = false;
-        });
-        vm.templatesFiltered = vm.templates;
+        vm.listItems = response.data;
+        vm.listItemsFiltered = vm.listItems;
       })
       .catch(function(error) {
         console.log(error);
@@ -203,20 +173,13 @@ export default {
       var vm = this;
       vm.saveTemplate();
     },
-    zfunction: function(temp){
-      console.log('running dis');
-      var vm = this;
-      temp.showTrashCan = true;
-    },
     onSearch: function(){
-            var vm = this;
-
+      var vm = this;
       if (vm.search.length > 2){
-        vm.templatesFiltered = _.filter(vm.templates, function(temp) { return (temp.name.indexOf(vm.search) != -1); })
-        console.log(vm.templatesFiltered);
+        vm.listItemsFiltered = _.filter(vm.listItems, function(item) { return (item.name.indexOf(vm.search) != -1); })
       }
       if (vm.search === ''){
-        vm.templatesFiltered = vm.templates;
+        vm.listItemsFiltered = vm.listItems;
       }
     },
     //var vm : this,
