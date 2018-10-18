@@ -144,6 +144,12 @@
             <v-text-field v-model="channel.tcp_host" name="input-3" label="Host:" value="Input text" class="pr-3"></v-text-field>
             <v-text-field v-model="channel.tcp_port" name="input-3" label="Port:" value="Input text" class="pr-3"></v-text-field>
           </div>
+          <div v-if="channel.inbound_type == 'Web service listener'">
+            <v-text-field v-model="channel.web_service_listener_port" name="input-3" label="Port:" value="Input text" class="pr-3"></v-text-field>
+            <label>WSDL url: http://localhost:{{channel.web_service_listener_port}}/wsdl?wsdl</label>
+            <br>
+            <label>Method: ProcessMessage</label>
+          </div>
         </v-flex>
       </v-layout>
   
@@ -282,7 +288,7 @@ export default {
       dest: null,
       fileFormats: ['xml', 'json', 'HL7'],
       httpMethod: ['GET','PUT', 'POST'],
-      transportTypes: ['FTP','SFTP', 'File directory', 'http', 'https', 'TCP', 'Database reader', 'Database writer'],
+      transportTypes: ['FTP','SFTP', 'File directory', 'http', 'https', 'TCP', 'Database reader', 'Database writer', 'Web service listener'],
       dbReaderType: ['Postgres'],
       postProcessingType: ['Move', 'Delete', 'Copy'],
       intervalUnit: ['milliseconds','seconds', 'minutes', 'hours', 'days'],
