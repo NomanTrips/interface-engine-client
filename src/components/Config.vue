@@ -244,6 +244,7 @@
             ></v-text-field>
           </div>
         </v-flex>
+
       </v-layout>
 
       <v-layout row>
@@ -255,7 +256,18 @@
           </div>
         </v-flex>
       </v-layout>
-
+      <v-flex xs12>
+        <div v-if="channel.outbound_type == 'Web service sender'">
+          <v-text-field v-model="channel.web_service_sender_wsdl" name="input-2" label="WSDL url" value="Input text" class="pr-3"></v-text-field>
+          <v-text-field v-model="channel.web_service_sender_service_url" name="input-2" label="Service url" value="Input text" class="pr-3"></v-text-field>
+          <label>
+          </label>
+          <br>
+          <label>
+          </label>
+          <v-textarea v-model="channel.web_service_sender_envelope" name="input-2" auto-grow label="Soap envelope (enter variables as: ${var})" value="Input text" ></v-textarea>
+        </div>
+      </v-flex>
       <v-layout row>
         <v-flex xs12 >
           <div v-on:click="saveChannelDetail()">
@@ -288,7 +300,7 @@ export default {
       dest: null,
       fileFormats: ['xml', 'json', 'HL7'],
       httpMethod: ['GET','PUT', 'POST'],
-      transportTypes: ['FTP','SFTP', 'File directory', 'http', 'https', 'TCP', 'Database reader', 'Database writer', 'Web service listener'],
+      transportTypes: ['FTP','SFTP', 'File directory', 'http', 'https', 'TCP', 'Database reader', 'Database writer', 'Web service listener', 'Web service sender'],
       dbReaderType: ['Postgres'],
       postProcessingType: ['Move', 'Delete', 'Copy'],
       intervalUnit: ['milliseconds','seconds', 'minutes', 'hours', 'days'],
