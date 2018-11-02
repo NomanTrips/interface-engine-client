@@ -86,6 +86,10 @@
           </div>
           <div v-if="channel.inbound_type == 'http'">
             <v-text-field v-model="channel.http_port" name="input-3" label="Port:" value="Input text" class="pr-3"></v-text-field>
+            <v-switch label="Send ACK" v-model="channel.is_send_ack" ></v-switch>
+            <div v-if="channel.is_send_ack">
+              <v-textarea v-model="channel.ack_message" name="input-2" auto-grow label="ACK message" value="Input text" ></v-textarea>
+            </div>
           </div>
           <div v-if="channel.inbound_type == 'https'">
             <v-text-field v-model="channel.https_privateKey" name="input-3" label="Private key location:" value="Input text" class="pr-3"></v-text-field>
@@ -144,6 +148,9 @@
             <v-text-field v-model="channel.tcp_host" name="input-3" label="Host:" value="Input text" class="pr-3"></v-text-field>
             <v-text-field v-model="channel.tcp_port" name="input-3" label="Port:" value="Input text" class="pr-3"></v-text-field>
             <v-switch label="Send ACK" v-model="channel.is_send_ack" ></v-switch>
+            <div v-if="channel.is_send_ack">
+              <v-textarea v-model="channel.ack_message" name="input-2" auto-grow label="ACK message" value="Input text" ></v-textarea>
+            </div>
           </div>
           <div v-if="channel.inbound_type == 'Web service listener'">
             <v-text-field v-model="channel.web_service_listener_port" name="input-3" label="Port:" value="Input text" class="pr-3"></v-text-field>
