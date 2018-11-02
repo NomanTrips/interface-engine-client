@@ -33,6 +33,17 @@
             <v-flex xs4>
               <v-text-field v-model="channel.description" name="input-2" label="Channel description" value="Input text" class="pr-3"></v-text-field>
             </v-flex>
+            <v-flex xs4>
+              <label>
+                Revision:
+                {{"v" +channel.revision_number}}
+              </label>
+              <br>
+              <label>
+                Last Modified:
+                {{channel.last_modified_datetime}}
+              </label>
+            </v-flex>
           </v-layout>
         </v-card-text>
       </v-card>
