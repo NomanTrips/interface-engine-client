@@ -106,6 +106,10 @@
             <v-text-field v-model="channel.https_privateKey" name="input-3" label="Private key location:" value="Input text" class="pr-3"></v-text-field>
             <v-text-field v-model="channel.https_certificate" name="input-3" label="Certificate location:" value="Input text" class="pr-3"></v-text-field>
             <v-text-field v-model="channel.https_port" name="input-3" label="Port:" value="Input text" class="pr-3"></v-text-field>
+            <v-switch label="Send ACK" v-model="channel.is_send_ack" ></v-switch>
+            <div v-if="channel.is_send_ack">
+              <v-textarea v-model="channel.ack_message" name="input-2" auto-grow label="ACK message" value="Input text" ></v-textarea>
+            </div>
           </div>
           <div v-if="channel.inbound_type == 'Database reader'">
             <v-select v-bind:items="dbReaderType" v-model="channel.db_reader_type" label="Database type" class="pr-3"></v-select>
