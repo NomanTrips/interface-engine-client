@@ -166,6 +166,7 @@
             <div v-if="channel.is_send_ack">
               <v-textarea v-model="channel.ack_message" name="input-2" auto-grow label="ACK message" value="Input text" ></v-textarea>
             </div>
+            <v-switch label="MLLP framing" v-model="channel.source_mllp" ></v-switch>
           </div>
           <div v-if="channel.inbound_type == 'Web service listener'">
             <v-text-field v-model="channel.web_service_listener_port" name="input-3" label="Port:" value="Input text" class="pr-3"></v-text-field>
