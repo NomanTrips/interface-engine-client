@@ -35,10 +35,10 @@
       </v-list>
     </v-navigation-drawer>
     -->
-  <v-container grid-list-md >
+  <v-container style="float:left;padding:0px;" >
     <v-layout row wrap>
       <v-flex xs12>
-    <v-toolbar >
+    <v-toolbar flat>
       <v-text-field
         label="Search messages..."
         hint="Search raw data of processed messages."

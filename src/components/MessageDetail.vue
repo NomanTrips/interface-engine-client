@@ -1,6 +1,6 @@
 <template>
   <div style="height:100%;width:100%;">
-      <v-container fluid>
+      <v-container style="float:left;padding:0px;">
       <div v-show="showMonaco">
         <v-card>
           <v-card-title primary-title>
