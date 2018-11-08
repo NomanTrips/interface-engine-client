@@ -16,7 +16,7 @@
       </v-list>
     </v-navigation-drawer>
 -->
-      <v-container grid-list-md >
+      <v-container style="float:left;padding:0px;"  >
     <v-layout row wrap>
       <v-flex xs12>
       <v-card class="mb-3" style="width:100%;">

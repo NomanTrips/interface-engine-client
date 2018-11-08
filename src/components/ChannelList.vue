@@ -1,6 +1,6 @@
 <template>
   <div>
-    <v-container grid-list-md >
+    <v-container style="float:left;padding:0px;"  >
     <v-layout row wrap>
       <v-flex >
   <div>

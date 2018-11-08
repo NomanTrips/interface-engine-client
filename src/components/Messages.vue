@@ -63,11 +63,16 @@
           <td>{{ props.item.err }}</td>
           <td >
             <v-tooltip bottom allow-overflow>
-              <pre slot="activator">{{ String(props.item.raw_data).substring(0, 60) }}....</pre>
-            <span>{{props.item.raw_data.toString()}}</span>
+              <pre slot="activator">{{ String(props.item.raw_data).substring(0, 30) }}....</pre>
+            <span>{{props.item.raw_data}}</span>
             </v-tooltip>
           </td>
-          <td ><pre>{{ String(props.item.transformed_data).substring(0, 60) }}....</pre></td>
+          <td >            
+            <v-tooltip bottom allow-overflow>
+              <pre slot="activator">{{ String(props.item.transformed_data).substring(0, 30) }}....</pre>
+            <span>{{props.item.transformed_data}}</span>
+            </v-tooltip>
+          </td>
         </tr>
       </template>
       <template slot="expand" slot-scope="props">

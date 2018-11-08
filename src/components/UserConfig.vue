@@ -1,6 +1,6 @@
 <template>
   <div>
-    <v-container style="float:left;padding:0px;">
+    <v-container style="float:left;padding:0px;" fluid>
       <v-card>
         <v-layout row wrap>
           <v-flex xs12>
