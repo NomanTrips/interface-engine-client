@@ -1,5 +1,5 @@
 <template>
-  <v-container grid-list-md >
+  <v-container style="float:left;padding:0px;" >
     <v-layout row wrap>
       <v-flex xs12>
     <v-text-field v-model="scriptName" name="input-3" label="Script name:" value="Input text" class="pr-3"></v-text-field>

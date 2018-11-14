@@ -4,10 +4,9 @@
     <v-app :dark="isDarkTheme ? true : false">
 
     <v-toolbar app clipped-left v-if="! ($router.currentRoute.name == 'Login')">
-      <v-toolbar-side-icon @click.native.stop="drawer = !drawer"></v-toolbar-side-icon>
-      <v-btn icon @click.native.stop="miniVariant = !miniVariant">
-        <v-icon v-html="miniVariant ? 'chevron_right' : 'chevron_left'"></v-icon>
-      </v-btn>
+      <div style="padding-right:15px;">
+        <img style="height=24px;width:24px;" src="../public/artificial-intelligence.svg" alt="Interface engine logo">
+      </div>
       <router-link v-bind:to="homePath" style="text-decoration:none;color:inherit;">
         <v-toolbar-title v-text="title" >
       </v-toolbar-title>
